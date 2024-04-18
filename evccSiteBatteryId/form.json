@@ -1,0 +1,21 @@
+{
+  "elements": [
+    {
+      "name": "topic",
+      "type": "ValidationTextBox",
+      "caption": "MQTT Topic"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "siteBatteryId",
+      "caption": "Site Battery Id",
+      "minimum": 1
+    }
+
+  ],
+  "actions":  [
+    {
+      "type": "TestCenter"
+    }
+  ]
+}

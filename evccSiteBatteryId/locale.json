@@ -1,0 +1,16 @@
+{
+    "translations": {
+        "de": {
+            "SoC": "Soc",
+            "House Battery Configured": "Hausbatterie konfiguriert",
+            "Daily Yield Export": "Täglicher Ertragsexport",
+            "Daily Yield Import": "Täglicher Ertragsimport",
+            "Fault State": "Störungszustand",
+            "Power": "Leistung",
+            "Wh Exported": "Wh exportiert",
+            "Wh Exported Temp": "Wh exportierte temp",
+            "Wh Imported": "Wh importiert",
+            "Wh Imported Temp": "Wh importierte temp"
+        }
+    }
+}

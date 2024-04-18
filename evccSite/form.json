@@ -1,0 +1,14 @@
+{
+  "elements": [
+    {
+      "name":    "topic",
+      "type":    "ValidationTextBox",
+      "caption": "MQTT Topic"
+    }
+  ],
+  "actions":  [
+    {
+      "type": "TestCenter"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+    "id": "{C61DEF04-7FFD-FB54-0F09-DFDA3E570E1F}",
+    "author": "bumaas",
+    "name": "evcc",
+    "url": "https://evcc.io",
+    "compatibility": {
+        "version": "7.1"
+    },
+    "version": "0.9",
+    "build": 1,
+    "date": 1713455820
+}

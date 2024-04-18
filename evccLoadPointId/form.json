@@ -1,0 +1,20 @@
+{
+  "elements": [
+    {
+      "name": "topic",
+      "type": "ValidationTextBox",
+      "caption": "MQTT Topic"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "loadPointId",
+      "caption": "Load Point Id",
+      "minimum": 1
+    }
+  ],
+  "actions": [
+    {
+      "type": "TestCenter"
+    }
+  ]
+}
