@@ -1,9 +1,9 @@
 {
-    "id": "{2CC6AECB-8752-C6E7-4B36-82617A1F6120}",
-    "name": "evccSitePvId",
+    "id": "{A4938F68-A4A3-AD52-811D-0B21784EDC20}",
+    "name": "evccSiteAuxId",
     "type": 3,
     "vendor": "evcc",
-    "aliases": ["evcc PV Anlage"],
+    "aliases": ["evcc Extern geregeltes Gerät"],
     "parentRequirements": [
         "{043EA491-0325-4ADD-8FC2-A30C8EEB4D3F}"
     ],

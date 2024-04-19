@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
+require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
 class evccLoadPointId extends IPSModule
 {
     use VariableProfileHelper;
+    use MQTTHelper;
 
     private const PROP_TOPIC       = 'topic';
     private const PROP_LOADPOINTID = 'loadPointId';
@@ -37,10 +39,6 @@ class evccLoadPointId extends IPSModule
     private const VAR_IDENT_PLANPROJECTEDSTART      = 'planProjectedStart';
     private const VAR_IDENT_PLANOVERRUN             = 'planOverrun';
 
-    private const MQTT_SERVER            = '{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}';
-    private const DATA_ID_MQTT_SERVER_TX = '{043EA491-0325-4ADD-8FC2-A30C8EEB4D3F}';
-    private const PT_PUBLISH             = 3; //Packet Type Publish
-    private const QOS_0                  = 0; //Quality of Service 0
 
     public function Create()
     {
@@ -228,22 +226,7 @@ class evccLoadPointId extends IPSModule
         $lp = $this->ReadPropertyInteger(self::PROP_LOADPOINTID);
         switch ($Ident) {
             case 'LPChargePointEnabled':
-                $this->MQTTCommand('set/lp/' . $lp . '/ChargePointEnabled', intval($Value));
-                break;
-            case 'LPCurrent':
-                $this->MQTTCommand('config/set/sofort/lp/' . $lp . '/current', intval($Value));
-                break;
-            case 'LPenergyToCharge':
-                $this->MQTTCommand('config/set/sofort/lp/' . $lp . '/energyToCharge', intval($Value));
-                break;
-            case 'LPChargeLimitation':
-                $this->MQTTCommand('config/set/sofort/lp/' . $lp . '/chargeLimitation', intval($Value));
-                break;
-            case 'LPresetEnergyToCharge':
-                $this->MQTTCommand('config/set/sofort/lp/' . $lp . '/resetEnergyToCharge', intval($Value));
-                break;
-            case 'LPsocToChargeTo':
-                $this->MQTTCommand('config/set/sofort/lp/' . $lp . '/socToChargeTo', intval($Value));
+                $this->mqttCommand('set/lp/' . $lp . '/ChargePointEnabled', (string) $Value);
                 break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);
@@ -251,21 +234,4 @@ class evccLoadPointId extends IPSModule
         }
     }
 
-    private function MQTTCommand($Topic, $Payload, $retain = 0)
-    {
-        $Topic                    = $this->ReadPropertyString('topic') . '/' . $Topic;
-        $Data['DataID']           = self::DATA_ID_MQTT_SERVER_TX;
-        $Data['PacketType']       = self::PT_PUBLISH;
-        $Data['QualityOfService'] = self::QOS_0;
-        $Data['Retain']           = boolval($retain);
-        $Data['Topic']            = $Topic;
-        $Data['Payload']          = strval($Payload);
-        $JSON                     = json_encode($Data, JSON_UNESCAPED_SLASHES);
-        $result                   = @$this->SendDataToParent($JSON);
-
-        if ($result === false) {
-            $last_error = error_get_last();
-            echo $last_error['message'];
-        }
-    }
 }
