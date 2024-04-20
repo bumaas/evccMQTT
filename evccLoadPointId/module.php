@@ -64,9 +64,21 @@ class evccLoadPointId extends IPSModule
         $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', [], -1, 0, 2);
 
         $pos = 0;
+        $this->RegisterVariableBoolean(self::VAR_IDENT_ENABLED, $this->Translate('Enabled'), '~Switch', ++$pos);
+        $this->RegisterVariableString(self::VAR_IDENT_MODE, $this->Translate('Mode'), 'evcc.Mode', ++$pos);
+        $this->RegisterVariableBoolean(self::VAR_IDENT_CONNECTED, $this->Translate('Connected'), '~Switch', ++$pos);
+        $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEPOWER, $this->Translate('Charge Power'), 'evcc.Power', ++$pos);
-        $this->RegisterVariableBoolean(self::VAR_IDENT_SMARTCOSTACTIVE, $this->Translate('Smart Cost Active'), '~Switch', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGECURRENT, $this->Translate('Charge Current'), 'evcc.Current', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_CHARGEDENERGY, $this->Translate('Charged Energy'), 'evcc.Energy.Wh', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '~UnixTimestampTime', ++$pos);
+        $this->RegisterVariableInteger(
+            self::VAR_IDENT_CHARGEREMAININGDURATION,
+            $this->Translate('Charge remaining Duration'),
+            '~UnixTimestampTime',
+            ++$pos
+        );
+        $this->RegisterVariableBoolean(self::VAR_IDENT_SMARTCOSTACTIVE, $this->Translate('Smart Cost Active'), '~Switch', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_SESSIONENERGY, $this->Translate('Session Energy'), 'evcc.Energy.Wh', ++$pos);
         $this->RegisterVariableInteger(
             self::VAR_IDENT_SESSIONSOLARPERCENTAGE,
@@ -74,30 +86,18 @@ class evccLoadPointId extends IPSModule
             '~Intensity.100',
             ++$pos
         );
+        $this->RegisterVariableFloat(self::VAR_IDENT_SESSIONCO2PERKWH, $this->Translate('Session CO2 per kWh'), 'evcc.g', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_SESSIONPRICEPERKWH, $this->Translate('Session Price per kWh'), 'evcc.EUR', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_SESSIONPRICE, $this->Translate('Session Price'), 'evcc.EUR', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_SESSIONCO2PERKWH, $this->Translate('Session CO2 per kWh'), 'evcc.g', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_CHARGEDENERGY, $this->Translate('Charged Energy'), 'evcc.Energy.Wh', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '~UnixTimestampTime', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVEPRIORITY, $this->Translate('Effective Priority'), '', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVEPLANTIME, $this->Translate('Effective Plantime'), '~UnixTimestamp', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVEPLANSOC, $this->Translate('Effective Plan SoC'), '~Battery.100', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMINCURRENT, $this->Translate('Effective min Current'), 'evcc.Current', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMAXCURRENT, $this->Translate('Effective max Current'), 'evcc.Current', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVELIMITSOC, $this->Translate('Effective Limit SoC'), '~Battery.100', ++$pos);
-        $this->RegisterVariableBoolean(self::VAR_IDENT_CONNECTED, $this->Translate('Connected'), '~Switch', ++$pos);
-        $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_VEHICLESOC, $this->Translate('Vehicle SoC'), '~Battery.100', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_VEHICLERANGE, $this->Translate('Vehicle Range'), 'evcc.km', ++$pos);
-        $this->RegisterVariableInteger(
-            self::VAR_IDENT_CHARGEREMAININGDURATION,
-            $this->Translate('Charge remaining Duration'),
-            '~UnixTimestampTime',
-            ++$pos
-        );
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGEREMAININGENERGY, $this->Translate('Charge remaining Energy'), 'evcc.Energy.Wh', ++$pos);
-        $this->RegisterVariableBoolean(self::VAR_IDENT_ENABLED, $this->Translate('Enabled'), '~Switch', ++$pos);
-        $this->RegisterVariableString(self::VAR_IDENT_MODE, $this->Translate('Mode'), 'evcc.Mode', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_PLANPROJECTEDSTART, $this->Translate('Plan Project Start'), '~UnixTimestamp', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_PLANOVERRUN, $this->Translate('Plan Overrun'), '', ++$pos);
     }
