@@ -2,21 +2,18 @@
 
 declare(strict_types=1);
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
+require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
 class evccSiteAuxId extends IPSModule
 {
     use VariableProfileHelper;
+    use MQTTHelper;
 
     private const PROP_TOPIC     = 'topic';
     private const PROP_SITEAUXID = 'siteAuxId';
 
     private const VAR_IDENT_POWER        = 'power';
     private const VAR_IDENT_ENERGY       = 'energy';
-
-    private const MQTT_SERVER            = '{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}';
-    private const DATA_ID_MQTT_SERVER_TX = '{043EA491-0325-4ADD-8FC2-A30C8EEB4D3F}';
-    private const PT_PUBLISH             = 3; //Packet Type Publish
-    private const QOS_0                  = 0; //Quality of Service 0
 
 
     public function Create()
@@ -87,16 +84,16 @@ class evccSiteAuxId extends IPSModule
         $bat = $this->ReadPropertyInteger(self::PROP_SITEAUXID);
         switch ($Ident) {
             case 'SoC':
-                $this->MQTTCommand('set/houseBattery/%Soc', intval($Value));
+                $this->mqttCommand('set/houseBattery/%Soc', intval($Value));
                 break;
             case 'W':
-                $this->MQTTCommand('set/houseBattery/W', floatval($Value));
+                $this->mqttCommand('set/houseBattery/W', floatval($Value));
                 break;
             case 'WhExported':
-                $this->MQTTCommand('set/houseBattery/WhExported', floatval($Value));
+                $this->mqttCommand('set/houseBattery/WhExported', floatval($Value));
                 break;
             case 'WhImported':
-                $this->MQTTCommand('set/houseBattery/WhImported', floatval($Value));
+                $this->mqttCommand('set/houseBattery/WhImported', floatval($Value));
                 break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);
@@ -104,21 +101,4 @@ class evccSiteAuxId extends IPSModule
         }
     }
 
-    private function MQTTCommand($Topic, $Payload, $retain = 0)
-    {
-        $Topic                    = $this->ReadPropertyString('topic') . '/' . $Topic;
-        $Data['DataID']           = self::DATA_ID_MQTT_SERVER_TX;
-        $Data['PacketType']       = self::PT_PUBLISH;
-        $Data['QualityOfService'] = self::QOS_0;
-        $Data['Retain']           = boolval($retain);
-        $Data['Topic']            = $Topic;
-        $Data['Payload']          = strval($Payload);
-        $JSON                     = json_encode($Data, JSON_UNESCAPED_SLASHES);
-        $result                   = @$this->SendDataToParent($JSON);
-
-        if ($result === false) {
-            $last_error = error_get_last();
-            echo $last_error['message'];
-        }
-    }
 }

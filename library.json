@@ -4,9 +4,9 @@
     "name": "evcc",
     "url": "https://evcc.io",
     "compatibility": {
-        "version": "7.1"
+        "version": "7.0"
     },
     "version": "0.9",
-    "build": 2,
-    "date": 1713523852
+    "build": 3,
+    "date": 1713598852
 }

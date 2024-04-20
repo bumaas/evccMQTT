@@ -1,5 +1,4 @@
-![Red Square](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4wQSEB0vMC9c9QAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC)
-
+![Red Square](/docs/pictures/logo.png)
 # evccMQTT
 
 Modul zur Integration von evcc ([evcc.io](https://evcc.io)) in IP-Symcon.
