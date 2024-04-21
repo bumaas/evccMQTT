@@ -28,7 +28,13 @@
             "Enabled": "Aktiviert",
             "Mode": "Modus",
             "Plan Project Start": "geplanter Ladestart",
-            "Plan Overrun": "Planüberschreitung"
+            "Plan Overrun": "Planüberschreitung",
+            "Vehicle Detection Active": "Fahrzeugerkennung aktiv",
+            "Connected Duration": "Dauer der Verbindung",
+            "Phases Enabled": "Phasen aktiviert",
+            "Phases Configured": "Phasen konfiguriert",
+            "Smart Cost Limit": "Intelligente Kosten Limit",
+            "Phases Active": "Phasen aktiv"
         }
     }
 }

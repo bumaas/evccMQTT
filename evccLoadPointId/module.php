@@ -38,6 +38,12 @@ class evccLoadPointId extends IPSModule
     private const VAR_IDENT_MODE                    = 'mode';
     private const VAR_IDENT_PLANPROJECTEDSTART      = 'planProjectedStart';
     private const VAR_IDENT_PLANOVERRUN             = 'planOverrun';
+    private const VAR_IDENT_VEHICLEDETECTIONACTIVE  = 'vehicleDetectionActive';
+    private const VAR_IDENT_CONNECTEDDURATION       = 'connectedDuration';
+    private const VAR_IDENT_PHASESENABLED           = 'phasesEnabled';
+    private const VAR_IDENT_PHASESCONFIGURED        = 'phasesConfigured';
+    private const VAR_IDENT_SMARTCOSTLIMIT          = 'smartCostLimit';
+    private const VAR_IDENT_PHASESACTIVE            = 'phasesActive';
 
 
     public function Create()
@@ -51,6 +57,7 @@ class evccLoadPointId extends IPSModule
 
         $this->RegisterProfileIntegerEx('evcc.Power', '', '', ' W', []);
         $this->RegisterProfileIntegerEx('evcc.km', '', '', ' km', []);
+        $this->RegisterProfileIntegerEx('evcc.Phases', '', '', '', [], 3, 1);
         $this->RegisterProfileStringEx('evcc.Mode', '', '', '', [
             ['off', $this->translate('Off'), '', -1],
             ['pv', $this->translate('Only PV'), '', -1],
@@ -62,6 +69,7 @@ class evccLoadPointId extends IPSModule
         $this->RegisterProfileFloatEx('evcc.Current', '', '', ' A', [], -1, 0, 1);
         $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', [], -1, 0, 2);
         $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', [], -1, 0, 2);
+        $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', [], 100, 0, 1);
 
         $pos = 0;
         $this->RegisterVariableBoolean(self::VAR_IDENT_ENABLED, $this->Translate('Enabled'), '~Switch', ++$pos);
@@ -69,6 +77,10 @@ class evccLoadPointId extends IPSModule
         $this->RegisterVariableString(self::VAR_IDENT_MODE, $this->Translate('Mode'), 'evcc.Mode', ++$pos);
         $this->EnableAction(self::VAR_IDENT_MODE);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CONNECTED, $this->Translate('Connected'), '~Switch', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_CONNECTEDDURATION, $this->Translate('Connected Duration'), '~UnixTimestampTime', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_PHASESCONFIGURED, $this->Translate('Phases Configured'), 'evcc.Phases', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_PHASESENABLED, $this->Translate('Phases Enabled'), 'evcc.Phases', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_PHASESACTIVE, $this->Translate('Phases Active'), 'evcc.Phases', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEPOWER, $this->Translate('Charge Power'), 'evcc.Power', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGECURRENT, $this->Translate('Charge Current'), 'evcc.Current', ++$pos);
@@ -81,11 +93,12 @@ class evccLoadPointId extends IPSModule
             ++$pos
         );
         $this->RegisterVariableBoolean(self::VAR_IDENT_SMARTCOSTACTIVE, $this->Translate('Smart Cost Active'), '~Switch', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_SMARTCOSTLIMIT, $this->Translate('Smart Cost Limit'), 'evcc.EUR', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_SESSIONENERGY, $this->Translate('Session Energy'), 'evcc.Energy.Wh', ++$pos);
-        $this->RegisterVariableInteger(
+        $this->RegisterVariableFloat(
             self::VAR_IDENT_SESSIONSOLARPERCENTAGE,
             $this->Translate('Session Solar Percentage'),
-            '~Intensity.100',
+            'evcc.Intensity.100',
             ++$pos
         );
         $this->RegisterVariableFloat(self::VAR_IDENT_SESSIONCO2PERKWH, $this->Translate('Session CO2 per kWh'), 'evcc.g', ++$pos);
@@ -99,6 +112,7 @@ class evccLoadPointId extends IPSModule
         $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMAXCURRENT, $this->Translate('Effective max Current'), 'evcc.Current', ++$pos);
         $this->EnableAction(self::VAR_IDENT_EFFECTIVEMAXCURRENT);
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVELIMITSOC, $this->Translate('Effective Limit SoC'), '~Battery.100', ++$pos);
+        $this->RegisterVariableBoolean(self::VAR_IDENT_VEHICLEDETECTIONACTIVE, $this->Translate('Vehicle Detection Active'), '~Switch', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_VEHICLESOC, $this->Translate('Vehicle SoC'), '~Battery.100', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_VEHICLERANGE, $this->Translate('Vehicle Range'), 'evcc.km', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGEREMAININGENERGY, $this->Translate('Charge remaining Energy'), 'evcc.Energy.Wh', ++$pos);
@@ -235,7 +249,7 @@ class evccLoadPointId extends IPSModule
             case self::VAR_IDENT_MODE:
             case self::VAR_IDENT_EFFECTIVEMINCURRENT:
             case self::VAR_IDENT_EFFECTIVEMAXCURRENT:
-                $this->mqttCommand($mqttTopic, (string) $Value);
+                $this->mqttCommand($mqttTopic, (string)$Value);
                 break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);
