@@ -65,7 +65,9 @@ class evccLoadPointId extends IPSModule
 
         $pos = 0;
         $this->RegisterVariableBoolean(self::VAR_IDENT_ENABLED, $this->Translate('Enabled'), '~Switch', ++$pos);
+        // $this->EnableAction(self::VAR_IDENT_ENABLED);
         $this->RegisterVariableString(self::VAR_IDENT_MODE, $this->Translate('Mode'), 'evcc.Mode', ++$pos);
+        $this->EnableAction(self::VAR_IDENT_MODE);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CONNECTED, $this->Translate('Connected'), '~Switch', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEPOWER, $this->Translate('Charge Power'), 'evcc.Power', ++$pos);
@@ -223,10 +225,13 @@ class evccLoadPointId extends IPSModule
 
     public function RequestAction($Ident, $Value)
     {
-        $lp = $this->ReadPropertyInteger(self::PROP_LOADPOINTID);
+        $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_LOADPOINTID) . '/' . $Ident . '/set';
         switch ($Ident) {
-            case 'LPChargePointEnabled':
-                $this->mqttCommand('set/lp/' . $lp . '/ChargePointEnabled', (string) $Value);
+            case self::VAR_IDENT_ENABLED:
+                $this->mqttCommand($mqttTopic, var_export($Value, true));
+                break;
+            case self::VAR_IDENT_MODE:
+                $this->mqttCommand($mqttTopic, $Value);
                 break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);

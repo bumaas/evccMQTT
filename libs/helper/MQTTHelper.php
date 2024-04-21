@@ -9,9 +9,8 @@ trait MQTTHelper
     private const PT_PUBLISH             = 3; //Packet Type Publish
     private const QOS_0                  = 0; //Quality of Service 0
 
-    public function mqttCommand(string $topic, $payload, bool $retain = false): void
+    private function mqttCommand(string $topic, $payload, bool $retain = false): void
     {
-        $topic                    = $this->ReadPropertyString('topic') . '/' . $topic;
         $data['DataID']           = self::DATA_ID_MQTT_SERVER_TX;
         $data['PacketType']       = self::PT_PUBLISH;
         $data['QualityOfService'] = self::QOS_0;

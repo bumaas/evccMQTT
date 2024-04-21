@@ -8,7 +8,7 @@
     {
       "type": "NumberSpinner",
       "name": "siteBatteryId",
-      "caption": "Site Battery Id",
+      "caption": "Battery ID",
       "minimum": 1
     }
 
