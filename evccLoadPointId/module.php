@@ -95,7 +95,9 @@ class evccLoadPointId extends IPSModule
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVEPLANTIME, $this->Translate('Effective Plantime'), '~UnixTimestamp', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVEPLANSOC, $this->Translate('Effective Plan SoC'), '~Battery.100', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMINCURRENT, $this->Translate('Effective min Current'), 'evcc.Current', ++$pos);
+        $this->EnableAction(self::VAR_IDENT_EFFECTIVEMINCURRENT);
         $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMAXCURRENT, $this->Translate('Effective max Current'), 'evcc.Current', ++$pos);
+        $this->EnableAction(self::VAR_IDENT_EFFECTIVEMAXCURRENT);
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVELIMITSOC, $this->Translate('Effective Limit SoC'), '~Battery.100', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_VEHICLESOC, $this->Translate('Vehicle SoC'), '~Battery.100', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_VEHICLERANGE, $this->Translate('Vehicle Range'), 'evcc.km', ++$pos);
@@ -231,7 +233,9 @@ class evccLoadPointId extends IPSModule
                 $this->mqttCommand($mqttTopic, var_export($Value, true));
                 break;
             case self::VAR_IDENT_MODE:
-                $this->mqttCommand($mqttTopic, $Value);
+            case self::VAR_IDENT_EFFECTIVEMINCURRENT:
+            case self::VAR_IDENT_EFFECTIVEMAXCURRENT:
+                $this->mqttCommand($mqttTopic, (string) $Value);
                 break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);
