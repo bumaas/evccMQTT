@@ -34,7 +34,9 @@
             "Phases Enabled": "Phasen aktiviert",
             "Phases Configured": "Phasen konfiguriert",
             "Smart Cost Limit": "Intelligente Kosten Limit",
-            "Phases Active": "Phasen aktiv"
+            "Phases Active": "Phasen aktiv",
+            "Min Current": "Min. Ladestrom",
+            "Max Current": "Max. Ladestrom"
         }
     }
 }
