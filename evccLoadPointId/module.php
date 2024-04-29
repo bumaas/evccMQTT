@@ -65,6 +65,15 @@ class evccLoadPointId extends IPSModule
     private const VAR_IDENT_MAXCURRENT                     = 'maxCurrent';
     private const VAR_IDENT_PLANACTIVE                     = 'planActive';
 
+    private const TO_BE_CHECKED = '? ';
+
+    private const IGNORED_ELEMENTS = [
+        'chargerPhysicalPhases',
+        'chargerIcon',
+        'vehicleClimaterActive',
+        'planTime',
+    ];
+
 
     public function Create()
     {
@@ -101,6 +110,7 @@ class evccLoadPointId extends IPSModule
         $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', [], 100, 0, 1);
 
         $this->registerVariables();
+        $this->enableActions();
     }
 
     private function registerVariables(): void
@@ -111,9 +121,9 @@ class evccLoadPointId extends IPSModule
         $this->RegisterVariableString(self::VAR_IDENT_TITLE, $this->Translate('Title'), '', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_MODE, $this->Translate('Mode'), 'evcc.Mode', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_LIMITSOC, $this->Translate(' Limit SoC'), 'evcc.Intensity.100', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVELIMITSOC, $this->Translate('Effective Limit SoC'), '~Battery.100', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_LIMITENERGY, $this->Translate('Limit Energy'), 'evcc.Energy.Wh', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '~UnixTimestampTime', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVELIMITSOC, self::TO_BE_CHECKED . $this->Translate('Effective Limit SoC'), '~Battery.100', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_LIMITENERGY, $this->Translate('Limit Energy'), 'evcc.Energy.kWh', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
 
         //session
@@ -131,11 +141,11 @@ class evccLoadPointId extends IPSModule
         //charger
         $this->RegisterVariableBoolean(
             self::VAR_IDENT_CHARGERFEATUREINTEGRATEDDEVICE,
-            $this->Translate('Charger Feature Integrated Device'),
+            self::TO_BE_CHECKED . $this->Translate('Charger Feature Integrated Device'),
             '~Switch',
             ++$pos
         );
-        $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGERFEATUREHEATING, $this->Translate('Charger Feature Heating'), '~Switch', ++$pos);
+        $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGERFEATUREHEATING, self::TO_BE_CHECKED . $this->Translate('Charger Feature Heating'), '~Switch', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGERPHASES1P3P, $this->Translate('Charger Feature Phases 1P3P'), '~Switch', ++$pos);
 
         //vehicle
@@ -172,21 +182,25 @@ class evccLoadPointId extends IPSModule
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGECURRENT, $this->Translate('Charge Current'), 'evcc.Current', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_CONNECTEDDURATION, $this->Translate('Connected Duration'), '~UnixTimestampTime', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGEREMAININGENERGY, $this->Translate('Charge remaining Energy'), 'evcc.Energy.Wh', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_PHASEREMAINING, $this->Translate('Phase Remaining'), '~UnixTimestampTime', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_PVREMAINING, $this->Translate('PV Remaining'), '~UnixTimestampTime', ++$pos);
-        $this->RegisterVariableString(self::VAR_IDENT_PVACTION, $this->Translate('PV Action'), 'evcc.Action', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_PHASEREMAINING, self::TO_BE_CHECKED . $this->Translate('Phase Remaining'), '~UnixTimestampTime', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_PVREMAINING, self::TO_BE_CHECKED . $this->Translate('PV Remaining'), '~UnixTimestampTime', ++$pos);
+        $this->RegisterVariableString(self::VAR_IDENT_PVACTION, self::TO_BE_CHECKED . $this->Translate('PV Action'), 'evcc.Action', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_SMARTCOSTLIMIT, $this->Translate('Smart Cost Limit'), 'evcc.EUR', ++$pos);
-        $this->RegisterVariableBoolean(self::VAR_IDENT_SMARTCOSTACTIVE, $this->Translate('Smart Cost Active'), '~Switch', ++$pos);
+        $this->RegisterVariableBoolean(self::VAR_IDENT_SMARTCOSTACTIVE, self::TO_BE_CHECKED . $this->Translate('Smart Cost Active'), '~Switch', ++$pos);
 
         //not mentioned/used
-        $this->RegisterVariableInteger(self::VAR_IDENT_PHASESENABLED, $this->Translate('Phases Enabled'), 'evcc.Phases', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVEPRIORITY, $this->Translate('Effective Priority'), '', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMINCURRENT, $this->Translate('Effective min Current'), 'evcc.Current', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMAXCURRENT, $this->Translate('Effective max Current'), 'evcc.Current', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_PRIORITY, $this->Translate('Priority'), '', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_ENABLETHRESHOLD, $this->Translate('Enable Threshold'), '', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_DISABLETHRESHOLD, $this->Translate('Disable Threshold'), '', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_PHASESENABLED, self::TO_BE_CHECKED . $this->Translate('Phases Enabled'), 'evcc.Phases', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVEPRIORITY, self::TO_BE_CHECKED . $this->Translate('Effective Priority'), '', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMINCURRENT, self::TO_BE_CHECKED . $this->Translate('Effective min Current'), 'evcc.Current', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMAXCURRENT, self::TO_BE_CHECKED . $this->Translate('Effective max Current'), 'evcc.Current', ++$pos);
+        $this->RegisterVariableInteger(self::VAR_IDENT_PRIORITY, self::TO_BE_CHECKED . $this->Translate('Priority'), '', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_ENABLETHRESHOLD, self::TO_BE_CHECKED . $this->Translate('Enable Threshold'), '', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_DISABLETHRESHOLD, self::TO_BE_CHECKED . $this->Translate('Disable Threshold'), '', ++$pos);
+    }
 
+    private function enableActions(): void
+    {
+        // see listenLoadpointSetters in https://github.com/evcc-io/evcc/blob/master/server/mqtt.go
         $this->EnableAction(self::VAR_IDENT_MODE);
         $this->EnableAction(self::VAR_IDENT_LIMITSOC);
         $this->EnableAction(self::VAR_IDENT_LIMITENERGY);
@@ -219,6 +233,13 @@ class evccLoadPointId extends IPSModule
         $this->SetSummary($MQTTTopic);
     }
 
+    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic)
+    {
+        return in_array($lastElement, self::IGNORED_ELEMENTS)
+               || is_numeric($lastElement);
+    }
+
+
     public function ReceiveData($JSONString)
     {
         $MQTTTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_LOADPOINTID) . '/';
@@ -229,7 +250,7 @@ class evccLoadPointId extends IPSModule
 
         $this->SendDebug(__FUNCTION__, 'JSONString: ' . $JSONString, 0);
 
-        $data    = json_decode($JSONString, true, 512, JSON_THROW_ON_ERROR);
+        $data    = json_decode(mb_convert_encoding($JSONString, 'ISO-8859-1', 'UTF-8'), true, 512, JSON_THROW_ON_ERROR);
         $topic   = $data['Topic'];
         $payload = $data['Payload'];
 
@@ -292,7 +313,10 @@ class evccLoadPointId extends IPSModule
             $MQTTTopic . self::VAR_IDENT_LIMITENERGY                    => fn() => $this->SetValue(self::VAR_IDENT_LIMITENERGY, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_VEHICLENAME                    => fn() => $this->SetValue(self::VAR_IDENT_VEHICLENAME, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_VEHICLEODOMETER                => fn() => $this->SetValue(self::VAR_IDENT_VEHICLEODOMETER, (string)$payload),
-            $MQTTTopic . self::VAR_IDENT_VEHICLEDETECTIONACTIVE                => fn() => $this->SetValue(self::VAR_IDENT_VEHICLEDETECTIONACTIVE, (string)$payload),
+            $MQTTTopic . self::VAR_IDENT_VEHICLEDETECTIONACTIVE         => fn() => $this->SetValue(
+                self::VAR_IDENT_VEHICLEDETECTIONACTIVE,
+                (string)$payload
+            ),
             $MQTTTopic . self::VAR_IDENT_CHARGERFEATUREINTEGRATEDDEVICE => fn() => $this->SetValue(
                 self::VAR_IDENT_CHARGERFEATUREINTEGRATEDDEVICE,
                 (bool)$payload
@@ -302,24 +326,25 @@ class evccLoadPointId extends IPSModule
             $MQTTTopic . self::VAR_IDENT_TITLE                          => fn() => $this->SetValue(self::VAR_IDENT_TITLE, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_VEHICLELIMITSOC                => fn() => $this->SetValue(self::VAR_IDENT_VEHICLELIMITSOC, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_PLANENERGY                     => fn() => $this->SetValue(self::VAR_IDENT_PLANENERGY, (float)$payload),
-            $MQTTTopic . self::VAR_IDENT_PHASEACTION                   => fn() => $this->SetValue(self::VAR_IDENT_PHASEACTION, (string)$payload),
+            $MQTTTopic . self::VAR_IDENT_PHASEACTION                    => fn() => $this->SetValue(self::VAR_IDENT_PHASEACTION, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_PHASESACTIVE                   => fn() => $this->SetValue(self::VAR_IDENT_PHASESACTIVE, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_CONNECTEDDURATION              => fn() => $this->SetValue(self::VAR_IDENT_CONNECTEDDURATION, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_SMARTCOSTLIMIT              => fn() => $this->SetValue(self::VAR_IDENT_SMARTCOSTLIMIT, (float)$payload),
-            $MQTTTopic . self::VAR_IDENT_CHARGERFEATUREHEATING              => fn() => $this->SetValue(self::VAR_IDENT_CHARGERFEATUREHEATING, (bool)$payload),
+            $MQTTTopic . self::VAR_IDENT_SMARTCOSTLIMIT                 => fn() => $this->SetValue(self::VAR_IDENT_SMARTCOSTLIMIT, (float)$payload),
+            $MQTTTopic . self::VAR_IDENT_CHARGERFEATUREHEATING          => fn() => $this->SetValue(
+                self::VAR_IDENT_CHARGERFEATUREHEATING,
+                (bool)$payload
+            ),
         ];
 
-        if (str_ends_with($topic, '/set')) {
+        $mqttSubTopics      = $this->getMqttSubTopics($topic);
+        $lastElement        = $this->getLastElement($mqttSubTopics);
+        $penultimateElement = $this->getPenultimateElement($mqttSubTopics);
+
+        if ($this->isReceivedSetTopic($topic)) {
             $this->SendDebug(__FUNCTION__, 'received: ' . $topic, 0);
-        } elseif (in_array($topic, [
-            $MQTTTopic . 'chargerPhysicalPhases',
-            $MQTTTopic . 'chargerIcon',
-            $MQTTTopic . 'vehicleClimaterActive',
-            $MQTTTopic . 'planTime',
-        ])){
+        } elseif ($this->shouldBeIgnored($lastElement, $penultimateElement, $topic, $MQTTTopic)) {
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $topic, 0);
-        }
-        elseif (array_key_exists($topic, $topicActions)) {
+        } elseif (array_key_exists($topic, $topicActions)) {
             $topicActions[$topic]();
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);

@@ -9,6 +9,9 @@ trait MQTTHelper
     private const PT_PUBLISH             = 3; //Packet Type Publish
     private const QOS_0                  = 0; //Quality of Service 0
 
+    private const SET_FLAG         = '/set';
+
+
     private function mqttCommand(string $topic, $payload, bool $retain = false): void
     {
         $data['DataID']           = self::DATA_ID_MQTT_SERVER_TX;
@@ -25,6 +28,26 @@ trait MQTTHelper
             $last_error = error_get_last();
             echo $last_error['message'];
         }
+    }
+
+    private function getMqttSubTopics(string $topic): array
+    {
+        return explode('/', $topic);
+    }
+
+    private function getLastElement(array $mqttSubTopics): string
+    {
+        return end($mqttSubTopics);
+    }
+
+    private function getPenultimateElement(array $mqttSubTopics): string
+    {
+        return $mqttSubTopics[count($mqttSubTopics) - 2];
+    }
+
+    private function isReceivedSetTopic(string $topic): bool
+    {
+        return str_ends_with($topic, self::SET_FLAG);
     }
 
 }
