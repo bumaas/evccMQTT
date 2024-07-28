@@ -46,7 +46,7 @@ class evccLoadPointId extends IPSModule
     private const VAR_IDENT_PHASESACTIVE                   = 'phasesActive';
     private const VAR_IDENT_PVACTION                       = 'pvAction';
     private const VAR_IDENT_CHARGERFEATUREHEATING          = 'chargerFeatureHeating';
-    private const VAR_IDENT_PHASEACTION                    = 'phaseAction';
+    private const VAR_IDENT_PHASEACTION                    = 'phaseAction'; //inactive, ... ??
     private const VAR_IDENT_PVREMAINING                    = 'pvRemaining'; //Bedeutung noch unbekannt
     private const VAR_IDENT_PLANENERGY                     = 'planEnergy';
     private const VAR_IDENT_VEHICLELIMITSOC                = 'vehicleLimitSoc';
@@ -69,6 +69,10 @@ class evccLoadPointId extends IPSModule
 
     private const IGNORED_ELEMENTS = [
         'chargerPhysicalPhases',
+        'chargeCurrents',
+        'l1',
+        'l2',
+        'l3',
         'chargerIcon',
         'vehicleClimaterActive',
         'planTime',
@@ -176,6 +180,7 @@ class evccLoadPointId extends IPSModule
 
         //other information
         $this->RegisterVariableInteger(self::VAR_IDENT_PHASESCONFIGURED, $this->Translate('Phases Configured'), 'evcc.Phases', ++$pos);
+        $this->RegisterVariableString(self::VAR_IDENT_PHASEACTION, $this->Translate('Phase Action'), '', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_PHASESACTIVE, $this->Translate('Phases Active'), 'evcc.Phases', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_MINCURRENT, $this->Translate('Min Current'), 'evcc.Current', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_MAXCURRENT, $this->Translate('Max Current'), 'evcc.Current', ++$pos);
@@ -256,7 +261,7 @@ class evccLoadPointId extends IPSModule
 
         $topicActions = [
             $MQTTTopic . self::VAR_IDENT_CHARGEPOWER                    => fn() => $this->SetValue(self::VAR_IDENT_CHARGEPOWER, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_SMARTCOSTACTIVE                => fn() => $this->SetValue(self::VAR_IDENT_SMARTCOSTACTIVE, (bool)$payload),
+            $MQTTTopic . self::VAR_IDENT_SMARTCOSTACTIVE                => fn() => $this->SetValue(self::VAR_IDENT_SMARTCOSTACTIVE, $payload === 'true'),
             $MQTTTopic . self::VAR_IDENT_CHARGECURRENT                  => fn() => $this->SetValue(self::VAR_IDENT_CHARGECURRENT, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_SESSIONENERGY                  => fn() => $this->SetValue(self::VAR_IDENT_SESSIONENERGY, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_SESSIONSOLARPERCENTAGE         => fn() => $this->SetValue(
@@ -283,8 +288,8 @@ class evccLoadPointId extends IPSModule
             ),
             $MQTTTopic . self::VAR_IDENT_EFFECTIVELIMITSOC              => fn() => $this->SetValue(self::VAR_IDENT_EFFECTIVELIMITSOC, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_EFFECTIVEPLANSOC               => fn() => $this->SetValue(self::VAR_IDENT_EFFECTIVEPLANSOC, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_CONNECTED                      => fn() => $this->SetValue(self::VAR_IDENT_CONNECTED, (bool)$payload),
-            $MQTTTopic . self::VAR_IDENT_CHARGING                       => fn() => $this->SetValue(self::VAR_IDENT_CHARGING, (bool)$payload),
+            $MQTTTopic . self::VAR_IDENT_CONNECTED                      => fn() => $this->SetValue(self::VAR_IDENT_CONNECTED, $payload === 'true'),
+            $MQTTTopic . self::VAR_IDENT_CHARGING                       => fn() => $this->SetValue(self::VAR_IDENT_CHARGING, $payload === 'true'),
             $MQTTTopic . self::VAR_IDENT_VEHICLESOC                     => fn() => $this->SetValue(self::VAR_IDENT_VEHICLESOC, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_CHARGEREMAININGDURATION        => fn() => $this->SetValue(
                 self::VAR_IDENT_CHARGEREMAININGDURATION,
@@ -295,7 +300,7 @@ class evccLoadPointId extends IPSModule
                 (int)$payload
             ),
             $MQTTTopic . self::VAR_IDENT_VEHICLERANGE                   => fn() => $this->SetValue(self::VAR_IDENT_VEHICLERANGE, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_ENABLED                        => fn() => $this->SetValue(self::VAR_IDENT_ENABLED, (bool)$payload),
+            $MQTTTopic . self::VAR_IDENT_ENABLED                        => fn() => $this->SetValue(self::VAR_IDENT_ENABLED, $payload === 'true'),
             $MQTTTopic . self::VAR_IDENT_MODE                           => fn() => $this->SetValue(self::VAR_IDENT_MODE, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_PLANPROJECTEDSTART             => fn() => $this->SetValue(self::VAR_IDENT_PLANPROJECTEDSTART, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_PLANOVERRUN                    => fn() => $this->SetValue(self::VAR_IDENT_PLANOVERRUN, (int)$payload),
@@ -304,7 +309,7 @@ class evccLoadPointId extends IPSModule
             $MQTTTopic . self::VAR_IDENT_PHASEREMAINING                 => fn() => $this->SetValue(self::VAR_IDENT_PHASEREMAINING, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_PVACTION                       => fn() => $this->SetValue(self::VAR_IDENT_PVACTION, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_PVREMAINING                    => fn() => $this->SetValue(self::VAR_IDENT_PVREMAINING, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_PLANACTIVE                     => fn() => $this->SetValue(self::VAR_IDENT_PLANACTIVE, (bool)$payload),
+            $MQTTTopic . self::VAR_IDENT_PLANACTIVE                     => fn() => $this->SetValue(self::VAR_IDENT_PLANACTIVE, $payload === 'true'),
             $MQTTTopic . self::VAR_IDENT_LIMITSOC                       => fn() => $this->SetValue(self::VAR_IDENT_LIMITSOC, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_ENABLETHRESHOLD                => fn() => $this->SetValue(self::VAR_IDENT_ENABLETHRESHOLD, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_DISABLETHRESHOLD               => fn() => $this->SetValue(self::VAR_IDENT_DISABLETHRESHOLD, (float)$payload),
@@ -319,9 +324,9 @@ class evccLoadPointId extends IPSModule
             ),
             $MQTTTopic . self::VAR_IDENT_CHARGERFEATUREINTEGRATEDDEVICE => fn() => $this->SetValue(
                 self::VAR_IDENT_CHARGERFEATUREINTEGRATEDDEVICE,
-                (bool)$payload
+                $payload === 'true'
             ),
-            $MQTTTopic . self::VAR_IDENT_CHARGERPHASES1P3P              => fn() => $this->SetValue(self::VAR_IDENT_CHARGERPHASES1P3P, (bool)$payload),
+            $MQTTTopic . self::VAR_IDENT_CHARGERPHASES1P3P              => fn() => $this->SetValue(self::VAR_IDENT_CHARGERPHASES1P3P, $payload === 'true'),
             $MQTTTopic . self::VAR_IDENT_PRIORITY                       => fn() => $this->SetValue(self::VAR_IDENT_PRIORITY, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_TITLE                          => fn() => $this->SetValue(self::VAR_IDENT_TITLE, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_VEHICLELIMITSOC                => fn() => $this->SetValue(self::VAR_IDENT_VEHICLELIMITSOC, (int)$payload),
@@ -332,7 +337,7 @@ class evccLoadPointId extends IPSModule
             $MQTTTopic . self::VAR_IDENT_SMARTCOSTLIMIT                 => fn() => $this->SetValue(self::VAR_IDENT_SMARTCOSTLIMIT, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_CHARGERFEATUREHEATING          => fn() => $this->SetValue(
                 self::VAR_IDENT_CHARGERFEATUREHEATING,
-                (bool)$payload
+                $payload === 'true'
             ),
         ];
 
