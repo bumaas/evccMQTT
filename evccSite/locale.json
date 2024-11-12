@@ -8,6 +8,8 @@
             "Battery SoC": "Batterie Ladezustand",
             "Battery Power": "Batterie Leistung",
             "Battery Energy": "Batterieenergie",
+            "Battery Gridcharge Limit": "Batterie Netzladen Preislimit",
+            "Battery Gridcharge Active": "Batterie Netzladen aktiv",
             "Grid Power": "Netz leistung",
             "Grid Currents": "Netzströme",
             "Grid Energy": "Netz Energie",

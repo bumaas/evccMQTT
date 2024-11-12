@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
-class evccLoadPointId extends IPSModule
+class evccLoadPointId extends IPSModuleStrict
 {
     use VariableProfileHelper;
     use MQTTHelper;
@@ -79,7 +79,7 @@ class evccLoadPointId extends IPSModule
     ];
 
 
-    public function Create()
+    public function Create(): void
     {
         //Never delete this line!
         parent::Create();
@@ -110,6 +110,7 @@ class evccLoadPointId extends IPSModule
         $this->RegisterProfileFloatEx('evcc.Energy.Wh', '', '', ' Wh', [], -1, 0, 1);
         $this->RegisterProfileFloatEx('evcc.Current', '', '', ' A', [], -1, 0, 1);
         $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', [], -1, 0, 2);
+        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', [], -1, 0, 3);
         $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', [], -1, 0, 2);
         $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', [], 100, 0, 1);
 
@@ -190,7 +191,7 @@ class evccLoadPointId extends IPSModule
         $this->RegisterVariableInteger(self::VAR_IDENT_PHASEREMAINING, self::TO_BE_CHECKED . $this->Translate('Phase Remaining'), '~UnixTimestampTime', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_PVREMAINING, self::TO_BE_CHECKED . $this->Translate('PV Remaining'), '~UnixTimestampTime', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_PVACTION, self::TO_BE_CHECKED . $this->Translate('PV Action'), 'evcc.Action', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_SMARTCOSTLIMIT, $this->Translate('Smart Cost Limit'), 'evcc.EUR', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_SMARTCOSTLIMIT, $this->Translate('Smart Cost Limit'), 'evcc.EUR.3', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_SMARTCOSTACTIVE, self::TO_BE_CHECKED . $this->Translate('Smart Cost Active'), '~Switch', ++$pos);
 
         //not mentioned/used
@@ -217,13 +218,7 @@ class evccLoadPointId extends IPSModule
         $this->EnableAction(self::VAR_IDENT_DISABLETHRESHOLD);
     }
 
-    public function Destroy()
-    {
-        //Never delete this line!
-        parent::Destroy();
-    }
-
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         //Never delete this line!
         parent::ApplyChanges();
@@ -245,19 +240,20 @@ class evccLoadPointId extends IPSModule
     }
 
 
-    public function ReceiveData($JSONString)
+    public function ReceiveData(string $JSONString): string
     {
         $MQTTTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_LOADPOINTID) . '/';
 
         if (empty($MQTTTopic)) {
-            return;
+            return '';
         }
 
         $this->SendDebug(__FUNCTION__, 'JSONString: ' . $JSONString, 0);
 
-        $data    = json_decode(mb_convert_encoding($JSONString, 'ISO-8859-1', 'UTF-8'), true, 512, JSON_THROW_ON_ERROR);
+        $data    = json_decode($JSONString, true, 512, JSON_THROW_ON_ERROR);
         $topic   = $data['Topic'];
-        $payload = $data['Payload'];
+        $payload = hex2bin($data['Payload']);
+        $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s', $topic, $payload), 0);
 
         $topicActions = [
             $MQTTTopic . self::VAR_IDENT_CHARGEPOWER                    => fn() => $this->SetValue(self::VAR_IDENT_CHARGEPOWER, (int)$payload),
@@ -346,7 +342,7 @@ class evccLoadPointId extends IPSModule
         $penultimateElement = $this->getPenultimateElement($mqttSubTopics);
 
         if ($this->isReceivedSetTopic($topic)) {
-            $this->SendDebug(__FUNCTION__, 'received: ' . $topic, 0);
+            //$this->SendDebug(__FUNCTION__, 'received: ' . $topic, 0);
         } elseif ($this->shouldBeIgnored($lastElement, $penultimateElement, $topic, $MQTTTopic)) {
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $topic, 0);
         } elseif (array_key_exists($topic, $topicActions)) {
@@ -354,9 +350,10 @@ class evccLoadPointId extends IPSModule
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);
         }
+        return '';
     }
 
-    public function RequestAction($Ident, $Value)
+    public function RequestAction($Ident, $Value): void
     {
         $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_LOADPOINTID);
         switch ($Ident) {

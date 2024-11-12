@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
-class evccSiteAuxId extends IPSModule
+class evccSiteAuxId extends IPSModuleStrict
 {
     use VariableProfileHelper;
     use MQTTHelper;
@@ -16,7 +16,7 @@ class evccSiteAuxId extends IPSModule
     private const VAR_IDENT_ENERGY       = 'energy';
 
 
-    public function Create()
+    public function Create(): void
     {
         //Never delete this line!
         parent::Create();
@@ -33,13 +33,7 @@ class evccSiteAuxId extends IPSModule
         $this->RegisterVariableFloat(self::VAR_IDENT_ENERGY, $this->Translate('Energy'), 'evcc.Energy.kWh', ++$pos);
     }
 
-    public function Destroy()
-    {
-        //Never delete this line!
-        parent::Destroy();
-    }
-
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         //Never delete this line!
         parent::ApplyChanges();
@@ -54,18 +48,18 @@ class evccSiteAuxId extends IPSModule
         $this->SetSummary($MQTTTopic);
     }
 
-    public function ReceiveData($JSONString)
+    public function ReceiveData($JSONString): string
     {
         $MQTTTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_SITEAUXID) . '/';
 
         if (empty($MQTTTopic)) {
-            return;
+            return '';
         }
-        $this->SendDebug(__FUNCTION__, $JSONString, 0);
 
-        $data    = json_decode($JSONString, true);
+        $data    = json_decode($JSONString, true, 512, JSON_THROW_ON_ERROR);
         $topic   = $data['Topic'];
-        $payload = $data['Payload'];
+        $payload = hex2bin($data['Payload']);
+        $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s', $topic, $payload), 0);
 
         switch ($topic) {
             case $MQTTTopic . self::VAR_IDENT_POWER:
@@ -77,9 +71,10 @@ class evccSiteAuxId extends IPSModule
             default:
                 $this->SendDebug(__FUNCTION__, 'unexpected topic: ' . $topic, 0);
         }
+        return '';
     }
 
-    public function RequestAction($Ident, $Value)
+    public function RequestAction($Ident, $Value): void
     {
         $bat = $this->ReadPropertyInteger(self::PROP_SITEAUXID);
         switch ($Ident) {

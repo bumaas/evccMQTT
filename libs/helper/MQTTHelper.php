@@ -14,13 +14,13 @@ trait MQTTHelper
 
     private function mqttCommand(string $topic, $payload, bool $retain = false): void
     {
+        $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s',  $topic, $payload), 0);
         $data['DataID']           = self::DATA_ID_MQTT_SERVER_TX;
         $data['PacketType']       = self::PT_PUBLISH;
         $data['QualityOfService'] = self::QOS_0;
         $data['Retain']           = $retain;
         $data['Topic']            = $topic;
-        $data['Payload']          = $payload;
-        $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s',  $data['Topic'], $data['Payload']), 0);
+        $data['Payload']          = bin2hex($payload);
 
         $result                   = @$this->SendDataToParent(json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES));
 

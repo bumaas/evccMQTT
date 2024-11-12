@@ -7,7 +7,7 @@
       "Limit Soc":                 "Ladelimit Soc",
       "Limit Energy":              "Ladelimit Energie",
       "Charge Power":              "Ladeleistung",
-      "Smart Cost Active":         "Intelligente Kosten aktiv",
+      "Smart Cost Active":         "Intelligente Preisfindung aktiv",
       "Charge Current":            "Ladestrom",
       "Session Energy":            "Ladevorgang: geladene Energie",
       "Session Solar Percentage":  "Ladevorgang: Prozentsatz der Solarenergie",
@@ -37,7 +37,7 @@
       "Connected Duration":        "Dauer der Verbindung",
       "Phases Enabled":            "Phasen aktiviert",
       "Phases Configured":         "Phasen konfiguriert",
-      "Smart Cost Limit":          "Intelligente Kosten Limit",
+      "Smart Cost Limit":          "Intelligente Preisgrenze",
       "Phases Active":             "Phasen aktiv",
       "Min Current":               "Min. Ladestrom",
       "Max Current":               "Max. Ladestrom"

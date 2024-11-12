@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
-class evccSite extends IPSModule
+class evccSite extends IPSModuleStrict
 {
     use VariableProfileHelper;
     use MQTTHelper;
@@ -13,6 +13,8 @@ class evccSite extends IPSModule
 
     private const VAR_IDENT_GRIDCONFIGURED          = 'gridConfigured';
     private const VAR_IDENT_BATTERYDISCHARGECONTROL = 'batteryDischargeControl';
+    private const VAR_IDENT_BATTERYGRIDCHARGEACTIVE = 'batteryGridChargeActive';
+    private const VAR_IDENT_BATTERYGRIDCHARGELIMIT  = 'batteryGridChargeLimit';
     private const VAR_IDENT_PVPOWER                 = 'pvPower';
     private const VAR_IDENT_PVENERGY                = 'pvEnergy';
     private const VAR_IDENT_BATTERYCAPACITY         = 'batteryCapacity';
@@ -45,10 +47,10 @@ class evccSite extends IPSModule
     //https://docs.evcc.io/en/docs/reference/configuration/site#residualpower
     private const VAR_IDENT_RESIDUALPOWER           = 'residualPower';
 
-    private const IGNORED_ELEMENTS = ['pv', 'aux', 'battery', 'residualPower', 'fatal'];
+    private const IGNORED_ELEMENTS = ['pv', 'aux', 'battery', 'fatal', 'gridPowers', 'l1', 'l2', 'l3'];
     private const STATISTICS_FLAG  = 'statistics';
 
-    public function Create()
+    public function Create():void
     {
         //Never delete this line!
         parent::Create();
@@ -64,6 +66,7 @@ class evccSite extends IPSModule
         $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', [], 100, 0, 1);
         $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', [], -1, 0, 2);
         $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', [], -1, 0, 2);
+        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', [], -1, 0, 3);
 
         $this->registerVariables();
         $this->enableActions();
@@ -86,6 +89,9 @@ class evccSite extends IPSModule
         $this->RegisterVariableFloat(self::VAR_IDENT_BUFFERSOC, $this->Translate('Buffer SoC'), 'evcc.Intensity.100', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_BUFFERSTARTSOC, $this->Translate('Buffer Start SoC'), 'evcc.Intensity.100', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_SITETITLE, $this->Translate('Site Title'), '', ++$pos);
+        $this->RegisterVariableBoolean(self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE, $this->Translate('Battery Gridcharge Active'), '~Switch', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT, $this->Translate('Battery Gridcharge Limit'), 'evcc.EUR.3', ++$pos);
+
 
         //tariffs
         $this->RegisterVariableString(self::VAR_IDENT_CURRENCY, $this->Translate('Currency'), '', ++$pos);
@@ -126,15 +132,11 @@ class evccSite extends IPSModule
         $this->EnableAction(self::VAR_IDENT_BUFFERSOC);
         $this->EnableAction(self::VAR_IDENT_BUFFERSTARTSOC);
         $this->EnableAction(self::VAR_IDENT_RESIDUALPOWER);
+        $this->EnableAction(self::VAR_IDENT_BATTERYDISCHARGECONTROL);
+        $this->EnableAction(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT);
     }
 
-    public function Destroy()
-    {
-        //Never delete this line!
-        parent::Destroy();
-    }
-
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         //Never delete this line!
         parent::ApplyChanges();
@@ -149,18 +151,18 @@ class evccSite extends IPSModule
         $this->SetSummary($MQTTTopic);
     }
 
-    public function ReceiveData($JSONString)
+    public function ReceiveData(string $JSONString): string
     {
         $MQTTTopic = $this->ReadPropertyString(self::PROP_TOPIC);
 
         if (empty($MQTTTopic)) {
-            return;
+            return '';
         }
 
-        $this->SendDebug(__FUNCTION__, 'JSONString: ' . $JSONString, 0);
-        $data    = json_decode(mb_convert_encoding($JSONString, 'ISO-8859-1', 'UTF-8'), true, 512, JSON_THROW_ON_ERROR);
+        $data    = json_decode($JSONString, true, 512, JSON_THROW_ON_ERROR);
         $topic   = $data['Topic'];
-        $payload = $data['Payload'];
+        $payload = hex2bin($data['Payload']);
+        $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s', $topic, $payload), 0);
 
         $topicActions = [
             $MQTTTopic . self::VAR_IDENT_GRIDCONFIGURED          => fn() => $this->SetValue(self::VAR_IDENT_GRIDCONFIGURED, (bool)$payload),
@@ -170,7 +172,9 @@ class evccSite extends IPSModule
             $MQTTTopic . self::VAR_IDENT_PVPOWER                 => fn() => $this->SetValue(self::VAR_IDENT_PVPOWER, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_BATTERYPOWER            => fn() => $this->SetValue(self::VAR_IDENT_BATTERYPOWER, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_BATTERYSOC              => fn() => $this->SetValue(self::VAR_IDENT_BATTERYSOC, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_BATTERYDISCHARGECONTROL => fn() => $this->SetValue(self::VAR_IDENT_BATTERYDISCHARGECONTROL, (bool)$payload),
+            $MQTTTopic . self::VAR_IDENT_BATTERYDISCHARGECONTROL => fn() => $this->SetValue(self::VAR_IDENT_BATTERYDISCHARGECONTROL, $payload === 'true'),
+            $MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE => fn() => $this->SetValue(self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE, $payload === 'true'),
+            $MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGELIMIT  => fn() => $this->SetValue(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_BATTERYMODE             => fn() => $this->SetValue(self::VAR_IDENT_BATTERYMODE, $payload),
             $MQTTTopic . self::VAR_IDENT_PRIORITYSOC             => fn() => $this->SetValue(self::VAR_IDENT_PRIORITYSOC, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_BUFFERSOC               => fn() => $this->SetValue(self::VAR_IDENT_BUFFERSOC, (float)$payload),
@@ -193,7 +197,7 @@ class evccSite extends IPSModule
             $MQTTTopic . self::VAR_IDENT_GREENSHARELOADPOINTS    => fn() => $this->SetValue(self::VAR_IDENT_GREENSHARELOADPOINTS, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_VERSION                 => fn() => $this->SetValue(self::VAR_IDENT_VERSION, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_AVAILABLEVERSION        => fn() => $this->SetValue(self::VAR_IDENT_AVAILABLEVERSION, (string)$payload),
-            $MQTTTopic . self::VAR_IDENT_SMARTCOSTTYPE           => fn() => $this->SetValue(self::VAR_IDENT_AVAILABLEVERSION, (string)$payload),
+            $MQTTTopic . self::VAR_IDENT_SMARTCOSTTYPE           => fn() => $this->SetValue(self::VAR_IDENT_SMARTCOSTTYPE, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_RESIDUALPOWER           => fn() => $this->SetValue(self::VAR_IDENT_RESIDUALPOWER, (int)$payload),
         ];
 
@@ -208,11 +212,12 @@ class evccSite extends IPSModule
         } elseif (array_key_exists($topic, $topicActions)) {
             $topicActions[$topic]();
         } else {
-            $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);
+            $this->SendDebug(__FUNCTION__ . '::HINT', sprintf('unexpected topic: %s, lastElement: %s', $topic, $lastElement), 0);
         }
+        return '';
     }
 
-    public function RequestAction($Ident, $Value)
+    public function RequestAction($Ident, $Value): void
     {
         $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC);
 
@@ -221,7 +226,11 @@ class evccSite extends IPSModule
             case self::VAR_IDENT_BUFFERSOC:
             case self::VAR_IDENT_BUFFERSTARTSOC:
             case self::VAR_IDENT_RESIDUALPOWER:
+            case self::VAR_IDENT_BATTERYGRIDCHARGELIMIT:
                 $this->mqttCommand($mqttTopic . $Ident . '/set', (string)$Value);
+                break;
+            case self::VAR_IDENT_BATTERYDISCHARGECONTROL:
+                $this->mqttCommand($mqttTopic . $Ident . '/set', $Value?'true':'false');
                 break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);
