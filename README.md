@@ -14,7 +14,7 @@ Modul zur Integration von evcc ([evcc.io](https://evcc.io)) in IP-Symcon.
 
 ## 1. Voraussetzungen
 
-* mindestens IPS Version 7.1
+* mindestens IPS Version 8.1
 * eine installierte Version von evcc
 
 ## 2. Enthaltene Module
@@ -25,6 +25,7 @@ Modul zur Integration von evcc ([evcc.io](https://evcc.io)) in IP-Symcon.
     * evcc PV Anlage
     * evcc Batterie
     * evcc Extern geregeltes Gerät
+    * evcc Fahrzeug
 
 ## 3. Installation
 
