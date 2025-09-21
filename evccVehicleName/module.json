@@ -1,0 +1,16 @@
+{
+    "id": "{14997DC3-6B49-8322-1A40-30077352CA23}",
+    "name": "evccVehicleName",
+    "type": 3,
+    "vendor": "evcc",
+    "aliases": ["evcc Fahrzeug"],
+    "parentRequirements": [
+        "{043EA491-0325-4ADD-8FC2-A30C8EEB4D3F}"
+    ],
+    "childRequirements": [],
+    "implemented": [
+        "{7F7632D9-FA40-4F38-8DEA-C83CD4325A32}"
+    ],
+    "prefix": "EVCC",
+    "url": "https://github.com/bumaas/evccMQTT/blob/master/README.md"
+}

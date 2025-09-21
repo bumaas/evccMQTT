@@ -1,0 +1,20 @@
+{
+  "elements": [
+    {
+      "name": "topic",
+      "type": "ValidationTextBox",
+      "caption": "MQTT Topic"
+    },
+    {
+      "type": "ValidationTextBox",
+      "name": "vehicleName",
+      "caption": "Vehicle Name"
+    }
+
+  ],
+  "actions":  [
+    {
+      "type": "TestCenter"
+    }
+  ]
+}

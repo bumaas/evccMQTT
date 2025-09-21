@@ -9,65 +9,65 @@ class evccLoadPointId extends IPSModuleStrict
     use VariableProfileHelper;
     use MQTTHelper;
 
-    private const PROP_TOPIC       = 'topic';
-    private const PROP_LOADPOINTID = 'loadPointId';
+    private const string PROP_TOPIC       = 'topic';
+    private const string PROP_LOADPOINTID = 'loadPointId';
 
-    private const VAR_IDENT_CHARGEPOWER                    = 'chargePower';
-    private const VAR_IDENT_SMARTCOSTACTIVE                = 'smartCostActive';
-    private const VAR_IDENT_CHARGECURRENT                  = 'chargeCurrent';
-    private const VAR_IDENT_SESSIONENERGY                  = 'sessionEnergy';
-    private const VAR_IDENT_SESSIONSOLARPERCENTAGE         = 'sessionSolarPercentage';
-    private const VAR_IDENT_SESSIONPRICEPERKWH             = 'sessionPricePerKWh';
-    private const VAR_IDENT_SESSIONPRICE                   = 'sessionPrice';
-    private const VAR_IDENT_SESSIONCO2PERKWH               = 'sessionCo2PerKWh';
-    private const VAR_IDENT_CHARGEDENERGY                  = 'chargedEnergy';
-    private const VAR_IDENT_CHARGEDURATION                 = 'chargeDuration';
-    private const VAR_IDENT_EFFECTIVEPRIORITY              = 'effectivePriority';
-    private const VAR_IDENT_EFFECTIVEPLANTIME              = 'effectivePlanTime';
-    private const VAR_IDENT_EFFECTIVEPLANSOC               = 'effectivePlanSoc';
-    private const VAR_IDENT_EFFECTIVEMINCURRENT            = 'effectiveMinCurrent';
-    private const VAR_IDENT_EFFECTIVEMAXCURRENT            = 'effectiveMaxCurrent';
-    private const VAR_IDENT_EFFECTIVELIMITSOC              = 'effectiveLimitSoc';
-    private const VAR_IDENT_CONNECTED                      = 'connected';
-    private const VAR_IDENT_CHARGING                       = 'charging';
-    private const VAR_IDENT_VEHICLESOC                     = 'vehicleSoc';
-    private const VAR_IDENT_CHARGEREMAININGDURATION        = 'chargeRemainingDuration';
-    private const VAR_IDENT_CHARGEREMAININGENERGY          = 'chargeRemainingEnergy';
-    private const VAR_IDENT_VEHICLERANGE                   = 'vehicleRange';
-    private const VAR_IDENT_ENABLED                        = 'enabled';
-    private const VAR_IDENT_MODE                           = 'mode';
-    private const VAR_IDENT_PLANPROJECTEDSTART             = 'planProjectedStart';
-    private const VAR_IDENT_PLANOVERRUN                    = 'planOverrun';
-    private const VAR_IDENT_VEHICLEDETECTIONACTIVE         = 'vehicleDetectionActive';
-    private const VAR_IDENT_CONNECTEDDURATION              = 'connectedDuration';
-    private const VAR_IDENT_PHASESENABLED                  = 'phasesEnabled';
-    private const VAR_IDENT_PHASESCONFIGURED               = 'phasesConfigured';
-    private const VAR_IDENT_SMARTCOSTLIMIT                 = 'smartCostLimit';
-    private const VAR_IDENT_PHASESACTIVE                   = 'phasesActive';
-    private const VAR_IDENT_PVACTION                       = 'pvAction';
-    private const VAR_IDENT_CHARGERFEATUREHEATING          = 'chargerFeatureHeating';
-    private const VAR_IDENT_PHASEACTION                    = 'phaseAction'; //inactive, ... ??
-    private const VAR_IDENT_PVREMAINING                    = 'pvRemaining'; //Bedeutung noch unbekannt
-    private const VAR_IDENT_PLANENERGY                     = 'planEnergy';
-    private const VAR_IDENT_VEHICLELIMITSOC                = 'vehicleLimitSoc';
-    private const VAR_IDENT_LIMITSOC                       = 'limitSoc';
-    private const VAR_IDENT_TITLE                          = 'title';
-    private const VAR_IDENT_PRIORITY                       = 'priority';
-    private const VAR_IDENT_ENABLETHRESHOLD                = 'enableThreshold';
-    private const VAR_IDENT_DISABLETHRESHOLD               = 'disableThreshold';
-    private const VAR_IDENT_LIMITENERGY                    = 'limitEnergy';
-    private const VAR_IDENT_CHARGERPHASES1P3P              = 'chargerPhases1p3p';
-    private const VAR_IDENT_CHARGERFEATUREINTEGRATEDDEVICE = 'chargerFeatureIntegratedDevice';
-    private const VAR_IDENT_PHASEREMAINING                 = 'phaseRemaining'; //Bedeutung noch unbekannt
-    private const VAR_IDENT_VEHICLEODOMETER                = 'vehicleOdometer';
-    private const VAR_IDENT_VEHICLENAME                    = 'vehicleName';
-    private const VAR_IDENT_MINCURRENT                     = 'minCurrent';
-    private const VAR_IDENT_MAXCURRENT                     = 'maxCurrent';
-    private const VAR_IDENT_PLANACTIVE                     = 'planActive';
+    private const string VAR_IDENT_CHARGEPOWER                    = 'chargePower';
+    private const string VAR_IDENT_SMARTCOSTACTIVE                = 'smartCostActive';
+    private const string VAR_IDENT_CHARGECURRENT                  = 'chargeCurrent';
+    private const string VAR_IDENT_SESSIONENERGY                  = 'sessionEnergy';
+    private const string VAR_IDENT_SESSIONSOLARPERCENTAGE         = 'sessionSolarPercentage';
+    private const string VAR_IDENT_SESSIONPRICEPERKWH             = 'sessionPricePerKWh';
+    private const string VAR_IDENT_SESSIONPRICE                   = 'sessionPrice';
+    private const string VAR_IDENT_SESSIONCO2PERKWH               = 'sessionCo2PerKWh';
+    private const string VAR_IDENT_CHARGEDENERGY                  = 'chargedEnergy';
+    private const string VAR_IDENT_CHARGEDURATION                 = 'chargeDuration';
+    private const string VAR_IDENT_EFFECTIVEPRIORITY              = 'effectivePriority';
+    private const string VAR_IDENT_EFFECTIVEPLANTIME              = 'effectivePlanTime';
+    private const string VAR_IDENT_EFFECTIVEPLANSOC               = 'effectivePlanSoc';
+    private const string VAR_IDENT_EFFECTIVEMINCURRENT            = 'effectiveMinCurrent';
+    private const string VAR_IDENT_EFFECTIVEMAXCURRENT            = 'effectiveMaxCurrent';
+    private const string VAR_IDENT_EFFECTIVELIMITSOC              = 'effectiveLimitSoc';
+    private const string VAR_IDENT_CONNECTED                      = 'connected';
+    private const string VAR_IDENT_CHARGING                       = 'charging';
+    private const string VAR_IDENT_VEHICLESOC                     = 'vehicleSoc';
+    private const string VAR_IDENT_CHARGEREMAININGDURATION        = 'chargeRemainingDuration';
+    private const string VAR_IDENT_CHARGEREMAININGENERGY          = 'chargeRemainingEnergy';
+    private const string VAR_IDENT_VEHICLERANGE                   = 'vehicleRange';
+    private const string VAR_IDENT_ENABLED                        = 'enabled';
+    private const string VAR_IDENT_MODE                           = 'mode';
+    private const string VAR_IDENT_PLANPROJECTEDSTART             = 'planProjectedStart';
+    private const string VAR_IDENT_PLANOVERRUN                    = 'planOverrun';
+    private const string VAR_IDENT_VEHICLEDETECTIONACTIVE         = 'vehicleDetectionActive';
+    private const string VAR_IDENT_CONNECTEDDURATION              = 'connectedDuration';
+    private const string VAR_IDENT_PHASESENABLED                  = 'phasesEnabled';
+    private const string VAR_IDENT_PHASESCONFIGURED               = 'phasesConfigured';
+    private const string VAR_IDENT_SMARTCOSTLIMIT                 = 'smartCostLimit';
+    private const string VAR_IDENT_PHASESACTIVE                   = 'phasesActive';
+    private const string VAR_IDENT_PVACTION                       = 'pvAction';
+    private const string VAR_IDENT_CHARGERFEATUREHEATING          = 'chargerFeatureHeating';
+    private const string VAR_IDENT_PHASEACTION                    = 'phaseAction'; //inactive, ... ??
+    private const string VAR_IDENT_PVREMAINING                    = 'pvRemaining'; //Bedeutung ist noch unbekannt
+    private const string VAR_IDENT_PLANENERGY                     = 'planEnergy';
+    private const string VAR_IDENT_VEHICLELIMITSOC                = 'vehicleLimitSoc';
+    private const string VAR_IDENT_LIMITSOC                       = 'limitSoc';
+    private const string VAR_IDENT_TITLE                          = 'title';
+    private const string VAR_IDENT_PRIORITY                       = 'priority';
+    private const string VAR_IDENT_ENABLETHRESHOLD                = 'enableThreshold';
+    private const string VAR_IDENT_DISABLETHRESHOLD               = 'disableThreshold';
+    private const string VAR_IDENT_LIMITENERGY                    = 'limitEnergy';
+    private const string VAR_IDENT_CHARGERPHASES1P3P              = 'chargerPhases1p3p';
+    private const string VAR_IDENT_CHARGERFEATUREINTEGRATEDDEVICE = 'chargerFeatureIntegratedDevice';
+    private const string VAR_IDENT_PHASEREMAINING                 = 'phaseRemaining'; //Bedeutung ist noch unbekannt
+    private const string VAR_IDENT_VEHICLEODOMETER                = 'vehicleOdometer';
+    private const string VAR_IDENT_VEHICLENAME                    = 'vehicleName';
+    private const string VAR_IDENT_MINCURRENT                     = 'minCurrent';
+    private const string VAR_IDENT_MAXCURRENT                     = 'maxCurrent';
+    private const string VAR_IDENT_PLANACTIVE                     = 'planActive';
 
-    private const TO_BE_CHECKED = '? ';
+    private const string TO_BE_CHECKED = '? ';
 
-    private const IGNORED_ELEMENTS = [
+    private const array IGNORED_ELEMENTS = [
         'chargerPhysicalPhases',
         'chargeCurrents',
         'l1',
@@ -83,7 +83,6 @@ class evccLoadPointId extends IPSModuleStrict
     {
         //Never delete this line!
         parent::Create();
-        $this->ConnectParent(self::MQTT_SERVER);
 
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/loadpoints/');
         $this->RegisterPropertyInteger(self::PROP_LOADPOINTID, 1);
@@ -126,7 +125,12 @@ class evccLoadPointId extends IPSModuleStrict
         $this->RegisterVariableString(self::VAR_IDENT_TITLE, $this->Translate('Title'), '', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_MODE, $this->Translate('Mode'), 'evcc.Mode', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_LIMITSOC, $this->Translate(' Limit SoC'), 'evcc.Intensity.100', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVELIMITSOC, self::TO_BE_CHECKED . $this->Translate('Effective Limit SoC'), '~Battery.100', ++$pos);
+        $this->RegisterVariableInteger(
+            self::VAR_IDENT_EFFECTIVELIMITSOC,
+            self::TO_BE_CHECKED . $this->Translate('Effective Limit SoC'),
+            '~Battery.100',
+            ++$pos
+        );
         $this->RegisterVariableFloat(self::VAR_IDENT_LIMITENERGY, $this->Translate('Limit Energy'), 'evcc.Energy.kWh', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
@@ -150,7 +154,12 @@ class evccLoadPointId extends IPSModuleStrict
             '~Switch',
             ++$pos
         );
-        $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGERFEATUREHEATING, self::TO_BE_CHECKED . $this->Translate('Charger Feature Heating'), '~Switch', ++$pos);
+        $this->RegisterVariableBoolean(
+            self::VAR_IDENT_CHARGERFEATUREHEATING,
+            self::TO_BE_CHECKED . $this->Translate('Charger Feature Heating'),
+            '~Switch',
+            ++$pos
+        );
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGERPHASES1P3P, $this->Translate('Charger Feature Phases 1P3P'), '~Switch', ++$pos);
 
         //vehicle
@@ -188,17 +197,47 @@ class evccLoadPointId extends IPSModuleStrict
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGECURRENT, $this->Translate('Charge Current'), 'evcc.Current', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_CONNECTEDDURATION, $this->Translate('Connected Duration'), '~UnixTimestampTime', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGEREMAININGENERGY, $this->Translate('Charge remaining Energy'), 'evcc.Energy.Wh', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_PHASEREMAINING, self::TO_BE_CHECKED . $this->Translate('Phase Remaining'), '~UnixTimestampTime', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_PVREMAINING, self::TO_BE_CHECKED . $this->Translate('PV Remaining'), '~UnixTimestampTime', ++$pos);
+        $this->RegisterVariableInteger(
+            self::VAR_IDENT_PHASEREMAINING,
+            self::TO_BE_CHECKED . $this->Translate('Phase Remaining'),
+            '~UnixTimestampTime',
+            ++$pos
+        );
+        $this->RegisterVariableInteger(
+            self::VAR_IDENT_PVREMAINING,
+            self::TO_BE_CHECKED . $this->Translate('PV Remaining'),
+            '~UnixTimestampTime',
+            ++$pos
+        );
         $this->RegisterVariableString(self::VAR_IDENT_PVACTION, self::TO_BE_CHECKED . $this->Translate('PV Action'), 'evcc.Action', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_SMARTCOSTLIMIT, $this->Translate('Smart Cost Limit'), 'evcc.EUR.3', ++$pos);
-        $this->RegisterVariableBoolean(self::VAR_IDENT_SMARTCOSTACTIVE, self::TO_BE_CHECKED . $this->Translate('Smart Cost Active'), '~Switch', ++$pos);
+        $this->RegisterVariableBoolean(
+            self::VAR_IDENT_SMARTCOSTACTIVE,
+            self::TO_BE_CHECKED . $this->Translate('Smart Cost Active'),
+            '~Switch',
+            ++$pos
+        );
 
         //not mentioned/used
-        $this->RegisterVariableInteger(self::VAR_IDENT_PHASESENABLED, self::TO_BE_CHECKED . $this->Translate('Phases Enabled'), 'evcc.Phases', ++$pos);
+        $this->RegisterVariableInteger(
+            self::VAR_IDENT_PHASESENABLED,
+            self::TO_BE_CHECKED . $this->Translate('Phases Enabled'),
+            'evcc.Phases',
+            ++$pos
+        );
         $this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVEPRIORITY, self::TO_BE_CHECKED . $this->Translate('Effective Priority'), '', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMINCURRENT, self::TO_BE_CHECKED . $this->Translate('Effective min Current'), 'evcc.Current', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_EFFECTIVEMAXCURRENT, self::TO_BE_CHECKED . $this->Translate('Effective max Current'), 'evcc.Current', ++$pos);
+        $this->RegisterVariableFloat(
+            self::VAR_IDENT_EFFECTIVEMINCURRENT,
+            self::TO_BE_CHECKED . $this->Translate('Effective min Current'),
+            'evcc.Current',
+            ++$pos
+        );
+        $this->RegisterVariableFloat(
+            self::VAR_IDENT_EFFECTIVEMAXCURRENT,
+            self::TO_BE_CHECKED . $this->Translate('Effective max Current'),
+            'evcc.Current',
+            ++$pos
+        );
         $this->RegisterVariableInteger(self::VAR_IDENT_PRIORITY, self::TO_BE_CHECKED . $this->Translate('Priority'), '', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_ENABLETHRESHOLD, self::TO_BE_CHECKED . $this->Translate('Enable Threshold'), '', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_DISABLETHRESHOLD, self::TO_BE_CHECKED . $this->Translate('Disable Threshold'), '', ++$pos);
@@ -222,7 +261,6 @@ class evccLoadPointId extends IPSModuleStrict
     {
         //Never delete this line!
         parent::ApplyChanges();
-        $this->ConnectParent('{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}');
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_LOADPOINTID) . '/';
@@ -233,7 +271,7 @@ class evccLoadPointId extends IPSModuleStrict
         $this->SetSummary($MQTTTopic);
     }
 
-    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic)
+    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic): bool
     {
         return in_array($lastElement, self::IGNORED_ELEMENTS)
                || is_numeric($lastElement);
@@ -257,7 +295,10 @@ class evccLoadPointId extends IPSModuleStrict
 
         $topicActions = [
             $MQTTTopic . self::VAR_IDENT_CHARGEPOWER                    => fn() => $this->SetValue(self::VAR_IDENT_CHARGEPOWER, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_SMARTCOSTACTIVE                => fn() => $this->SetValue(self::VAR_IDENT_SMARTCOSTACTIVE, $payload === 'true'),
+            $MQTTTopic . self::VAR_IDENT_SMARTCOSTACTIVE                => fn() => $this->SetValue(
+                self::VAR_IDENT_SMARTCOSTACTIVE,
+                $payload === 'true'
+            ),
             $MQTTTopic . self::VAR_IDENT_CHARGECURRENT                  => fn() => $this->SetValue(self::VAR_IDENT_CHARGECURRENT, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_SESSIONENERGY                  => fn() => $this->SetValue(self::VAR_IDENT_SESSIONENERGY, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_SESSIONSOLARPERCENTAGE         => fn() => $this->SetValue(
@@ -322,7 +363,10 @@ class evccLoadPointId extends IPSModuleStrict
                 self::VAR_IDENT_CHARGERFEATUREINTEGRATEDDEVICE,
                 $payload === 'true'
             ),
-            $MQTTTopic . self::VAR_IDENT_CHARGERPHASES1P3P              => fn() => $this->SetValue(self::VAR_IDENT_CHARGERPHASES1P3P, $payload === 'true'),
+            $MQTTTopic . self::VAR_IDENT_CHARGERPHASES1P3P              => fn() => $this->SetValue(
+                self::VAR_IDENT_CHARGERPHASES1P3P,
+                $payload === 'true'
+            ),
             $MQTTTopic . self::VAR_IDENT_PRIORITY                       => fn() => $this->SetValue(self::VAR_IDENT_PRIORITY, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_TITLE                          => fn() => $this->SetValue(self::VAR_IDENT_TITLE, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_VEHICLELIMITSOC                => fn() => $this->SetValue(self::VAR_IDENT_VEHICLELIMITSOC, (int)$payload),
@@ -343,7 +387,10 @@ class evccLoadPointId extends IPSModuleStrict
 
         if ($this->isReceivedSetTopic($topic)) {
             //$this->SendDebug(__FUNCTION__, 'received: ' . $topic, 0);
-        } elseif ($this->shouldBeIgnored($lastElement, $penultimateElement, $topic, $MQTTTopic)) {
+            return '';
+        }
+
+        if ($this->shouldBeIgnored($lastElement, $penultimateElement, $topic, $MQTTTopic)) {
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $topic, 0);
         } elseif (array_key_exists($topic, $topicActions)) {
             $topicActions[$topic]();
@@ -372,10 +419,15 @@ class evccLoadPointId extends IPSModuleStrict
                 break;
             case self::VAR_IDENT_PHASESCONFIGURED:
                 $this->mqttCommand($mqttTopic . '/phases/set', (string)$Value); //die zu nutzenden Phasen werden über das Topic 'phases' gesetzt.
+                break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);
                 break;
         }
+    }
+    public function GetCompatibleParents(): string
+    {
+        return json_encode(['type' => 'connect', 'moduleIDs' => [self::MQTT_SERVER]], JSON_THROW_ON_ERROR);
     }
 
 }

@@ -9,18 +9,17 @@ class evccSiteAuxId extends IPSModuleStrict
     use VariableProfileHelper;
     use MQTTHelper;
 
-    private const PROP_TOPIC     = 'topic';
-    private const PROP_SITEAUXID = 'siteAuxId';
+    private const string PROP_TOPIC     = 'topic';
+    private const string PROP_SITEAUXID = 'siteAuxId';
 
-    private const VAR_IDENT_POWER        = 'power';
-    private const VAR_IDENT_ENERGY       = 'energy';
+    private const string VAR_IDENT_POWER  = 'power';
+    private const string VAR_IDENT_ENERGY = 'energy';
 
 
     public function Create(): void
     {
         //Never delete this line!
         parent::Create();
-        $this->ConnectParent(self::MQTT_SERVER);
 
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/aux/');
         $this->RegisterPropertyInteger(self::PROP_SITEAUXID, 1);
@@ -37,7 +36,6 @@ class evccSiteAuxId extends IPSModuleStrict
     {
         //Never delete this line!
         parent::ApplyChanges();
-        $this->ConnectParent('{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}');
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_SITEAUXID) . '/';
@@ -79,21 +77,25 @@ class evccSiteAuxId extends IPSModuleStrict
         $bat = $this->ReadPropertyInteger(self::PROP_SITEAUXID);
         switch ($Ident) {
             case 'SoC':
-                $this->mqttCommand('set/houseBattery/%Soc', intval($Value));
+                $this->mqttCommand('set/houseBattery/%Soc', (int) $Value);
                 break;
             case 'W':
-                $this->mqttCommand('set/houseBattery/W', floatval($Value));
+                $this->mqttCommand('set/houseBattery/W', (float) $Value);
                 break;
             case 'WhExported':
-                $this->mqttCommand('set/houseBattery/WhExported', floatval($Value));
+                $this->mqttCommand('set/houseBattery/WhExported', (float) $Value);
                 break;
             case 'WhImported':
-                $this->mqttCommand('set/houseBattery/WhImported', floatval($Value));
+                $this->mqttCommand('set/houseBattery/WhImported', (float) $Value);
                 break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);
                 break;
         }
+    }
+    public function GetCompatibleParents(): string
+    {
+        return json_encode(['type' => 'connect', 'moduleIDs' => [self::MQTT_SERVER]], JSON_THROW_ON_ERROR);
     }
 
 }

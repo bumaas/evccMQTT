@@ -1,0 +1,12 @@
+{
+    "translations": {
+        "de": {
+            "MQTT Topic": "MQTT Thema",
+            "Vehicle Name": "Fahrzeugname",
+            "Power": "Leistung",
+            "Energy": "Energie",
+            "SoC": "Ladezustand",
+            "Capacity": "Kapazität"
+        }
+    }
+}

@@ -9,52 +9,51 @@ class evccSite extends IPSModuleStrict
     use VariableProfileHelper;
     use MQTTHelper;
 
-    private const PROP_TOPIC = 'topic';
+    private const string PROP_TOPIC = 'topic';
 
-    private const VAR_IDENT_GRIDCONFIGURED          = 'gridConfigured';
-    private const VAR_IDENT_BATTERYDISCHARGECONTROL = 'batteryDischargeControl';
-    private const VAR_IDENT_BATTERYGRIDCHARGEACTIVE = 'batteryGridChargeActive';
-    private const VAR_IDENT_BATTERYGRIDCHARGELIMIT  = 'batteryGridChargeLimit';
-    private const VAR_IDENT_PVPOWER                 = 'pvPower';
-    private const VAR_IDENT_PVENERGY                = 'pvEnergy';
-    private const VAR_IDENT_BATTERYCAPACITY         = 'batteryCapacity';
-    private const VAR_IDENT_BATTERYSOC              = 'batterySoc';
-    private const VAR_IDENT_BATTERYPOWER            = 'batteryPower';
-    private const VAR_IDENT_BATTERYENERGY           = 'batteryEnergy';
-    private const VAR_IDENT_BATTERYMODE             = 'batteryMode';
-    private const VAR_IDENT_GRIDPOWER               = 'gridPower';
-    private const VAR_IDENT_GRIDCURRENTS            = 'gridCurrents';
-    private const VAR_IDENT_GRIDENERGY              = 'gridEnergy';
-    private const VAR_IDENT_HOMEPOWER               = 'homePower';
-    private const VAR_IDENT_AUXPOWER                = 'auxPower';
-    private const VAR_IDENT_PRIORITYSOC             = 'prioritySoc';
-    private const VAR_IDENT_BUFFERSOC               = 'bufferSoc';
-    private const VAR_IDENT_BUFFERSTARTSOC          = 'bufferStartSoc';
-    private const VAR_IDENT_SITETITLE               = 'siteTitle';
-    private const VAR_IDENT_CURRENCY                = 'currency';
-    private const VAR_IDENT_GREENSHAREHOME          = 'greenShareHome';
-    private const VAR_IDENT_GREENSHARELOADPOINTS    = 'greenShareLoadpoints';
-    private const VAR_IDENT_TARIFFFEEDIN            = 'tariffFeedIn';
-    private const VAR_IDENT_TARIFFGRID              = 'tariffGrid';
-    private const VAR_IDENT_TARIFFCO2               = 'tariffCo2';
-    private const VAR_IDENT_TARIFFPRICEHOME         = 'tariffPriceHome';
-    private const VAR_IDENT_TARIFFCO2HOME           = 'tariffCo2Home';
-    private const VAR_IDENT_TARIFFPRICELOADPOINTS   = 'tariffPriceLoadpoints';
-    private const VAR_IDENT_TARIFFCO2LOADPOINTS     = 'tariffCo2Loadpoints';
-    private const VAR_IDENT_VERSION                 = 'version';
-    private const VAR_IDENT_AVAILABLEVERSION        = 'availableVersion';
-    private const VAR_IDENT_SMARTCOSTTYPE           = 'smartCostType';
+    private const string VAR_IDENT_GRIDCONFIGURED          = 'gridConfigured';
+    private const string VAR_IDENT_BATTERYDISCHARGECONTROL = 'batteryDischargeControl';
+    private const string VAR_IDENT_BATTERYGRIDCHARGEACTIVE = 'batteryGridChargeActive';
+    private const string VAR_IDENT_BATTERYGRIDCHARGELIMIT  = 'batteryGridChargeLimit';
+    private const string VAR_IDENT_PVPOWER                = 'pvPower';
+    private const string VAR_IDENT_PVENERGY        = 'pvEnergy';
+    private const string VAR_IDENT_BATTERYCAPACITY = 'batteryCapacity';
+    private const string VAR_IDENT_BATTERYSOC      = 'batterySoc';
+    private const string VAR_IDENT_BATTERYPOWER = 'batteryPower';
+    private const string VAR_IDENT_BATTERYENERGY = 'batteryEnergy';
+    private const string VAR_IDENT_BATTERYMODE   = 'batteryMode';
+    private const string VAR_IDENT_GRIDPOWER   = 'gridPower';
+    private const string VAR_IDENT_GRIDCURRENTS = 'gridCurrents';
+    private const string VAR_IDENT_GRIDENERGY   = 'gridEnergy';
+    private const string VAR_IDENT_HOMEPOWER  = 'homePower';
+    private const string VAR_IDENT_AUXPOWER  = 'auxPower';
+    private const string VAR_IDENT_PRIORITYSOC = 'prioritySoc';
+    private const string VAR_IDENT_BUFFERSOC   = 'bufferSoc';
+    private const string VAR_IDENT_BUFFERSTARTSOC = 'bufferStartSoc';
+    private const string VAR_IDENT_SITETITLE      = 'siteTitle';
+    private const string VAR_IDENT_CURRENCY  = 'currency';
+    private const string VAR_IDENT_GREENSHAREHOME = 'greenShareHome';
+    private const string VAR_IDENT_GREENSHARELOADPOINTS = 'greenShareLoadpoints';
+    private const string VAR_IDENT_TARIFFFEEDIN         = 'tariffFeedIn';
+    private const string VAR_IDENT_TARIFFGRID    = 'tariffGrid';
+    private const string VAR_IDENT_TARIFFCO2  = 'tariffCo2';
+    private const string VAR_IDENT_TARIFFPRICEHOME = 'tariffPriceHome';
+    private const string VAR_IDENT_TARIFFCO2HOME   = 'tariffCo2Home';
+    private const string VAR_IDENT_TARIFFPRICELOADPOINTS = 'tariffPriceLoadpoints';
+    private const string VAR_IDENT_TARIFFCO2LOADPOINTS   = 'tariffCo2Loadpoints';
+    private const string VAR_IDENT_VERSION             = 'version';
+    private const string VAR_IDENT_AVAILABLEVERSION = 'availableVersion';
+    private const string VAR_IDENT_SMARTCOSTTYPE    = 'smartCostType';
     //https://docs.evcc.io/en/docs/reference/configuration/site#residualpower
-    private const VAR_IDENT_RESIDUALPOWER           = 'residualPower';
+    private const string VAR_IDENT_RESIDUALPOWER = 'residualPower';
 
-    private const IGNORED_ELEMENTS = ['pv', 'aux', 'battery', 'fatal', 'gridPowers', 'l1', 'l2', 'l3'];
-    private const STATISTICS_FLAG  = 'statistics';
+    private const array  IGNORED_ELEMENTS = ['pv', 'aux', 'battery', 'fatal', 'gridPowers', 'l1', 'l2', 'l3'];
+    private const string STATISTICS_FLAG  = 'statistics';
 
     public function Create():void
     {
         //Never delete this line!
         parent::Create();
-        $this->ConnectParent(self::MQTT_SERVER);
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/');
 
         $this->RegisterProfileIntegerEx('evcc.Power', '', '', ' W', []);
@@ -117,7 +116,7 @@ class evccSite extends IPSModuleStrict
     }
 
 
-    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic)
+    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic): bool
     {
         return in_array($lastElement, self::IGNORED_ELEMENTS)
                || is_numeric($penultimateElement)
@@ -140,7 +139,6 @@ class evccSite extends IPSModuleStrict
     {
         //Never delete this line!
         parent::ApplyChanges();
-        $this->ConnectParent('{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}');
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->ReadPropertyString(self::PROP_TOPIC);
@@ -236,6 +234,11 @@ class evccSite extends IPSModuleStrict
                 $this->LogMessage('Invalid Action', KL_WARNING);
                 break;
         }
+    }
+
+    public function GetCompatibleParents(): string
+    {
+        return json_encode(['type' => 'connect', 'moduleIDs' => [self::MQTT_SERVER]], JSON_THROW_ON_ERROR);
     }
 
 }
