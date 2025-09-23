@@ -87,13 +87,13 @@ class evccLoadPointId extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/loadpoints/');
         $this->RegisterPropertyInteger(self::PROP_LOADPOINTID, 1);
 
-        $this->RegisterProfileIntegerEx('evcc.Power', '', '', ' W', []);
-        $this->RegisterProfileIntegerEx('evcc.km', '', '', ' km', []);
+        $this->RegisterProfileIntegerEx('evcc.Power', '', '', ' W');
+        $this->RegisterProfileIntegerEx('evcc.km', '', '', ' km');
         $this->RegisterProfileIntegerEx('evcc.Phases', '', '', '', [
             [0, $this->Translate('auto'), '', -1],
             [1, '1', '', -1],
             [3, '3', '', -1]
-        ],                              3, 1);
+        ]);
         $this->RegisterProfileStringEx('evcc.Mode', '', '', '', [
             ['off', $this->translate('Off'), '', -1],
             ['pv', $this->translate('Only PV'), '', -1],
@@ -105,13 +105,16 @@ class evccLoadPointId extends IPSModuleStrict
             ['enable', $this->translate('enable'), '', -1],
             ['disable', $this->translate('disable'), '', -1],
         ]);
-        $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', [], -1, 0, 1);
-        $this->RegisterProfileFloatEx('evcc.Energy.Wh', '', '', ' Wh', [], -1, 0, 1);
-        $this->RegisterProfileFloatEx('evcc.Current', '', '', ' A', [], -1, 0, 1);
-        $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', [], -1, 0, 2);
-        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', [], -1, 0, 3);
-        $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', [], -1, 0, 2);
-        $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', [], 100, 0, 1);
+        $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', -1, -1, 0, 1);
+        $this->RegisterProfileFloatEx('evcc.LimitEnergy.kWh', '', '', ' kWh',0, 100, 0, 1);
+        $this->RegisterProfileFloatEx('evcc.Energy.Wh', '', '', ' Wh', -1, -1, 0, 1);
+        $this->RegisterProfileFloatEx('evcc.Current', '', '', ' A', -1, -1, 0, 1);
+        $this->RegisterProfileFloatEx('evcc.minCurrent', '', '', ' A',1, 16, 1);
+        $this->RegisterProfileFloatEx('evcc.maxCurrent', '', '', ' A',1, 64, 1);
+        $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', -1, -1, 0, 2);
+        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', -1, -1, 0, 3);
+        $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', -1, -1, 0, 2);
+        $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', 0, 100, 1, 1);
 
         $this->registerVariables();
         $this->enableActions();
@@ -131,7 +134,7 @@ class evccLoadPointId extends IPSModuleStrict
             '~Battery.100',
             ++$pos
         );
-        $this->RegisterVariableFloat(self::VAR_IDENT_LIMITENERGY, $this->Translate('Limit Energy'), 'evcc.Energy.kWh', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_LIMITENERGY, $this->Translate('Limit Energy'), 'evcc.LimitEnergy.kWh', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
 
@@ -192,8 +195,8 @@ class evccLoadPointId extends IPSModuleStrict
         $this->RegisterVariableInteger(self::VAR_IDENT_PHASESCONFIGURED, $this->Translate('Phases Configured'), 'evcc.Phases', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_PHASEACTION, $this->Translate('Phase Action'), '', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_PHASESACTIVE, $this->Translate('Phases Active'), 'evcc.Phases', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_MINCURRENT, $this->Translate('Min Current'), 'evcc.Current', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_MAXCURRENT, $this->Translate('Max Current'), 'evcc.Current', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_MINCURRENT, $this->Translate('Min Current'), 'evcc.minCurrent', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_MAXCURRENT, $this->Translate('Max Current'), 'evcc.maxCurrent', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGECURRENT, $this->Translate('Charge Current'), 'evcc.Current', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_CONNECTEDDURATION, $this->Translate('Connected Duration'), '~UnixTimestampTime', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_CHARGEREMAININGENERGY, $this->Translate('Charge remaining Energy'), 'evcc.Energy.Wh', ++$pos);

@@ -61,11 +61,11 @@ class evccSite extends IPSModuleStrict
             ['unknown', $this->translate('unknown'), '', -1],
         ]);
 
-        $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', [], -1, 0, 1);
-        $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', [], 100, 0, 1);
-        $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', [], -1, 0, 2);
-        $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', [], -1, 0, 2);
-        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', [], -1, 0, 3);
+        $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', -1, -1, 0, 1);
+        $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', 0, 100, 1, 1);
+        $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', -1, -1, 0, 2);
+        $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', -1, -1, 0, 2);
+        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', -1, -1, 0, 3);
 
         $this->registerVariables();
         $this->enableActions();
