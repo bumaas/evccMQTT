@@ -10,16 +10,20 @@
             "Battery Energy": "Batterieenergie",
             "Battery Gridcharge Limit": "Batterie Netzladen Preislimit",
             "Battery Gridcharge Active": "Batterie Netzladen aktiv",
-            "Grid Power": "Netz leistung",
+            "Battery Discharge Control": "Batterie Entladen Steuerung",
+            "Priority SoC": "Priorisierung SoC",
+            "Grid Power": "Netzleistung",
             "Grid Currents": "Netzströme",
-            "Grid Energy": "Netz Energie",
-            "Home Power": "Haus Energie",
+            "Grid Energy": "Netzenergie",
+            "Home Power": "Hausenergie",
             "Green Share Home": "Grüner Anteil Zuhause",
             "Green Share Loadpoints": "Grüner Anteil Ladepunkte",
             "Tariff Price Home": "Tarifpreis Zuhause",
             "Tariff CO2 Home": "Tarif CO2 Zuhause",
             "Tariff Price Loadpoints": "Tarifpreis Ladepunkte",
-            "Tariff CO2 Loadpoints": "Tarif CO2 Ladepunkte"
+            "Tariff CO2 Loadpoints": "Tarif CO2 Ladepunkte",
+            "unknown": "unbekannt",
+            "normal": "normal"
         }
     }
 }

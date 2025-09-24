@@ -56,16 +56,17 @@ class evccSite extends IPSModuleStrict
         parent::Create();
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/');
 
-        $this->RegisterProfileIntegerEx('evcc.Power', '', '', ' W', []);
+        $this->RegisterProfileIntegerEx('evcc.Power', '', '', ' W');
         $this->RegisterProfileStringEx('evcc.Battery.Mode', '', '', '', [
             ['unknown', $this->translate('unknown'), '', -1],
+            ['normal', $this->translate('normal'), '', -1],
         ]);
 
         $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', -1, -1, 0, 1);
         $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', 0, 100, 1, 1);
         $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', -1, -1, 0, 2);
         $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', -1, -1, 0, 2);
-        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', -1, -1, 0, 3);
+        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', -1, 1, 0.001, 3);
 
         $this->registerVariables();
         $this->enableActions();

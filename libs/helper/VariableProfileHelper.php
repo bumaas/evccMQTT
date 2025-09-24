@@ -62,7 +62,7 @@ trait VariableProfileHelper
      * @param int       $StepSize
      * @param int       $Digits
      */
-    protected function RegisterProfileFloatEx(string $Name, string $Icon, string $Prefix, string $Suffix, int|array $MinValueOrAssociations = -1, int $MaxValue = -1, int $StepSize = 0, int $Digits = 0): void
+    protected function RegisterProfileFloatEx(string $Name, string $Icon, string $Prefix, string $Suffix, float|array $MinValueOrAssociations = -1, float $MaxValue = -1, float $StepSize = 0, int $Digits = 0): void
     {
         $this->RegisterProfileEx(VARIABLETYPE_FLOAT, $Name, $Icon, $Prefix, $Suffix, $MinValueOrAssociations, $MaxValue, $StepSize, $Digits);
     }
@@ -135,9 +135,9 @@ trait VariableProfileHelper
      * @param string $Suffix                 Suffix für die Darstellung.
      * @param array  $MinValueOrAssociations Assoziationen der Werte als Array.
      */
-    protected function RegisterProfileEx(int $VarTyp, string $Name, string $Icon, string $Prefix, string $Suffix, int|array $MinValueOrAssociations = -1, int $MaxValue = -1, int $StepSize = 0, int $Digits = 0)
+    protected function RegisterProfileEx(int $VarTyp, string $Name, string $Icon, string $Prefix, string $Suffix, int|float|array $MinValueOrAssociations = -1, int|float $MaxValue = -1, int|float $StepSize = 0, int $Digits = 0)
     {
-        if (is_int($MinValueOrAssociations)) {
+        if (is_int($MinValueOrAssociations) || is_float($MinValueOrAssociations)) {
             $this->RegisterProfile($VarTyp, $Name, $Icon, $Prefix, $Suffix, $MinValueOrAssociations, $MaxValue, $StepSize, $Digits);
             return;
         }

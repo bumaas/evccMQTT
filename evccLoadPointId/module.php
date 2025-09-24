@@ -112,7 +112,7 @@ class evccLoadPointId extends IPSModuleStrict
         $this->RegisterProfileFloatEx('evcc.minCurrent', '', '', ' A',1, 16, 1);
         $this->RegisterProfileFloatEx('evcc.maxCurrent', '', '', ' A',1, 64, 1);
         $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', -1, -1, 0, 2);
-        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', -1, -1, 0, 3);
+        $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', -1, 1, 0.001, 3);
         $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', -1, -1, 0, 2);
         $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', 0, 100, 1, 1);
 
