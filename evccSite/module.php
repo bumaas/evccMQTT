@@ -57,6 +57,7 @@ class evccSite extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/');
 
         $this->RegisterProfileIntegerEx('evcc.Power', '', '', ' W');
+        $this->RegisterProfileFloatEx('evcc.ResidualPower', '', '', ' W', -1000, 1000, 10);
         $this->RegisterProfileStringEx('evcc.Battery.Mode', '', '', '', [
             ['unknown', $this->translate('unknown'), '', -1],
             ['normal', $this->translate('normal'), '', -1],
@@ -64,6 +65,7 @@ class evccSite extends IPSModuleStrict
 
         $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', -1, -1, 0, 1);
         $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', 0, 100, 1, 1);
+        $this->RegisterProfileFloatEx('evcc.Intensity.1', '', '', ' %', 0, 1, 0.001, 1);
         $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', -1, -1, 0, 2);
         $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', -1, -1, 0, 2);
         $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', -1, 1, 0.001, 3);
@@ -108,12 +110,12 @@ class evccSite extends IPSModuleStrict
         $this->RegisterVariableFloat(self::VAR_IDENT_BATTERYENERGY, $this->Translate('Battery Energy'), 'evcc.Energy.kWh', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_GRIDCURRENTS, $this->Translate('Grid Currents'), '', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_GRIDENERGY, $this->Translate('Grid Energy'), 'evcc.Energy.kWh', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_GREENSHAREHOME, $this->Translate('Green Share Home'), '~Intensity.1', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_GREENSHARELOADPOINTS, $this->Translate('Green Share Loadpoints'), '~Intensity.1', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_GREENSHAREHOME, $this->Translate('Green Share Home'), 'evcc.Intensity.1', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_GREENSHARELOADPOINTS, $this->Translate('Green Share Loadpoints'), 'evcc.Intensity.1', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_VERSION, $this->Translate('Version'), '', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_AVAILABLEVERSION, $this->Translate('Available Version'), '', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_SMARTCOSTTYPE, $this->Translate('Smart Cost Type'), '', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_RESIDUALPOWER, $this->Translate('Residual Power'), 'evcc.Power', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_RESIDUALPOWER, $this->Translate('Residual Power'), 'evcc.ResidualPower', ++$pos);
     }
 
 

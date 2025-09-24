@@ -23,7 +23,8 @@
             "Tariff Price Loadpoints": "Tarifpreis Ladepunkte",
             "Tariff CO2 Loadpoints": "Tarif CO2 Ladepunkte",
             "unknown": "unbekannt",
-            "normal": "normal"
+            "normal": "normal",
+            "Residual Power": "Sollarbeitspunkt Überschussregelung"
         }
     }
 }
