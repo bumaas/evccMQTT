@@ -1,0 +1,11 @@
+{
+    "translations": {
+        "de": {
+          "Title": "Titel 1",
+          "Off": "Aus",
+          "Only PV": "Nur PV",
+          "Min+PV": "Min+PV",
+          "Now": "Sofort"
+        }
+    }
+}

@@ -1,6 +1,21 @@
 <?php
 
 declare(strict_types=1);
+
+require_once dirname(__DIR__) . '/libs/Themes.php';
+
+use evccMQTT\Themes\LoadPointId;
+
+use evccMQTT\Themes\LoadPointVariableIdent;
+
+use const evccMQTT\Themes\IPS_PRESENTATION;
+use const evccMQTT\Themes\IPS_VAR_ACTION;
+use const evccMQTT\Themes\IPS_VAR_IDENT;
+use const evccMQTT\Themes\IPS_VAR_NAME;
+use const evccMQTT\Themes\IPS_VAR_TYPE;
+use const evccMQTT\Themes\IPS_VAR_VALUE;
+use const evccMQTT\Themes\IPS_VAR_POSITION;
+
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
@@ -106,11 +121,11 @@ class evccLoadPointId extends IPSModuleStrict
             ['disable', $this->translate('disable'), '', -1],
         ]);
         $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', -1, -1, 0, 1);
-        $this->RegisterProfileFloatEx('evcc.LimitEnergy.kWh', '', '', ' kWh',0, 100, 0, 1);
+        $this->RegisterProfileFloatEx('evcc.LimitEnergy.kWh', '', '', ' kWh', 0, 100, 0, 1);
         $this->RegisterProfileFloatEx('evcc.Energy.Wh', '', '', ' Wh', -1, -1, 0, 1);
         $this->RegisterProfileFloatEx('evcc.Current', '', '', ' A', -1, -1, 0, 1);
-        $this->RegisterProfileFloatEx('evcc.minCurrent', '', '', ' A',1, 16, 1);
-        $this->RegisterProfileFloatEx('evcc.maxCurrent', '', '', ' A',1, 64, 1);
+        $this->RegisterProfileFloatEx('evcc.minCurrent', '', '', ' A', 1, 16, 1);
+        $this->RegisterProfileFloatEx('evcc.maxCurrent', '', '', ' A', 1, 64, 1);
         $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', -1, -1, 0, 2);
         $this->RegisterProfileFloatEx('evcc.EUR.3', '', '', ' €', -1, 1, 0.001, 3);
         $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', -1, -1, 0, 2);
@@ -125,16 +140,61 @@ class evccLoadPointId extends IPSModuleStrict
         $pos = 0;
         //sorted like https://github.com/evcc-io/evcc/blob/master/assets/js/components/Loadpoint.vue
         //main
-        $this->RegisterVariableString(self::VAR_IDENT_TITLE, $this->Translate('Title'), '', ++$pos);
-        $this->RegisterVariableString(self::VAR_IDENT_MODE, $this->Translate('Mode'), 'evcc.Mode', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_LIMITSOC, $this->Translate(' Limit SoC'), 'evcc.Intensity.100', ++$pos);
-        $this->RegisterVariableInteger(
-            self::VAR_IDENT_EFFECTIVELIMITSOC,
-            self::TO_BE_CHECKED . $this->Translate('Effective Limit SoC'),
-            '~Battery.100',
-            ++$pos
-        );
-        $this->RegisterVariableFloat(self::VAR_IDENT_LIMITENERGY, $this->Translate('Limit Energy'), 'evcc.LimitEnergy.kWh', ++$pos);
+
+
+        foreach (LoadPointVariableIdent::idents() as $ident) {
+            $VariableValues = LoadPointId::getIPSVariable($ident);
+            $this->SendDebug(__FUNCTION__.'!!!!', sprintf('VariableValues: %s', print_r($VariableValues, true)), 0);
+
+            switch ($VariableValues[IPS_VAR_TYPE]) {
+                case VARIABLETYPE_INTEGER:
+                    $ret = $this->RegisterVariableInteger(
+                        $ident,
+                        self::TO_BE_CHECKED . $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_PRESENTATION],
+                        ++$pos,
+                    );
+                    break;
+                case VARIABLETYPE_FLOAT:
+                    $ret = $this->RegisterVariableFloat(
+                        $ident,
+                        self::TO_BE_CHECKED . $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_PRESENTATION],
+                        ++$pos,
+                    );
+
+                    break;
+                case VARIABLETYPE_STRING:
+                    $ret = $this->RegisterVariableString(
+                        $ident,
+                        self::TO_BE_CHECKED . $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_PRESENTATION],
+                        ++$pos,
+                    );
+                    break;
+                case VARIABLETYPE_BOOLEAN:
+                    $ret = $this->RegisterVariableBoolean(
+                        $ident,
+                        self::TO_BE_CHECKED . $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_PRESENTATION],
+                        ++$pos
+                    );
+                    break;
+            }
+
+            $this->SendDebug(__FUNCTION__.'!!!!', sprintf('ret: %s', (int) $ret), 0);
+            if ($VariableValues[IPS_VAR_ACTION]) {
+                $this->EnableAction($ident);
+            }
+        }
+
+
+        //$this->RegisterVariableString(self::VAR_IDENT_TITLE, $this->Translate('Title'), '', ++$pos);
+        //$this->RegisterVariableString(self::VAR_IDENT_MODE, $this->Translate('Mode'), 'evcc.Mode', ++$pos);
+        //$this->RegisterVariableFloat(self::VAR_IDENT_LIMITSOC, $this->Translate(' Limit SoC'), 'evcc.Intensity.100', ++$pos);
+        //$this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVELIMITSOC, self::TO_BE_CHECKED . $this->Translate('Effective Limit SoC'), '~Battery.100', ++$pos);
+        //$this->RegisterVariableFloat(self::VAR_IDENT_LIMITENERGY, $this->Translate('Limit Energy'), 'evcc.LimitEnergy.kWh', ++$pos);
+
         $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
 
@@ -249,7 +309,7 @@ class evccLoadPointId extends IPSModuleStrict
     private function enableActions(): void
     {
         // see listenLoadpointSetters in https://github.com/evcc-io/evcc/blob/master/server/mqtt.go
-        $this->EnableAction(self::VAR_IDENT_MODE);
+        //$this->EnableAction(self::VAR_IDENT_MODE);
         $this->EnableAction(self::VAR_IDENT_LIMITSOC);
         $this->EnableAction(self::VAR_IDENT_LIMITENERGY);
         $this->EnableAction(self::VAR_IDENT_MINCURRENT);
@@ -294,6 +354,7 @@ class evccLoadPointId extends IPSModuleStrict
         $data    = json_decode($JSONString, true, 512, JSON_THROW_ON_ERROR);
         $topic   = $data['Topic'];
         $payload = hex2bin($data['Payload']);
+
         $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s', $topic, $payload), 0);
 
         $topicActions = [
@@ -341,7 +402,7 @@ class evccLoadPointId extends IPSModuleStrict
             ),
             $MQTTTopic . self::VAR_IDENT_VEHICLERANGE                   => fn() => $this->SetValue(self::VAR_IDENT_VEHICLERANGE, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_ENABLED                        => fn() => $this->SetValue(self::VAR_IDENT_ENABLED, $payload === 'true'),
-            $MQTTTopic . self::VAR_IDENT_MODE                           => fn() => $this->SetValue(self::VAR_IDENT_MODE, (string)$payload),
+           // $MQTTTopic . self::VAR_IDENT_MODE                           => fn() => $this->SetValue(self::VAR_IDENT_MODE, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_PLANPROJECTEDSTART             => fn() => $this->SetValue(self::VAR_IDENT_PLANPROJECTEDSTART, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_PLANOVERRUN                    => fn() => $this->SetValue(self::VAR_IDENT_PLANOVERRUN, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_PHASESCONFIGURED               => fn() => $this->SetValue(self::VAR_IDENT_PHASESCONFIGURED, (int)$payload),
@@ -350,7 +411,7 @@ class evccLoadPointId extends IPSModuleStrict
             $MQTTTopic . self::VAR_IDENT_PVACTION                       => fn() => $this->SetValue(self::VAR_IDENT_PVACTION, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_PVREMAINING                    => fn() => $this->SetValue(self::VAR_IDENT_PVREMAINING, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_PLANACTIVE                     => fn() => $this->SetValue(self::VAR_IDENT_PLANACTIVE, $payload === 'true'),
-            $MQTTTopic . self::VAR_IDENT_LIMITSOC                       => fn() => $this->SetValue(self::VAR_IDENT_LIMITSOC, (float)$payload),
+            //$MQTTTopic . self::VAR_IDENT_LIMITSOC                       => fn() => $this->SetValue(self::VAR_IDENT_LIMITSOC, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_ENABLETHRESHOLD                => fn() => $this->SetValue(self::VAR_IDENT_ENABLETHRESHOLD, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_DISABLETHRESHOLD               => fn() => $this->SetValue(self::VAR_IDENT_DISABLETHRESHOLD, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_MINCURRENT                     => fn() => $this->SetValue(self::VAR_IDENT_MINCURRENT, (float)$payload),
@@ -371,7 +432,7 @@ class evccLoadPointId extends IPSModuleStrict
                 $payload === 'true'
             ),
             $MQTTTopic . self::VAR_IDENT_PRIORITY                       => fn() => $this->SetValue(self::VAR_IDENT_PRIORITY, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_TITLE                          => fn() => $this->SetValue(self::VAR_IDENT_TITLE, (string)$payload),
+            //$MQTTTopic . self::VAR_IDENT_TITLE                          => fn() => $this->SetValue(self::VAR_IDENT_TITLE, (string)$payload),
             $MQTTTopic . self::VAR_IDENT_VEHICLELIMITSOC                => fn() => $this->SetValue(self::VAR_IDENT_VEHICLELIMITSOC, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_PLANENERGY                     => fn() => $this->SetValue(self::VAR_IDENT_PLANENERGY, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_PHASEACTION                    => fn() => $this->SetValue(self::VAR_IDENT_PHASEACTION, (string)$payload),
@@ -397,6 +458,11 @@ class evccLoadPointId extends IPSModuleStrict
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $topic, 0);
         } elseif (array_key_exists($topic, $topicActions)) {
             $topicActions[$topic]();
+        } elseif (LoadPointId::propertyIsValid($lastElement)) {
+            $this->SendDebug(__FUNCTION__.'!!!!', sprintf('topic: %s, payload: %s',$topic, $payload), 0);
+            $VariableValues = LoadPointId::getIPSVariable($lastElement, $payload);
+            $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);
         }
@@ -428,9 +494,9 @@ class evccLoadPointId extends IPSModuleStrict
                 break;
         }
     }
+
     public function GetCompatibleParents(): string
     {
         return json_encode(['type' => 'connect', 'moduleIDs' => [self::MQTT_SERVER]], JSON_THROW_ON_ERROR);
     }
-
 }

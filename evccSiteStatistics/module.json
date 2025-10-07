@@ -1,0 +1,16 @@
+{
+  "id":                 "{B8C3C7E8-5F3C-4F2E-9B7D-3C1B8B1B6A9A}",
+  "name":               "evccSiteStatistics",
+  "type":               3,
+  "vendor":             "evcc",
+  "aliases":            ["evcc Statistikdaten"],
+  "parentRequirements": [
+    "{043EA491-0325-4ADD-8FC2-A30C8EEB4D3F}"
+  ],
+  "childRequirements":  [],
+  "implemented":        [
+    "{7F7632D9-FA40-4F38-8DEA-C83CD4325A32}"
+  ],
+  "prefix":             "EVCC",
+  "url":                "https://github.com/bumaas/evccMQTT/blob/master/README.md"
+}

@@ -1,0 +1,20 @@
+{
+  "translations": {
+    "de": {
+      "MQTT Topic": "MQTT Topic",
+      "Scope": "Zeitraum",
+      "avgCo2": "Durchschnitt CO2",
+      "avgPrice": "Durchschnitt Preis",
+      "chargedKWh": "Geladene Energie",
+      "solarPercentage": "Solar-Anteil"
+    },
+    "en": {
+      "MQTT Topic": "MQTT Topic",
+      "Scope": "Scope",
+      "avgCo2": "Average CO2",
+      "avgPrice": "Average Price",
+      "chargedKWh": "Charged Energy",
+      "solarPercentage": "Solar Percentage"
+    }
+  }
+}

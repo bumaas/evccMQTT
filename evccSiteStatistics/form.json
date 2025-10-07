@@ -1,0 +1,25 @@
+{
+  "elements": [
+    {
+      "name": "topic",
+      "type": "ValidationTextBox",
+      "caption": "MQTT Topic"
+    },
+    {
+      "type": "Select",
+      "name": "scope",
+      "caption": "Scope",
+      "options": [
+        { "caption": "30d", "value": "30d" },
+        { "caption": "365d", "value": "365d" },
+        { "caption": "thisYear", "value": "thisYear" },
+        { "caption": "total", "value": "total" }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "TestCenter"
+    }
+  ]
+}
