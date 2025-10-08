@@ -40,11 +40,6 @@ class evccSiteStatistics extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/statistics/');
         $this->RegisterPropertyString(self::PROP_SCOPE, 'total');
 
-        $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', -1, -1, 0, 2);
-        $this->RegisterProfileFloatEx('evcc.Intensity.100', '', '', ' %', 0, 100, 0.001, 3);
-        $this->RegisterProfileFloatEx('evcc.EUR', '', '', ' €', -1, -1, 0, 4);
-        $this->RegisterProfileFloatEx('evcc.g', '', '', ' g', -1, -1, 0, 3);
-
         $this->registerVariables();
     }
 
@@ -62,7 +57,7 @@ class evccSiteStatistics extends IPSModuleStrict
             switch ($VariableValues[IPS_VAR_TYPE]) {
                 case VARIABLETYPE_INTEGER:
                     $ret = $this->RegisterVariableInteger(
-                        $ident,
+                        $VariableValues[IPS_VAR_IDENT],
                         $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
                         $VariableValues[IPS_VAR_POSITION],
@@ -70,7 +65,7 @@ class evccSiteStatistics extends IPSModuleStrict
                     break;
                 case VARIABLETYPE_FLOAT:
                     $ret = $this->RegisterVariableFloat(
-                        $ident,
+                        $VariableValues[IPS_VAR_IDENT],
                         $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
                         $VariableValues[IPS_VAR_POSITION],
@@ -79,7 +74,7 @@ class evccSiteStatistics extends IPSModuleStrict
                     break;
                 case VARIABLETYPE_STRING:
                     $ret = $this->RegisterVariableString(
-                        $ident,
+                        $VariableValues[IPS_VAR_IDENT],
                         $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
                         $VariableValues[IPS_VAR_POSITION],
@@ -87,7 +82,7 @@ class evccSiteStatistics extends IPSModuleStrict
                     break;
                 case VARIABLETYPE_BOOLEAN:
                     $ret = $this->RegisterVariableBoolean(
-                        $ident,
+                        $VariableValues[IPS_VAR_IDENT],
                         $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
                         $VariableValues[IPS_VAR_POSITION],

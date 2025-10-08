@@ -36,7 +36,7 @@ class evccLoadPointId extends IPSModuleStrict
     private const string VAR_IDENT_SESSIONPRICE                   = 'sessionPrice';
     private const string VAR_IDENT_SESSIONCO2PERKWH               = 'sessionCo2PerKWh';
     private const string VAR_IDENT_CHARGEDENERGY                  = 'chargedEnergy';
-    private const string VAR_IDENT_CHARGEDURATION                 = 'chargeDuration';
+    //private const string VAR_IDENT_CHARGEDURATION                 = 'chargeDuration';
     private const string VAR_IDENT_EFFECTIVEPRIORITY              = 'effectivePriority';
     private const string VAR_IDENT_EFFECTIVEPLANTIME              = 'effectivePlanTime';
     private const string VAR_IDENT_EFFECTIVEPLANSOC               = 'effectivePlanSoc';
@@ -66,7 +66,7 @@ class evccLoadPointId extends IPSModuleStrict
     private const string VAR_IDENT_PLANENERGY                     = 'planEnergy';
     private const string VAR_IDENT_VEHICLELIMITSOC                = 'vehicleLimitSoc';
     private const string VAR_IDENT_LIMITSOC                       = 'limitSoc';
-    private const string VAR_IDENT_TITLE                          = 'title';
+    //private const string VAR_IDENT_TITLE                          = 'title';
     private const string VAR_IDENT_PRIORITY                       = 'priority';
     private const string VAR_IDENT_ENABLETHRESHOLD                = 'enableThreshold';
     private const string VAR_IDENT_DISABLETHRESHOLD               = 'disableThreshold';
@@ -149,16 +149,16 @@ class evccLoadPointId extends IPSModuleStrict
             switch ($VariableValues[IPS_VAR_TYPE]) {
                 case VARIABLETYPE_INTEGER:
                     $ret = $this->RegisterVariableInteger(
-                        $ident,
-                        self::TO_BE_CHECKED . $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_VAR_IDENT],
+                        $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
                         ++$pos,
                     );
                     break;
                 case VARIABLETYPE_FLOAT:
                     $ret = $this->RegisterVariableFloat(
-                        $ident,
-                        self::TO_BE_CHECKED . $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_VAR_IDENT],
+                        $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
                         ++$pos,
                     );
@@ -166,16 +166,16 @@ class evccLoadPointId extends IPSModuleStrict
                     break;
                 case VARIABLETYPE_STRING:
                     $ret = $this->RegisterVariableString(
-                        $ident,
-                        self::TO_BE_CHECKED . $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_VAR_IDENT],
+                        $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
                         ++$pos,
                     );
                     break;
                 case VARIABLETYPE_BOOLEAN:
                     $ret = $this->RegisterVariableBoolean(
-                        $ident,
-                        self::TO_BE_CHECKED . $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_VAR_IDENT],
+                        $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
                         ++$pos
                     );
@@ -194,8 +194,8 @@ class evccLoadPointId extends IPSModuleStrict
         //$this->RegisterVariableFloat(self::VAR_IDENT_LIMITSOC, $this->Translate(' Limit SoC'), 'evcc.Intensity.100', ++$pos);
         //$this->RegisterVariableInteger(self::VAR_IDENT_EFFECTIVELIMITSOC, self::TO_BE_CHECKED . $this->Translate('Effective Limit SoC'), '~Battery.100', ++$pos);
         //$this->RegisterVariableFloat(self::VAR_IDENT_LIMITENERGY, $this->Translate('Limit Energy'), 'evcc.LimitEnergy.kWh', ++$pos);
+        //$this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '', ++$pos);
 
-        $this->RegisterVariableInteger(self::VAR_IDENT_CHARGEDURATION, $this->Translate('Charge Duration'), '', ++$pos);
         $this->RegisterVariableBoolean(self::VAR_IDENT_CHARGING, $this->Translate('Charging'), '~Switch', ++$pos);
 
         //session
@@ -376,7 +376,7 @@ class evccLoadPointId extends IPSModuleStrict
             $MQTTTopic . self::VAR_IDENT_SESSIONPRICE                   => fn() => $this->SetValue(self::VAR_IDENT_SESSIONPRICE, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_SESSIONCO2PERKWH               => fn() => $this->SetValue(self::VAR_IDENT_SESSIONCO2PERKWH, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_CHARGEDENERGY                  => fn() => $this->SetValue(self::VAR_IDENT_CHARGEDENERGY, (float)$payload),
-            $MQTTTopic . self::VAR_IDENT_CHARGEDURATION                 => fn() => $this->SetValue(self::VAR_IDENT_CHARGEDURATION, (int)$payload),
+            //$MQTTTopic . self::VAR_IDENT_CHARGEDURATION                 => fn() => $this->SetValue(self::VAR_IDENT_CHARGEDURATION, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_EFFECTIVEPRIORITY              => fn() => $this->SetValue(self::VAR_IDENT_EFFECTIVEPRIORITY, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_EFFECTIVEPLANTIME              => fn() => $this->SetValue(self::VAR_IDENT_EFFECTIVEPLANTIME, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_EFFECTIVEMINCURRENT            => fn() => $this->SetValue(

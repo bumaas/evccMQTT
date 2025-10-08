@@ -169,6 +169,7 @@ namespace evccMQTT\Themes {
         case LimitSoc = 'limitSoc';
         case EffectiveLimitSoc = 'effectiveLimitSoc';
         case LimitEnergy = 'limitEnergy';
+        case ChargeDuration = 'chargeDuration';
 
         public static function idents(): array {
             // Gibt ein Array von Strings (den Enum-Backing-Values) zurück
@@ -196,21 +197,29 @@ namespace evccMQTT\Themes {
                             'Value'      => 'off',
                             'Caption'    => 'Off',
                             'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
                         ],
                         [
                             'Value'      => 'pv',
                             'Caption'    => 'Only PV',
                             'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
                         ],
                         [
                             'Value'      => 'minpv',
                             'Caption'    => 'Min + PV',
                             'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
                         ],
                         [
                             'Value'      => 'now',
                             'Caption'    => 'Now',
                             'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
                         ]
                     ]
                 ],
@@ -249,6 +258,17 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Limit Energy',
+                IPS_VAR_POSITION => 5
+            ],
+            LoadPointVariableIdent::ChargeDuration->value       => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_DURATION,
+                    'COUNTDOWN_TYPE' => 0,
+                    'FORMAT' => 3
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Charge Duration',
                 IPS_VAR_POSITION => 5
             ]
         ];
