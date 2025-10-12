@@ -187,7 +187,7 @@ namespace evccMQTT\Themes {
         case SessionSolarPercentage = 'sessionSolarPercentage';
         case ChargerFeatureIntegratedDevice = 'chargerFeatureIntegratedDevice';
         case ChargerFeatureHeating = 'chargerFeatureHeating';
-        case ChargerFeature1p3p = 'chargerFeature1p3p';
+        case ChargerPhases1p3p = 'chargerPhases1p3p';
         case Connected = 'connected';
         case Enabled = 'enabled';
         case VehicleDetectionActive = 'vehicleDetectionActive';
@@ -375,13 +375,13 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charger Feature Heating',
                 IPS_VAR_POSITION => 14
             ],
-            LoadPointVariableIdent::ChargerFeature1p3p->value       => [
+            LoadPointVariableIdent::ChargerPhases1p3p->value       => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
-                IPS_VAR_NAME     => 'Charger Feature 1P3P',
+                IPS_VAR_NAME     => 'Charger Phases 1P3P',
                 IPS_VAR_POSITION => 15
             ],
             LoadPointVariableIdent::Connected->value       => [
