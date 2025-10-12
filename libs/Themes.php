@@ -80,13 +80,21 @@ namespace evccMQTT\Themes {
         {
             $result[IPS_VAR_TYPE] = static::getIPSVarType($property);
             $factor               = static::$properties[$property][IPS_VAR_FACTOR] ?? 1;
-            if (!is_null($value)){
+            if (!is_null($value)) {
                 switch ($result[IPS_VAR_TYPE]) {
                     case VARIABLETYPE_FLOAT:
-                        $result[IPS_VAR_VALUE] = $value / $factor;
+                        if (is_numeric($value)) {
+                            $result[IPS_VAR_VALUE] = (float) $value / $factor;
+                        } else {
+                            $result[IPS_VAR_VALUE] = null;
+                        }
                         break;
                     case VARIABLETYPE_INTEGER:
-                        $result[IPS_VAR_VALUE] = (int)($value / $factor);
+                        if (is_numeric($value)) {
+                            $result[IPS_VAR_VALUE] = (int)($value / $factor);
+                        } else {
+                            $result[IPS_VAR_VALUE] = null;
+                        }
                         break;
                     default:
                         if (isset(static::$properties[$property]['enum'])) {
@@ -163,15 +171,29 @@ namespace evccMQTT\Themes {
         }
 
     }
-    enum LoadPointVariableIdent: string {
+    enum LoadPointVariableIdent: string
+    {
         case Title = 'title';
         case Mode = 'mode';
         case LimitSoc = 'limitSoc';
         case EffectiveLimitSoc = 'effectiveLimitSoc';
         case LimitEnergy = 'limitEnergy';
         case ChargeDuration = 'chargeDuration';
+        case Charging = 'charging';
+        case SessionEnergy = 'sessionEnergy';
+        case SessionCo2PerKWh = 'sessionCo2PerKWh';
+        case SessionPricePerKWh = 'sessionPricePerKWh';
+        case SessionPrice = 'sessionPrice';
+        case SessionSolarPercentage = 'sessionSolarPercentage';
+        case ChargerFeatureIntegratedDevice = 'chargerFeatureIntegratedDevice';
+        case ChargerFeatureHeating = 'chargerFeatureHeating';
+        case ChargerFeature1p3p = 'chargerFeature1p3p';
+        case Connected = 'connected';
+        case Enabled = 'enabled';
+        case VehicleDetectionActive = 'vehicleDetectionActive';
 
-        public static function idents(): array {
+        public static function idents(): array
+        {
             // Gibt ein Array von Strings (den Enum-Backing-Values) zurück
             return array_map(static fn(self $c): string => $c->value, self::cases());
         }
@@ -179,7 +201,7 @@ namespace evccMQTT\Themes {
     class LoadPointId extends ThemeBasics
     {
         protected static array $properties = [
-            LoadPointVariableIdent::Title->value             => [
+            LoadPointVariableIdent::Title->value              => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION
@@ -188,7 +210,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Title',
                 IPS_VAR_POSITION => 1
             ],
-            LoadPointVariableIdent::Mode->value              => [
+            LoadPointVariableIdent::Mode->value               => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
@@ -228,7 +250,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Mode',
                 IPS_VAR_POSITION => 2
             ],
-            LoadPointVariableIdent::LimitSoc->value          => [
+            LoadPointVariableIdent::LimitSoc->value           => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
@@ -239,7 +261,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Limit SoC',
                 IPS_VAR_POSITION => 3
             ],
-            LoadPointVariableIdent::EffectiveLimitSoc->value => [
+            LoadPointVariableIdent::EffectiveLimitSoc->value  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -249,7 +271,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Effective Limit SoC',
                 IPS_VAR_POSITION => 4
             ],
-            LoadPointVariableIdent::LimitEnergy->value       => [
+            LoadPointVariableIdent::LimitEnergy->value        => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
@@ -260,26 +282,146 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Limit Energy',
                 IPS_VAR_POSITION => 5
             ],
-            LoadPointVariableIdent::ChargeDuration->value       => [
+            LoadPointVariableIdent::ChargeDuration->value     => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_DURATION,
+                    'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
                     'COUNTDOWN_TYPE' => 0,
-                    'FORMAT' => 3
+                    'FORMAT'         => 3
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Charge Duration',
-                IPS_VAR_POSITION => 5
-            ]
+                IPS_VAR_POSITION => 6
+            ],
+            LoadPointVariableIdent::Charging->value           => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Charging',
+                IPS_VAR_POSITION => 7
+            ],
+            LoadPointVariableIdent::SessionEnergy->value      => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' Wh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Session Energy',
+                IPS_VAR_POSITION => 8
+            ],
+            LoadPointVariableIdent::SessionCo2PerKWh->value   => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 2,
+                    'SUFFIX'       => ' gCO₂e',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Session CO₂ per kWh',
+                IPS_VAR_POSITION => 9
+            ],
+            LoadPointVariableIdent::SessionPricePerKWh->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 2,
+                    'SUFFIX'       => ' €',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Session Price per kWh',
+                IPS_VAR_POSITION => 10
+            ],
+            LoadPointVariableIdent::SessionPrice->value       => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 2,
+                    'SUFFIX'       => ' €',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Session Price',
+                IPS_VAR_POSITION => 11
+            ],
+            LoadPointVariableIdent::SessionSolarPercentage->value       => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' %',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Session Solar Percentage',
+                IPS_VAR_POSITION => 12
+            ],
+            LoadPointVariableIdent::ChargerFeatureIntegratedDevice->value       => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Integrated Device',
+                IPS_VAR_POSITION => 13
+            ],
+            LoadPointVariableIdent::ChargerFeatureHeating->value       => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Charger Feature Heating',
+                IPS_VAR_POSITION => 14
+            ],
+            LoadPointVariableIdent::ChargerFeature1p3p->value       => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Charger Feature 1P3P',
+                IPS_VAR_POSITION => 15
+            ],
+            LoadPointVariableIdent::Connected->value       => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Connected',
+                IPS_VAR_POSITION => 16
+            ],
+            LoadPointVariableIdent::Enabled->value       => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Enabled',
+                IPS_VAR_POSITION => 17
+            ],
+            LoadPointVariableIdent::VehicleDetectionActive->value       => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Vehicle Detection Active',
+                IPS_VAR_POSITION => 18
+            ],
         ];
     }
-    enum SiteStatisticsIdent: string {
+    enum SiteStatisticsIdent: string
+    {
         case AvgCo2 = 'avgCo2';
         case AvgPrice = 'avgPrice';
         case ChargedKWh = 'chargedKWh';
         case SolarPercentage = 'solarPercentage';
 
-        public static function idents(): array {
+        public static function idents(): array
+        {
             // Gibt ein Array von Strings (den Enum-Backing-Values) zurück
             return array_map(static fn(self $c): string => $c->value, self::cases());
         }
@@ -287,18 +429,18 @@ namespace evccMQTT\Themes {
     class SiteStatistics extends ThemeBasics
     {
         protected static array $properties = [
-            SiteStatisticsIdent::AvgCo2->value             => [
+            SiteStatisticsIdent::AvgCo2->value          => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 1,
-                    'SUFFIX'       => ' g/kWh',
+                    'SUFFIX'       => ' gCO₂e/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'avgCo2',
                 IPS_VAR_POSITION => 1
             ],
-            SiteStatisticsIdent::AvgPrice->value              => [
+            SiteStatisticsIdent::AvgPrice->value        => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -309,7 +451,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'avgPrice',
                 IPS_VAR_POSITION => 2
             ],
-            SiteStatisticsIdent::ChargedKWh->value          => [
+            SiteStatisticsIdent::ChargedKWh->value      => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,

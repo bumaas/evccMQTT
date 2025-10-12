@@ -99,11 +99,11 @@ class evccSite extends IPSModuleStrict
         $this->RegisterVariableString(self::VAR_IDENT_CURRENCY, $this->Translate('Currency'), '', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFFEEDIN, $this->Translate('Tariff Feed In'), 'evcc.EUR', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFGRID, $this->Translate('Tariff Grid'), 'evcc.EUR', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFCO2, $this->Translate('Tariff CO2'), 'evcc.g', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFCO2, $this->Translate('Tariff CO₂'), 'evcc.g', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFPRICEHOME, $this->Translate('Tariff Price Home'), 'evcc.EUR', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFCO2HOME, $this->Translate('Tariff CO2 Home'), 'evcc.g', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFCO2HOME, $this->Translate('Tariff CO₂ Home'), 'evcc.g', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFPRICELOADPOINTS, $this->Translate('Tariff Price Loadpoints'), 'evcc.EUR', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFCO2LOADPOINTS, $this->Translate('Tariff CO2 Loadpoints'), 'evcc.g', ++$pos);
+        $this->RegisterVariableFloat(self::VAR_IDENT_TARIFFCO2LOADPOINTS, $this->Translate('Tariff CO₂ Loadpoints'), 'evcc.g', ++$pos);
 
         $this->RegisterVariableFloat(self::VAR_IDENT_PVENERGY, $this->Translate('PV Energy'), 'evcc.Energy.kWh', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_BATTERYCAPACITY, $this->Translate('Battery Capacity'), 'evcc.Energy.kWh', ++$pos);

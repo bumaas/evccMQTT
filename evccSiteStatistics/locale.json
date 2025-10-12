@@ -3,7 +3,7 @@
     "de": {
       "MQTT Topic": "MQTT Topic",
       "Scope": "Zeitraum",
-      "avgCo2": "Durchschnitt CO2",
+      "avgCo2": "Durchschnitt CO₂",
       "avgPrice": "Durchschnitt Preis",
       "chargedKWh": "Geladene Energie",
       "solarPercentage": "Solar-Anteil"
@@ -11,7 +11,7 @@
     "en": {
       "MQTT Topic": "MQTT Topic",
       "Scope": "Scope",
-      "avgCo2": "Average CO2",
+      "avgCo2": "Average CO₂",
       "avgPrice": "Average Price",
       "chargedKWh": "Charged Energy",
       "solarPercentage": "Solar Percentage"
