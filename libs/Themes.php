@@ -84,7 +84,7 @@ namespace evccMQTT\Themes {
                 switch ($result[IPS_VAR_TYPE]) {
                     case VARIABLETYPE_FLOAT:
                         if (is_numeric($value)) {
-                            $result[IPS_VAR_VALUE] = (float) $value / $factor;
+                            $result[IPS_VAR_VALUE] = (float)$value / $factor;
                         } else {
                             $result[IPS_VAR_VALUE] = null;
                         }
@@ -191,6 +191,38 @@ namespace evccMQTT\Themes {
         case Connected = 'connected';
         case Enabled = 'enabled';
         case VehicleDetectionActive = 'vehicleDetectionActive';
+        case VehicleRange = 'vehicleRange';
+        case VehicleSoc = 'vehicleSoc';
+        case VehicleName = 'vehicleName';
+        case VehicleLimitSoc = 'vehicleLimitSoc';
+        case VehicleOdometer = 'vehicleOdometer';
+        case PlanActive = 'planActive';
+        case PlanProjectedStart = 'planProjectedStart';
+        case PlanProjectedEnd = 'planProjectedEnd';
+        case PlanOverrun = 'planOverrun';
+        case PlanEnergy = 'planEnergy';
+        case EffectivePlanTime = 'effectivePlanTime';
+        case EffectivePlanSoc = 'effectivePlanSoc';
+        case ChargePower = 'chargePower';
+        case ChargeCurrent = 'chargeCurrent';
+        case ChargedEnergy = 'chargedEnergy';
+        case ChargeRemainingDuration = 'chargeRemainingDuration';
+        case ChargeRemainingEnergy = 'chargeRemainingEnergy';
+        case PhasesConfigured = 'phasesConfigured';
+        case PhasesActive = 'phasesActive';
+        case PhaseAction = 'phaseAction';
+        case MinCurrent = 'minCurrent';
+        case MaxCurrent = 'maxCurrent';
+        case ConnectedDuration = 'connectedDuration';
+        case PhaseRemaining = 'phaseRemaining';
+        case PvRemaining = 'pvRemaining';
+        case PvAction = 'pvAction';
+        case SmartCostActive = 'smartCostActive';
+        case SmartCostLimit = 'smartCostLimit';
+        case Priority = 'Priority';
+        case EnableThreshold = 'enableThreshold';
+        case DisableThreshold = 'disableThreshold';
+
 
         public static function idents(): array
         {
@@ -201,7 +233,7 @@ namespace evccMQTT\Themes {
     class LoadPointId extends ThemeBasics
     {
         protected static array $properties = [
-            LoadPointVariableIdent::Title->value              => [
+            LoadPointVariableIdent::Title->value                          => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION
@@ -210,7 +242,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Title',
                 IPS_VAR_POSITION => 1
             ],
-            LoadPointVariableIdent::Mode->value               => [
+            LoadPointVariableIdent::Mode->value                           => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
@@ -250,7 +282,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Mode',
                 IPS_VAR_POSITION => 2
             ],
-            LoadPointVariableIdent::LimitSoc->value           => [
+            LoadPointVariableIdent::LimitSoc->value                       => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
@@ -261,7 +293,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Limit SoC',
                 IPS_VAR_POSITION => 3
             ],
-            LoadPointVariableIdent::EffectiveLimitSoc->value  => [
+            LoadPointVariableIdent::EffectiveLimitSoc->value              => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -271,7 +303,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Effective Limit SoC',
                 IPS_VAR_POSITION => 4
             ],
-            LoadPointVariableIdent::LimitEnergy->value        => [
+            LoadPointVariableIdent::LimitEnergy->value                    => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
@@ -282,7 +314,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Limit Energy',
                 IPS_VAR_POSITION => 5
             ],
-            LoadPointVariableIdent::ChargeDuration->value     => [
+            LoadPointVariableIdent::ChargeDuration->value                 => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
@@ -293,7 +325,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charge Duration',
                 IPS_VAR_POSITION => 6
             ],
-            LoadPointVariableIdent::Charging->value           => [
+            LoadPointVariableIdent::Charging->value                       => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -302,7 +334,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charging',
                 IPS_VAR_POSITION => 7
             ],
-            LoadPointVariableIdent::SessionEnergy->value      => [
+            LoadPointVariableIdent::SessionEnergy->value                  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -313,7 +345,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session Energy',
                 IPS_VAR_POSITION => 8
             ],
-            LoadPointVariableIdent::SessionCo2PerKWh->value   => [
+            LoadPointVariableIdent::SessionCo2PerKWh->value               => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -324,7 +356,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session CO₂ per kWh',
                 IPS_VAR_POSITION => 9
             ],
-            LoadPointVariableIdent::SessionPricePerKWh->value => [
+            LoadPointVariableIdent::SessionPricePerKWh->value             => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -335,7 +367,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session Price per kWh',
                 IPS_VAR_POSITION => 10
             ],
-            LoadPointVariableIdent::SessionPrice->value       => [
+            LoadPointVariableIdent::SessionPrice->value                   => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -346,7 +378,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session Price',
                 IPS_VAR_POSITION => 11
             ],
-            LoadPointVariableIdent::SessionSolarPercentage->value       => [
+            LoadPointVariableIdent::SessionSolarPercentage->value         => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -357,7 +389,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session Solar Percentage',
                 IPS_VAR_POSITION => 12
             ],
-            LoadPointVariableIdent::ChargerFeatureIntegratedDevice->value       => [
+            LoadPointVariableIdent::ChargerFeatureIntegratedDevice->value => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -366,7 +398,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Integrated Device',
                 IPS_VAR_POSITION => 13
             ],
-            LoadPointVariableIdent::ChargerFeatureHeating->value       => [
+            LoadPointVariableIdent::ChargerFeatureHeating->value          => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -375,7 +407,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charger Feature Heating',
                 IPS_VAR_POSITION => 14
             ],
-            LoadPointVariableIdent::ChargerPhases1p3p->value       => [
+            LoadPointVariableIdent::ChargerPhases1p3p->value              => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -384,7 +416,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charger Phases 1P3P',
                 IPS_VAR_POSITION => 15
             ],
-            LoadPointVariableIdent::Connected->value       => [
+            LoadPointVariableIdent::Connected->value                      => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -393,7 +425,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Connected',
                 IPS_VAR_POSITION => 16
             ],
-            LoadPointVariableIdent::Enabled->value       => [
+            LoadPointVariableIdent::Enabled->value                        => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -402,7 +434,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Enabled',
                 IPS_VAR_POSITION => 17
             ],
-            LoadPointVariableIdent::VehicleDetectionActive->value       => [
+            LoadPointVariableIdent::VehicleDetectionActive->value         => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -410,6 +442,355 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
                 IPS_VAR_NAME     => 'Vehicle Detection Active',
                 IPS_VAR_POSITION => 18
+            ],
+            LoadPointVariableIdent::VehicleRange->value                   => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' km',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Vehicle Range',
+                IPS_VAR_POSITION => 19
+            ],
+            LoadPointVariableIdent::VehicleSoc->value                     => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' %',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Vehicle SoC',
+                IPS_VAR_POSITION => 20
+            ],
+            LoadPointVariableIdent::VehicleName->value                    => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Vehicle Name',
+                IPS_VAR_POSITION => 21
+            ],
+            LoadPointVariableIdent::VehicleLimitSoc->value                => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' %',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Vehicle Limit SoC',
+                IPS_VAR_POSITION => 22
+            ],
+            LoadPointVariableIdent::VehicleOdometer->value                => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' km',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Vehicle Odometer',
+                IPS_VAR_POSITION => 23
+            ],
+            LoadPointVariableIdent::PlanActive->value                     => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Plan Active',
+                IPS_VAR_POSITION => 24
+            ],
+            LoadPointVariableIdent::PlanProjectedStart->value             => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_DATE_TIME,
+                    'DATE'         => 2,
+                    'MONTH_TEXT'   => false,
+                    'TIME'         => 1
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Plan Projected Start',
+                IPS_VAR_POSITION => 25
+            ],
+            LoadPointVariableIdent::PlanProjectedEnd->value               => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_DATE_TIME,
+                    'DATE'         => 2,
+                    'MONTH_TEXT'   => false,
+                    'TIME'         => 1
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Plan Projected End',
+                IPS_VAR_POSITION => 26
+            ],
+            LoadPointVariableIdent::PlanOverrun->value                    => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Plan Overrun',
+                IPS_VAR_POSITION => 27
+            ],
+            LoadPointVariableIdent::PlanEnergy->value                     => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' kWh',
+                    'DIGITS'       => 1
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Plan Energy',
+                IPS_VAR_POSITION => 28
+            ],
+            LoadPointVariableIdent::EffectivePlanTime->value              => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_DATE_TIME,
+                    'DATE'         => 2,
+                    'MONTH_TEXT'   => false,
+                    'TIME'         => 1
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Effective Plantime',
+                IPS_VAR_POSITION => 29
+            ],
+            LoadPointVariableIdent::EffectivePlanSoc->value               => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' %',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Effective Plan SoC',
+                IPS_VAR_POSITION => 30
+            ],
+            LoadPointVariableIdent::ChargePower->value                    => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' W',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Charge Power',
+                IPS_VAR_POSITION => 31
+            ],
+            LoadPointVariableIdent::ChargeCurrent->value                  => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' W',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Charge Current',
+                IPS_VAR_POSITION => 32
+            ],
+            LoadPointVariableIdent::ChargedEnergy->value                  => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' Wh',
+                    'DIGITS'       => 1
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Charged Energy',
+                IPS_VAR_POSITION => 33
+            ],
+            LoadPointVariableIdent::ChargeRemainingDuration->value        => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
+                    'COUNTDOWN_TYPE' => 0,
+                    'FORMAT'         => 3
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Charge remaining Duration',
+                IPS_VAR_POSITION => 34
+            ],
+            LoadPointVariableIdent::ChargeRemainingEnergy->value          => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' Wh',
+                    'DIGITS'       => 1
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Charge remaining Energy',
+                IPS_VAR_POSITION => 34
+            ],
+            LoadPointVariableIdent::PhasesConfigured->value               => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
+                    'OPTIONS'      => [
+                        [
+                            'Value'      => 0,
+                            'Caption'    => 'auto',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 1,
+                            'Caption'    => '1',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 3,
+                            'Caption'    => '3',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ]
+                    ]
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Phases Configured',
+                IPS_VAR_POSITION => 36
+            ],
+            LoadPointVariableIdent::PhaseAction->value                    => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Phase Action',
+                IPS_VAR_POSITION => 37
+            ],
+            LoadPointVariableIdent::PhasesActive->value                   => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Phases Active',
+                IPS_VAR_POSITION => 38
+            ],
+            LoadPointVariableIdent::MinCurrent->value                     => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
+                    'SUFFIX'       => ' A',
+                    'MIN'          => '1',
+                    'MAX'          => '16',
+                    'STEP_SIZE'    => '1',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Min Current',
+                IPS_VAR_POSITION => 39
+            ],
+            LoadPointVariableIdent::MaxCurrent->value                     => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
+                    'SUFFIX'       => ' A',
+                    'MIN'          => '1',
+                    'MAX'          => '16',
+                    'STEP_SIZE'    => '1',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Max Current',
+                IPS_VAR_POSITION => 40
+            ],
+            LoadPointVariableIdent::ConnectedDuration->value              => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
+                    'COUNTDOWN_TYPE' => 0,
+                    'FORMAT'         => 3
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Connected Duration',
+                IPS_VAR_POSITION => 41
+            ],
+            LoadPointVariableIdent::PhaseRemaining->value                 => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
+                    'COUNTDOWN_TYPE' => 0,
+                    'FORMAT'         => 1
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Phase Remaining',
+                IPS_VAR_POSITION => 42
+            ],
+            LoadPointVariableIdent::PvRemaining->value                    => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
+                    'COUNTDOWN_TYPE' => 0,
+                    'FORMAT'         => 3
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'PV Remaining',
+                IPS_VAR_POSITION => 43
+            ],
+            LoadPointVariableIdent::PvAction->value                       => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'PV Action',
+                IPS_VAR_POSITION => 44
+            ],
+            LoadPointVariableIdent::SmartCostActive->value                => [
+                'type'           => 'bool',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Smart Cost Active',
+                IPS_VAR_POSITION => 45
+            ],
+            LoadPointVariableIdent::SmartCostLimit->value                 => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 3,
+                    'SUFFIX'       => ' €',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Smart Cost Limit',
+                IPS_VAR_POSITION => 46
+            ],
+            LoadPointVariableIdent::Priority->value                       => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Priority',
+                IPS_VAR_POSITION => 47
+            ],
+            LoadPointVariableIdent::EnableThreshold->value                => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' W',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Enable Threshold',
+                IPS_VAR_POSITION => 48
+            ],
+            LoadPointVariableIdent::DisableThreshold->value               => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' W',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Disable Threshold',
+                IPS_VAR_POSITION => 49
             ],
         ];
     }
