@@ -209,10 +209,13 @@ namespace evccMQTT\Themes {
         case ChargeRemainingDuration = 'chargeRemainingDuration';
         case ChargeRemainingEnergy = 'chargeRemainingEnergy';
         case PhasesConfigured = 'phasesConfigured';
+        case PhasesEnabled = 'phasesEnabled';
         case PhasesActive = 'phasesActive';
         case PhaseAction = 'phaseAction';
         case MinCurrent = 'minCurrent';
         case MaxCurrent = 'maxCurrent';
+        case EffectiveMinCurrent = 'effectiveMinCurrent';
+        case EffectiveMaxCurrent = 'effectiveMaxCurrent';
         case ConnectedDuration = 'connectedDuration';
         case PhaseRemaining = 'phaseRemaining';
         case PvRemaining = 'pvRemaining';
@@ -220,6 +223,7 @@ namespace evccMQTT\Themes {
         case SmartCostActive = 'smartCostActive';
         case SmartCostLimit = 'smartCostLimit';
         case Priority = 'Priority';
+        case effectivePriority = 'effectivePriority';
         case EnableThreshold = 'enableThreshold';
         case DisableThreshold = 'disableThreshold';
 
@@ -653,6 +657,38 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Phases Configured',
                 IPS_VAR_POSITION => 36
             ],
+            LoadPointVariableIdent::PhasesEnabled->value               => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
+                    'OPTIONS'      => [
+                        [
+                            'Value'      => 0,
+                            'Caption'    => 'auto',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 1,
+                            'Caption'    => '1',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 3,
+                            'Caption'    => '3',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ]
+                    ]
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Phases Enabled',
+                IPS_VAR_POSITION => 37
+            ],
             LoadPointVariableIdent::PhaseAction->value                    => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
@@ -660,7 +696,7 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_STRING,
                 IPS_VAR_NAME     => 'Phase Action',
-                IPS_VAR_POSITION => 37
+                IPS_VAR_POSITION => 38
             ],
             LoadPointVariableIdent::PhasesActive->value                   => [
                 'type'           => 'number',
@@ -669,7 +705,7 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Phases Active',
-                IPS_VAR_POSITION => 38
+                IPS_VAR_POSITION => 39
             ],
             LoadPointVariableIdent::MinCurrent->value                     => [
                 'type'           => 'number',
@@ -683,7 +719,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Min Current',
-                IPS_VAR_POSITION => 39
+                IPS_VAR_POSITION => 40
             ],
             LoadPointVariableIdent::MaxCurrent->value                     => [
                 'type'           => 'number',
@@ -697,7 +733,33 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Max Current',
-                IPS_VAR_POSITION => 40
+                IPS_VAR_POSITION => 41
+            ],
+            LoadPointVariableIdent::EffectiveMinCurrent->value                     => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
+                    'SUFFIX'       => ' A',
+                    'MIN'          => '1',
+                    'MAX'          => '16',
+                    'DIGITS'        => '1',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Effective min Current',
+                IPS_VAR_POSITION => 42
+            ],
+            LoadPointVariableIdent::EffectiveMaxCurrent->value                     => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
+                    'SUFFIX'       => ' A',
+                    'MIN'          => '1',
+                    'MAX'          => '16',
+                    'DIGITS'        => '1',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Effective max Current',
+                IPS_VAR_POSITION => 43
             ],
             LoadPointVariableIdent::ConnectedDuration->value              => [
                 'type'           => 'number',
@@ -708,7 +770,7 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Connected Duration',
-                IPS_VAR_POSITION => 41
+                IPS_VAR_POSITION => 44
             ],
             LoadPointVariableIdent::PhaseRemaining->value                 => [
                 'type'           => 'number',
@@ -719,7 +781,7 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Phase Remaining',
-                IPS_VAR_POSITION => 42
+                IPS_VAR_POSITION => 45
             ],
             LoadPointVariableIdent::PvRemaining->value                    => [
                 'type'           => 'number',
@@ -730,7 +792,7 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'PV Remaining',
-                IPS_VAR_POSITION => 43
+                IPS_VAR_POSITION => 46
             ],
             LoadPointVariableIdent::PvAction->value                       => [
                 'type'           => 'string',
@@ -739,7 +801,7 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_STRING,
                 IPS_VAR_NAME     => 'PV Action',
-                IPS_VAR_POSITION => 44
+                IPS_VAR_POSITION => 47
             ],
             LoadPointVariableIdent::SmartCostActive->value                => [
                 'type'           => 'bool',
@@ -748,7 +810,7 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
                 IPS_VAR_NAME     => 'Smart Cost Active',
-                IPS_VAR_POSITION => 45
+                IPS_VAR_POSITION => 48
             ],
             LoadPointVariableIdent::SmartCostLimit->value                 => [
                 'type'           => 'number',
@@ -759,7 +821,7 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Smart Cost Limit',
-                IPS_VAR_POSITION => 46
+                IPS_VAR_POSITION => 49
             ],
             LoadPointVariableIdent::Priority->value                       => [
                 'type'           => 'number',
@@ -768,7 +830,16 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Priority',
-                IPS_VAR_POSITION => 47
+                IPS_VAR_POSITION => 50
+            ],
+            LoadPointVariableIdent::effectivePriority->value                       => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Effective Priority',
+                IPS_VAR_POSITION => 51
             ],
             LoadPointVariableIdent::EnableThreshold->value                => [
                 'type'           => 'number',
@@ -779,7 +850,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Enable Threshold',
-                IPS_VAR_POSITION => 48
+                IPS_VAR_POSITION => 52
             ],
             LoadPointVariableIdent::DisableThreshold->value               => [
                 'type'           => 'number',
@@ -790,7 +861,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Disable Threshold',
-                IPS_VAR_POSITION => 49
+                IPS_VAR_POSITION => 53
             ],
         ];
     }
