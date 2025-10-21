@@ -875,6 +875,7 @@ namespace evccMQTT\Themes {
     {
         case GridConfigured = 'gridConfigured';
         case GridPower = 'grid_power';
+        case GridEnergy = 'grid_energy';
         case HomePower = 'homePower';
         public static function idents(): array
         {
@@ -915,7 +916,17 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Home Power',
-                IPS_VAR_POSITION => 3
+                IPS_VAR_POSITION => 4
+            ],
+            SiteIdent::GridEnergy->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' kWh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Grid Energy',
+                IPS_VAR_POSITION => 5
             ],
         ];
     }

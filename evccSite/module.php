@@ -36,8 +36,7 @@ class evccSite extends IPSModuleStrict
     private const string VAR_IDENT_BATTERYENERGY           = 'batteryEnergy';
     private const string VAR_IDENT_BATTERYMODE             = 'batteryMode';
     //private const string VAR_IDENT_GRIDPOWER   = 'gridPower';
-    private const string VAR_IDENT_GRIDCURRENTS = 'gridCurrents';
-    private const string VAR_IDENT_GRIDENERGY   = 'gridEnergy';
+    //private const string VAR_IDENT_GRIDENERGY   = 'gridEnergy';
     //private const string VAR_IDENT_HOMEPOWER  = 'homePower';
     private const string VAR_IDENT_AUXPOWER              = 'auxPower';
     private const string VAR_IDENT_PRIORITYSOC           = 'prioritySoc';
@@ -168,8 +167,6 @@ class evccSite extends IPSModuleStrict
         $this->RegisterVariableFloat(self::VAR_IDENT_PVENERGY, $this->Translate('PV Energy'), 'evcc.Energy.kWh', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_BATTERYCAPACITY, $this->Translate('Battery Capacity'), 'evcc.Energy.kWh', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_BATTERYENERGY, $this->Translate('Battery Energy'), 'evcc.Energy.kWh', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_GRIDCURRENTS, $this->Translate('Grid Currents'), '', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_GRIDENERGY, $this->Translate('Grid Energy'), 'evcc.Energy.kWh', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_GREENSHAREHOME, $this->Translate('Green Share Home'), 'evcc.Intensity.1', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_GREENSHARELOADPOINTS, $this->Translate('Green Share Loadpoints'), 'evcc.Intensity.1', ++$pos);
         $this->RegisterVariableString(self::VAR_IDENT_VERSION, $this->Translate('Version'), '', ++$pos);
@@ -258,8 +255,7 @@ class evccSite extends IPSModuleStrict
             $MQTTTopic . self::VAR_IDENT_PVENERGY                => fn() => $this->SetValue(self::VAR_IDENT_PVENERGY, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_BATTERYCAPACITY         => fn() => $this->SetValue(self::VAR_IDENT_BATTERYCAPACITY, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_BATTERYENERGY           => fn() => $this->SetValue(self::VAR_IDENT_BATTERYENERGY, (float)$payload),
-            $MQTTTopic . self::VAR_IDENT_GRIDCURRENTS            => fn() => $this->SetValue(self::VAR_IDENT_GRIDCURRENTS, (float)$payload),
-            $MQTTTopic . self::VAR_IDENT_GRIDENERGY              => fn() => $this->SetValue(self::VAR_IDENT_GRIDENERGY, (float)$payload),
+            //$MQTTTopic . self::VAR_IDENT_GRIDENERGY              => fn() => $this->SetValue(self::VAR_IDENT_GRIDENERGY, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_GREENSHAREHOME          => fn() => $this->SetValue(self::VAR_IDENT_GREENSHAREHOME, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_GREENSHARELOADPOINTS    => fn() => $this->SetValue(self::VAR_IDENT_GREENSHARELOADPOINTS, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_VERSION                 => fn() => $this->SetValue(self::VAR_IDENT_VERSION, (string)$payload),
