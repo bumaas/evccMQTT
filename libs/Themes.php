@@ -28,6 +28,8 @@ namespace evccMQTT {
 
 namespace evccMQTT\Themes {
 
+    use IPSModule;
+
     const IPS_PRESENTATION = 'Presentation';
     const IPS_VAR_TYPE     = 'VarType';
     const IPS_VAR_FACTOR   = 'Factor';
@@ -171,7 +173,7 @@ namespace evccMQTT\Themes {
         }
 
     }
-    enum LoadPointVariableIdent: string
+    enum LoadPointIdVariableIdent: string
     {
         case Title = 'title';
         case Mode = 'mode';
@@ -237,7 +239,7 @@ namespace evccMQTT\Themes {
     class LoadPointId extends ThemeBasics
     {
         protected static array $properties = [
-            LoadPointVariableIdent::Title->value                          => [
+            LoadPointIdVariableIdent::Title->value                          => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION
@@ -246,7 +248,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Title',
                 IPS_VAR_POSITION => 1
             ],
-            LoadPointVariableIdent::Mode->value                           => [
+            LoadPointIdVariableIdent::Mode->value                           => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
@@ -286,7 +288,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Mode',
                 IPS_VAR_POSITION => 2
             ],
-            LoadPointVariableIdent::LimitSoc->value                       => [
+            LoadPointIdVariableIdent::LimitSoc->value                       => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
@@ -297,7 +299,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Limit SoC',
                 IPS_VAR_POSITION => 3
             ],
-            LoadPointVariableIdent::EffectiveLimitSoc->value              => [
+            LoadPointIdVariableIdent::EffectiveLimitSoc->value              => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -307,7 +309,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Effective Limit SoC',
                 IPS_VAR_POSITION => 4
             ],
-            LoadPointVariableIdent::LimitEnergy->value                    => [
+            LoadPointIdVariableIdent::LimitEnergy->value                    => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
@@ -318,7 +320,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Limit Energy',
                 IPS_VAR_POSITION => 5
             ],
-            LoadPointVariableIdent::ChargeDuration->value                 => [
+            LoadPointIdVariableIdent::ChargeDuration->value                 => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
@@ -329,7 +331,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charge Duration',
                 IPS_VAR_POSITION => 6
             ],
-            LoadPointVariableIdent::Charging->value                       => [
+            LoadPointIdVariableIdent::Charging->value                       => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -338,7 +340,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charging',
                 IPS_VAR_POSITION => 7
             ],
-            LoadPointVariableIdent::SessionEnergy->value                  => [
+            LoadPointIdVariableIdent::SessionEnergy->value                  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -349,7 +351,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session Energy',
                 IPS_VAR_POSITION => 8
             ],
-            LoadPointVariableIdent::SessionCo2PerKWh->value               => [
+            LoadPointIdVariableIdent::SessionCo2PerKWh->value               => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -360,7 +362,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session CO₂ per kWh',
                 IPS_VAR_POSITION => 9
             ],
-            LoadPointVariableIdent::SessionPricePerKWh->value             => [
+            LoadPointIdVariableIdent::SessionPricePerKWh->value             => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -371,7 +373,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session Price per kWh',
                 IPS_VAR_POSITION => 10
             ],
-            LoadPointVariableIdent::SessionPrice->value                   => [
+            LoadPointIdVariableIdent::SessionPrice->value                   => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -382,7 +384,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session Price',
                 IPS_VAR_POSITION => 11
             ],
-            LoadPointVariableIdent::SessionSolarPercentage->value         => [
+            LoadPointIdVariableIdent::SessionSolarPercentage->value         => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -393,7 +395,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Session Solar Percentage',
                 IPS_VAR_POSITION => 12
             ],
-            LoadPointVariableIdent::ChargerFeatureIntegratedDevice->value => [
+            LoadPointIdVariableIdent::ChargerFeatureIntegratedDevice->value => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -402,7 +404,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Integrated Device',
                 IPS_VAR_POSITION => 13
             ],
-            LoadPointVariableIdent::ChargerFeatureHeating->value          => [
+            LoadPointIdVariableIdent::ChargerFeatureHeating->value          => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -411,7 +413,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charger Feature Heating',
                 IPS_VAR_POSITION => 14
             ],
-            LoadPointVariableIdent::ChargerPhases1p3p->value              => [
+            LoadPointIdVariableIdent::ChargerPhases1p3p->value              => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -420,7 +422,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charger Phases 1P3P',
                 IPS_VAR_POSITION => 15
             ],
-            LoadPointVariableIdent::Connected->value                      => [
+            LoadPointIdVariableIdent::Connected->value                      => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -429,7 +431,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Connected',
                 IPS_VAR_POSITION => 16
             ],
-            LoadPointVariableIdent::Enabled->value                        => [
+            LoadPointIdVariableIdent::Enabled->value                        => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -438,7 +440,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Enabled',
                 IPS_VAR_POSITION => 17
             ],
-            LoadPointVariableIdent::VehicleDetectionActive->value         => [
+            LoadPointIdVariableIdent::VehicleDetectionActive->value         => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -447,7 +449,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Vehicle Detection Active',
                 IPS_VAR_POSITION => 18
             ],
-            LoadPointVariableIdent::VehicleRange->value                   => [
+            LoadPointIdVariableIdent::VehicleRange->value                   => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -457,7 +459,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Vehicle Range',
                 IPS_VAR_POSITION => 19
             ],
-            LoadPointVariableIdent::VehicleSoc->value                     => [
+            LoadPointIdVariableIdent::VehicleSoc->value                     => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -467,7 +469,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Vehicle SoC',
                 IPS_VAR_POSITION => 20
             ],
-            LoadPointVariableIdent::VehicleName->value                    => [
+            LoadPointIdVariableIdent::VehicleName->value                    => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -476,7 +478,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Vehicle Name',
                 IPS_VAR_POSITION => 21
             ],
-            LoadPointVariableIdent::VehicleLimitSoc->value                => [
+            LoadPointIdVariableIdent::VehicleLimitSoc->value                => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -486,7 +488,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Vehicle Limit SoC',
                 IPS_VAR_POSITION => 22
             ],
-            LoadPointVariableIdent::VehicleOdometer->value                => [
+            LoadPointIdVariableIdent::VehicleOdometer->value                => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -496,7 +498,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Vehicle Odometer',
                 IPS_VAR_POSITION => 23
             ],
-            LoadPointVariableIdent::PlanActive->value                     => [
+            LoadPointIdVariableIdent::PlanActive->value                     => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -505,7 +507,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Plan Active',
                 IPS_VAR_POSITION => 24
             ],
-            LoadPointVariableIdent::PlanProjectedStart->value             => [
+            LoadPointIdVariableIdent::PlanProjectedStart->value             => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_DATE_TIME,
@@ -517,7 +519,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Plan Projected Start',
                 IPS_VAR_POSITION => 25
             ],
-            LoadPointVariableIdent::PlanProjectedEnd->value               => [
+            LoadPointIdVariableIdent::PlanProjectedEnd->value               => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_DATE_TIME,
@@ -529,7 +531,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Plan Projected End',
                 IPS_VAR_POSITION => 26
             ],
-            LoadPointVariableIdent::PlanOverrun->value                    => [
+            LoadPointIdVariableIdent::PlanOverrun->value                    => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -538,7 +540,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Plan Overrun',
                 IPS_VAR_POSITION => 27
             ],
-            LoadPointVariableIdent::PlanEnergy->value                     => [
+            LoadPointIdVariableIdent::PlanEnergy->value                     => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -549,7 +551,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Plan Energy',
                 IPS_VAR_POSITION => 28
             ],
-            LoadPointVariableIdent::EffectivePlanTime->value              => [
+            LoadPointIdVariableIdent::EffectivePlanTime->value              => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_DATE_TIME,
@@ -561,7 +563,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Effective Plantime',
                 IPS_VAR_POSITION => 29
             ],
-            LoadPointVariableIdent::EffectivePlanSoc->value               => [
+            LoadPointIdVariableIdent::EffectivePlanSoc->value               => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -571,7 +573,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Effective Plan SoC',
                 IPS_VAR_POSITION => 30
             ],
-            LoadPointVariableIdent::ChargePower->value                    => [
+            LoadPointIdVariableIdent::ChargePower->value                    => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -581,7 +583,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charge Power',
                 IPS_VAR_POSITION => 31
             ],
-            LoadPointVariableIdent::ChargeCurrent->value                  => [
+            LoadPointIdVariableIdent::ChargeCurrent->value                  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -591,7 +593,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charge Current',
                 IPS_VAR_POSITION => 32
             ],
-            LoadPointVariableIdent::ChargedEnergy->value                  => [
+            LoadPointIdVariableIdent::ChargedEnergy->value                  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -602,7 +604,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charged Energy',
                 IPS_VAR_POSITION => 33
             ],
-            LoadPointVariableIdent::ChargeRemainingDuration->value        => [
+            LoadPointIdVariableIdent::ChargeRemainingDuration->value        => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
@@ -613,7 +615,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charge remaining Duration',
                 IPS_VAR_POSITION => 34
             ],
-            LoadPointVariableIdent::ChargeRemainingEnergy->value          => [
+            LoadPointIdVariableIdent::ChargeRemainingEnergy->value          => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -624,7 +626,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Charge remaining Energy',
                 IPS_VAR_POSITION => 34
             ],
-            LoadPointVariableIdent::PhasesConfigured->value               => [
+            LoadPointIdVariableIdent::PhasesConfigured->value               => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
@@ -657,7 +659,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Phases Configured',
                 IPS_VAR_POSITION => 36
             ],
-            LoadPointVariableIdent::PhasesEnabled->value               => [
+            LoadPointIdVariableIdent::PhasesEnabled->value                  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
@@ -689,7 +691,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Phases Enabled',
                 IPS_VAR_POSITION => 37
             ],
-            LoadPointVariableIdent::PhaseAction->value                    => [
+            LoadPointIdVariableIdent::PhaseAction->value                    => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -698,7 +700,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Phase Action',
                 IPS_VAR_POSITION => 38
             ],
-            LoadPointVariableIdent::PhasesActive->value                   => [
+            LoadPointIdVariableIdent::PhasesActive->value                   => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -707,7 +709,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Phases Active',
                 IPS_VAR_POSITION => 39
             ],
-            LoadPointVariableIdent::MinCurrent->value                     => [
+            LoadPointIdVariableIdent::MinCurrent->value                     => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
@@ -721,7 +723,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Min Current',
                 IPS_VAR_POSITION => 40
             ],
-            LoadPointVariableIdent::MaxCurrent->value                     => [
+            LoadPointIdVariableIdent::MaxCurrent->value                     => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
@@ -735,33 +737,33 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Max Current',
                 IPS_VAR_POSITION => 41
             ],
-            LoadPointVariableIdent::EffectiveMinCurrent->value                     => [
+            LoadPointIdVariableIdent::EffectiveMinCurrent->value            => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
                     'SUFFIX'       => ' A',
                     'MIN'          => '1',
                     'MAX'          => '16',
-                    'DIGITS'        => '1',
+                    'DIGITS'       => '1',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Effective min Current',
                 IPS_VAR_POSITION => 42
             ],
-            LoadPointVariableIdent::EffectiveMaxCurrent->value                     => [
+            LoadPointIdVariableIdent::EffectiveMaxCurrent->value            => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
                     'SUFFIX'       => ' A',
                     'MIN'          => '1',
                     'MAX'          => '16',
-                    'DIGITS'        => '1',
+                    'DIGITS'       => '1',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Effective max Current',
                 IPS_VAR_POSITION => 43
             ],
-            LoadPointVariableIdent::ConnectedDuration->value              => [
+            LoadPointIdVariableIdent::ConnectedDuration->value              => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
@@ -772,7 +774,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Connected Duration',
                 IPS_VAR_POSITION => 44
             ],
-            LoadPointVariableIdent::PhaseRemaining->value                 => [
+            LoadPointIdVariableIdent::PhaseRemaining->value                 => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
@@ -783,7 +785,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Phase Remaining',
                 IPS_VAR_POSITION => 45
             ],
-            LoadPointVariableIdent::PvRemaining->value                    => [
+            LoadPointIdVariableIdent::PvRemaining->value                    => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION'   => VARIABLE_PRESENTATION_DURATION,
@@ -794,7 +796,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'PV Remaining',
                 IPS_VAR_POSITION => 46
             ],
-            LoadPointVariableIdent::PvAction->value                       => [
+            LoadPointIdVariableIdent::PvAction->value                       => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -803,7 +805,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'PV Action',
                 IPS_VAR_POSITION => 47
             ],
-            LoadPointVariableIdent::SmartCostActive->value                => [
+            LoadPointIdVariableIdent::SmartCostActive->value                => [
                 'type'           => 'bool',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -812,18 +814,22 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Smart Cost Active',
                 IPS_VAR_POSITION => 48
             ],
-            LoadPointVariableIdent::SmartCostLimit->value                 => [
+            LoadPointIdVariableIdent::SmartCostLimit->value                 => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
                     'DIGITS'       => 3,
+                    'MIN'          => '-0.10',
+                    'MAX'          => '0.60',
+                    'STEP_SIZE'    => '0.005',
                     'SUFFIX'       => ' €',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Smart Cost Limit',
                 IPS_VAR_POSITION => 49
             ],
-            LoadPointVariableIdent::Priority->value                       => [
+            LoadPointIdVariableIdent::Priority->value                       => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -832,7 +838,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Priority',
                 IPS_VAR_POSITION => 50
             ],
-            LoadPointVariableIdent::effectivePriority->value                       => [
+            LoadPointIdVariableIdent::effectivePriority->value              => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -841,7 +847,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Effective Priority',
                 IPS_VAR_POSITION => 51
             ],
-            LoadPointVariableIdent::EnableThreshold->value                => [
+            LoadPointIdVariableIdent::EnableThreshold->value                => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -852,7 +858,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Enable Threshold',
                 IPS_VAR_POSITION => 52
             ],
-            LoadPointVariableIdent::DisableThreshold->value               => [
+            LoadPointIdVariableIdent::DisableThreshold->value               => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -865,6 +871,56 @@ namespace evccMQTT\Themes {
             ],
         ];
     }
+    enum SiteIdent: string
+    {
+        case GridConfigured = 'gridConfigured';
+        case GridPower = 'grid_power';
+        case HomePower = 'homePower';
+        public static function idents(): array
+        {
+            // Gibt ein Array von Strings (den Enum-Backing-Values) zurück
+            return array_map(static fn(self $c): string => $c->value, self::cases());
+        }
+
+    }
+    class Site extends ThemeBasics
+    {
+        protected static array $properties = [
+            SiteIdent::GridConfigured->value => [
+                'type'           => 'boolean',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Grid Configured',
+                IPS_VAR_POSITION => 1
+            ],
+            SiteIdent::GridPower->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' W',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Grid Power',
+                IPS_VAR_POSITION => 2
+            ],
+            SiteIdent::HomePower->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' W',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Home Power',
+                IPS_VAR_POSITION => 3
+            ],
+        ];
+    }
+
+    // ----------------------------------------------------------------------------------
     enum SiteStatisticsIdent: string
     {
         case AvgCo2 = 'avgCo2';

@@ -52,7 +52,7 @@ class evccSiteStatistics extends IPSModuleStrict
 
         foreach (SiteStatisticsIdent::idents() as $ident) {
             $VariableValues = SiteStatistics::getIPSVariable($ident);
-            $this->SendDebug(__FUNCTION__ . '!!!!', sprintf('VariableValues: %s', print_r($VariableValues, true)), 0);
+            $this->SendDebug(__FUNCTION__, sprintf('VariableValues: %s', print_r($VariableValues, true)), 0);
 
             switch ($VariableValues[IPS_VAR_TYPE]) {
                 case VARIABLETYPE_INTEGER:
@@ -90,7 +90,7 @@ class evccSiteStatistics extends IPSModuleStrict
                     break;
             }
 
-            $this->SendDebug(__FUNCTION__ . '!!!!', sprintf('ret: %s', (int)$ret), 0);
+            $this->SendDebug(__FUNCTION__, sprintf('ret: %s', (int)$ret), 0);
             if ($VariableValues[IPS_VAR_ACTION]) {
                 $this->EnableAction($ident);
             }
@@ -132,7 +132,7 @@ class evccSiteStatistics extends IPSModuleStrict
         $lastElement   = $this->getLastElement($mqttSubTopics);
 
         if (SiteStatistics::propertyIsValid($lastElement)) {
-            $this->SendDebug(__FUNCTION__ . '!!!!', sprintf('topic: %s, payload: %s', $topic, $payload), 0);
+            $this->SendDebug(__FUNCTION__, sprintf('topic: %s, payload: %s', $topic, $payload), 0);
             $VariableValues = SiteStatistics::getIPSVariable($lastElement, $payload);
             $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
         } else {

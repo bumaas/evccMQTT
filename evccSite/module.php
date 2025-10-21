@@ -1,6 +1,19 @@
 <?php
 
 declare(strict_types=1);
+
+require_once dirname(__DIR__) . '/libs/Themes.php';
+
+use evccMQTT\Themes\Site;
+use evccMQTT\Themes\SiteIdent;
+
+use const evccMQTT\Themes\IPS_PRESENTATION;
+use const evccMQTT\Themes\IPS_VAR_ACTION;
+use const evccMQTT\Themes\IPS_VAR_IDENT;
+use const evccMQTT\Themes\IPS_VAR_NAME;
+use const evccMQTT\Themes\IPS_VAR_TYPE;
+use const evccMQTT\Themes\IPS_VAR_VALUE;
+
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
@@ -11,46 +24,46 @@ class evccSite extends IPSModuleStrict
 
     private const string PROP_TOPIC = 'topic';
 
-    private const string VAR_IDENT_GRIDCONFIGURED          = 'gridConfigured';
+    //private const string VAR_IDENT_GRIDCONFIGURED          = 'gridConfigured';
     private const string VAR_IDENT_BATTERYDISCHARGECONTROL = 'batteryDischargeControl';
     private const string VAR_IDENT_BATTERYGRIDCHARGEACTIVE = 'batteryGridChargeActive';
     private const string VAR_IDENT_BATTERYGRIDCHARGELIMIT  = 'batteryGridChargeLimit';
-    private const string VAR_IDENT_PVPOWER                = 'pvPower';
-    private const string VAR_IDENT_PVENERGY        = 'pvEnergy';
-    private const string VAR_IDENT_BATTERYCAPACITY = 'batteryCapacity';
-    private const string VAR_IDENT_BATTERYSOC      = 'batterySoc';
-    private const string VAR_IDENT_BATTERYPOWER = 'batteryPower';
-    private const string VAR_IDENT_BATTERYENERGY = 'batteryEnergy';
-    private const string VAR_IDENT_BATTERYMODE   = 'batteryMode';
-    private const string VAR_IDENT_GRIDPOWER   = 'gridPower';
+    private const string VAR_IDENT_PVPOWER                 = 'pvPower';
+    private const string VAR_IDENT_PVENERGY                = 'pvEnergy';
+    private const string VAR_IDENT_BATTERYCAPACITY         = 'batteryCapacity';
+    private const string VAR_IDENT_BATTERYSOC              = 'batterySoc';
+    private const string VAR_IDENT_BATTERYPOWER            = 'batteryPower';
+    private const string VAR_IDENT_BATTERYENERGY           = 'batteryEnergy';
+    private const string VAR_IDENT_BATTERYMODE             = 'batteryMode';
+    //private const string VAR_IDENT_GRIDPOWER   = 'gridPower';
     private const string VAR_IDENT_GRIDCURRENTS = 'gridCurrents';
     private const string VAR_IDENT_GRIDENERGY   = 'gridEnergy';
-    private const string VAR_IDENT_HOMEPOWER  = 'homePower';
-    private const string VAR_IDENT_AUXPOWER  = 'auxPower';
-    private const string VAR_IDENT_PRIORITYSOC = 'prioritySoc';
-    private const string VAR_IDENT_BUFFERSOC   = 'bufferSoc';
-    private const string VAR_IDENT_BUFFERSTARTSOC = 'bufferStartSoc';
-    private const string VAR_IDENT_SITETITLE      = 'siteTitle';
-    private const string VAR_IDENT_CURRENCY  = 'currency';
-    private const string VAR_IDENT_GREENSHAREHOME = 'greenShareHome';
-    private const string VAR_IDENT_GREENSHARELOADPOINTS = 'greenShareLoadpoints';
-    private const string VAR_IDENT_TARIFFFEEDIN         = 'tariffFeedIn';
-    private const string VAR_IDENT_TARIFFGRID    = 'tariffGrid';
-    private const string VAR_IDENT_TARIFFCO2  = 'tariffCo2';
-    private const string VAR_IDENT_TARIFFPRICEHOME = 'tariffPriceHome';
-    private const string VAR_IDENT_TARIFFCO2HOME   = 'tariffCo2Home';
+    //private const string VAR_IDENT_HOMEPOWER  = 'homePower';
+    private const string VAR_IDENT_AUXPOWER              = 'auxPower';
+    private const string VAR_IDENT_PRIORITYSOC           = 'prioritySoc';
+    private const string VAR_IDENT_BUFFERSOC             = 'bufferSoc';
+    private const string VAR_IDENT_BUFFERSTARTSOC        = 'bufferStartSoc';
+    private const string VAR_IDENT_SITETITLE             = 'siteTitle';
+    private const string VAR_IDENT_CURRENCY              = 'currency';
+    private const string VAR_IDENT_GREENSHAREHOME        = 'greenShareHome';
+    private const string VAR_IDENT_GREENSHARELOADPOINTS  = 'greenShareLoadpoints';
+    private const string VAR_IDENT_TARIFFFEEDIN          = 'tariffFeedIn';
+    private const string VAR_IDENT_TARIFFGRID            = 'tariffGrid';
+    private const string VAR_IDENT_TARIFFCO2             = 'tariffCo2';
+    private const string VAR_IDENT_TARIFFPRICEHOME       = 'tariffPriceHome';
+    private const string VAR_IDENT_TARIFFCO2HOME         = 'tariffCo2Home';
     private const string VAR_IDENT_TARIFFPRICELOADPOINTS = 'tariffPriceLoadpoints';
     private const string VAR_IDENT_TARIFFCO2LOADPOINTS   = 'tariffCo2Loadpoints';
-    private const string VAR_IDENT_VERSION             = 'version';
-    private const string VAR_IDENT_AVAILABLEVERSION = 'availableVersion';
-    private const string VAR_IDENT_SMARTCOSTTYPE    = 'smartCostType';
+    private const string VAR_IDENT_VERSION               = 'version';
+    private const string VAR_IDENT_AVAILABLEVERSION      = 'availableVersion';
+    private const string VAR_IDENT_SMARTCOSTTYPE         = 'smartCostType';
     //https://docs.evcc.io/en/docs/reference/configuration/site#residualpower
     private const string VAR_IDENT_RESIDUALPOWER = 'residualPower';
 
     private const array  IGNORED_ELEMENTS = ['pv', 'aux', 'battery', 'fatal', 'gridPowers', 'l1', 'l2', 'l3'];
     private const string STATISTICS_FLAG  = 'statistics';
 
-    public function Create():void
+    public function Create(): void
     {
         //Never delete this line!
         parent::Create();
@@ -77,10 +90,57 @@ class evccSite extends IPSModuleStrict
     private function registerVariables(): void
     {
         $pos = 0;
+
+        foreach (SiteIdent::idents() as $ident) {
+            $VariableValues = Site::getIPSVariable($ident);
+            $this->SendDebug(__FUNCTION__, sprintf('%s, VariableValues: %s', $ident, print_r($VariableValues, true)), 0);
+
+            switch ($VariableValues[IPS_VAR_TYPE]) {
+                case VARIABLETYPE_INTEGER:
+                    $ret = $this->RegisterVariableInteger(
+                        $VariableValues[IPS_VAR_IDENT],
+                        $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_PRESENTATION],
+                        ++$pos,
+                    );
+                    break;
+                case VARIABLETYPE_FLOAT:
+                    $ret = $this->RegisterVariableFloat(
+                        $VariableValues[IPS_VAR_IDENT],
+                        $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_PRESENTATION],
+                        ++$pos,
+                    );
+
+                    break;
+                case VARIABLETYPE_STRING:
+                    $ret = $this->RegisterVariableString(
+                        $VariableValues[IPS_VAR_IDENT],
+                        $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_PRESENTATION],
+                        ++$pos,
+                    );
+                    break;
+                case VARIABLETYPE_BOOLEAN:
+                    $ret = $this->RegisterVariableBoolean(
+                        $VariableValues[IPS_VAR_IDENT],
+                        $this->Translate($VariableValues[IPS_VAR_NAME]),
+                        $VariableValues[IPS_PRESENTATION],
+                        ++$pos
+                    );
+                    break;
+            }
+
+            $this->SendDebug(__FUNCTION__, sprintf('ret: %s', (int)$ret), 0);
+            if ($VariableValues[IPS_VAR_ACTION]) {
+                $this->EnableAction($ident);
+            }
+        }
+
         //details
-        $this->RegisterVariableBoolean(self::VAR_IDENT_GRIDCONFIGURED, $this->Translate('Grid Configured'), '~Switch', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_GRIDPOWER, $this->Translate('Grid Power'), 'evcc.Power', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_HOMEPOWER, $this->Translate('Home Power'), 'evcc.Power', ++$pos);
+        //$this->RegisterVariableBoolean(self::VAR_IDENT_GRIDCONFIGURED, $this->Translate('Grid Configured'), '~Switch', ++$pos);
+        //$this->RegisterVariableInteger(self::VAR_IDENT_GRIDPOWER, $this->Translate('Grid Power'), 'evcc.Power', ++$pos);
+        //$this->RegisterVariableInteger(self::VAR_IDENT_HOMEPOWER, $this->Translate('Home Power'), 'evcc.Power', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_AUXPOWER, $this->Translate('Aux Power'), 'evcc.Power', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_PVPOWER, $this->Translate('PV Power'), 'evcc.Power', ++$pos);
         $this->RegisterVariableInteger(self::VAR_IDENT_BATTERYPOWER, $this->Translate('Battery Power'), 'evcc.Power', ++$pos);
@@ -166,15 +226,21 @@ class evccSite extends IPSModuleStrict
         $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s', $topic, $payload), 0);
 
         $topicActions = [
-            $MQTTTopic . self::VAR_IDENT_GRIDCONFIGURED          => fn() => $this->SetValue(self::VAR_IDENT_GRIDCONFIGURED, (bool)$payload),
-            $MQTTTopic . self::VAR_IDENT_GRIDPOWER               => fn() => $this->SetValue(self::VAR_IDENT_GRIDPOWER, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_HOMEPOWER               => fn() => $this->SetValue(self::VAR_IDENT_HOMEPOWER, (int)$payload),
+            //$MQTTTopic . self::VAR_IDENT_GRIDCONFIGURED          => fn() => $this->SetValue(self::VAR_IDENT_GRIDCONFIGURED, (bool)$payload),
+            //$MQTTTopic . self::VAR_IDENT_GRIDPOWER               => fn() => $this->SetValue(self::VAR_IDENT_GRIDPOWER, (int)$payload),
+            //$MQTTTopic . self::VAR_IDENT_HOMEPOWER               => fn() => $this->SetValue(self::VAR_IDENT_HOMEPOWER, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_AUXPOWER                => fn() => $this->SetValue(self::VAR_IDENT_AUXPOWER, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_PVPOWER                 => fn() => $this->SetValue(self::VAR_IDENT_PVPOWER, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_BATTERYPOWER            => fn() => $this->SetValue(self::VAR_IDENT_BATTERYPOWER, (int)$payload),
             $MQTTTopic . self::VAR_IDENT_BATTERYSOC              => fn() => $this->SetValue(self::VAR_IDENT_BATTERYSOC, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_BATTERYDISCHARGECONTROL => fn() => $this->SetValue(self::VAR_IDENT_BATTERYDISCHARGECONTROL, $payload === 'true'),
-            $MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE => fn() => $this->SetValue(self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE, $payload === 'true'),
+            $MQTTTopic . self::VAR_IDENT_BATTERYDISCHARGECONTROL => fn() => $this->SetValue(
+                self::VAR_IDENT_BATTERYDISCHARGECONTROL,
+                $payload === 'true'
+            ),
+            $MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE => fn() => $this->SetValue(
+                self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE,
+                $payload === 'true'
+            ),
             $MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGELIMIT  => fn() => $this->SetValue(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_BATTERYMODE             => fn() => $this->SetValue(self::VAR_IDENT_BATTERYMODE, $payload),
             $MQTTTopic . self::VAR_IDENT_PRIORITYSOC             => fn() => $this->SetValue(self::VAR_IDENT_PRIORITYSOC, (float)$payload),
@@ -207,13 +273,28 @@ class evccSite extends IPSModuleStrict
         $penultimateElement = $this->getPenultimateElement($mqttSubTopics);
 
         if ($this->isReceivedSetTopic($topic)) {
-            $this->SendDebug(__FUNCTION__, 'received: ' . $topic, 0);
-        } elseif ($this->shouldBeIgnored($lastElement, $penultimateElement, $topic, $MQTTTopic)) {
+            //$this->SendDebug(__FUNCTION__, 'received: ' . $topic, 0);
+            return '';
+        }
+
+        if ($this->shouldBeIgnored($lastElement, $penultimateElement, $topic, $MQTTTopic)) {
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $topic, 0);
         } elseif (array_key_exists($topic, $topicActions)) {
             $topicActions[$topic]();
+        } elseif (Site::propertyIsValid($lastElement)) {
+            $this->SendDebug(__FUNCTION__, sprintf('topic: %s, payload: %s', $topic, $payload), 0);
+            $VariableValues = Site::getIPSVariable($lastElement, $payload);
+            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
+                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+            }
+        } elseif (Site::propertyIsValid($penultimateElement . '_' . $lastElement)) {
+            $this->SendDebug(__FUNCTION__, sprintf('topic: %s, payload: %s', $topic, $payload), 0);
+            $VariableValues = Site::getIPSVariable($penultimateElement . '_' . $lastElement, $payload);
+            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
+                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+            }
         } else {
-            $this->SendDebug(__FUNCTION__ . '::HINT', sprintf('unexpected topic: %s, lastElement: %s', $topic, $lastElement), 0);
+            $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);
         }
         return '';
     }
@@ -231,7 +312,7 @@ class evccSite extends IPSModuleStrict
                 $this->mqttCommand($mqttTopic . $Ident . '/set', (string)$Value);
                 break;
             case self::VAR_IDENT_BATTERYDISCHARGECONTROL:
-                $this->mqttCommand($mqttTopic . $Ident . '/set', $Value?'true':'false');
+                $this->mqttCommand($mqttTopic . $Ident . '/set', $Value ? 'true' : 'false');
                 break;
             default:
                 $this->LogMessage('Invalid Action', KL_WARNING);
