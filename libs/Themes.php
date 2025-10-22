@@ -876,7 +876,12 @@ namespace evccMQTT\Themes {
         case GridConfigured = 'gridConfigured';
         case GridPower = 'grid_power';
         case GridEnergy = 'grid_energy';
+        case PvPower = 'pvPower';
+        case PvEnergy = 'pvEnergy';
+        case BatteryPower = 'batteryPower';
+        case BatteryEnergy = 'batteryEnergy';
         case HomePower = 'homePower';
+        case AuxPower = 'auxPower';
         public static function idents(): array
         {
             // Gibt ein Array von Strings (den Enum-Backing-Values) zurück
@@ -907,6 +912,58 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Grid Power',
                 IPS_VAR_POSITION => 2
             ],
+            SiteIdent::GridEnergy->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' kWh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Grid Energy',
+                IPS_VAR_POSITION => 3
+            ],
+            SiteIdent::PvPower->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' W',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'PV Power',
+                IPS_VAR_POSITION => 4
+            ],
+            SiteIdent::PvEnergy->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' kWh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'PV Energy',
+                IPS_VAR_POSITION => 5
+            ],
+            SiteIdent::BatteryPower->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' W',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Battery Power',
+                IPS_VAR_POSITION => 5
+            ],
+            SiteIdent::BatteryEnergy->value => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' kWh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Battery Energy',
+                IPS_VAR_POSITION => 6
+            ],
             SiteIdent::HomePower->value => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
@@ -916,17 +973,18 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Home Power',
-                IPS_VAR_POSITION => 4
+                IPS_VAR_POSITION => 7
             ],
-            SiteIdent::GridEnergy->value => [
+            SiteIdent::AuxPower->value => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' kWh',
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' W',
                 ],
-                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
-                IPS_VAR_NAME     => 'Grid Energy',
-                IPS_VAR_POSITION => 5
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Aux Power',
+                IPS_VAR_POSITION => 8
             ],
         ];
     }
