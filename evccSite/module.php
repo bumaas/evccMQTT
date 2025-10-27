@@ -11,6 +11,7 @@ use const evccMQTT\Themes\IPS_PRESENTATION;
 use const evccMQTT\Themes\IPS_VAR_ACTION;
 use const evccMQTT\Themes\IPS_VAR_IDENT;
 use const evccMQTT\Themes\IPS_VAR_NAME;
+use const evccMQTT\Themes\IPS_VAR_POSITION;
 use const evccMQTT\Themes\IPS_VAR_TYPE;
 use const evccMQTT\Themes\IPS_VAR_VALUE;
 
@@ -25,16 +26,16 @@ class evccSite extends IPSModuleStrict
     private const string PROP_TOPIC = 'topic';
 
     //private const string VAR_IDENT_GRIDCONFIGURED          = 'gridConfigured';
-    private const string VAR_IDENT_BATTERYDISCHARGECONTROL = 'batteryDischargeControl';
-    private const string VAR_IDENT_BATTERYGRIDCHARGEACTIVE = 'batteryGridChargeActive';
-    private const string VAR_IDENT_BATTERYGRIDCHARGELIMIT  = 'batteryGridChargeLimit';
+    //private const string VAR_IDENT_BATTERYDISCHARGECONTROL = 'batteryDischargeControl';
+    //private const string VAR_IDENT_BATTERYGRIDCHARGEACTIVE = 'batteryGridChargeActive';
+    //private const string VAR_IDENT_BATTERYGRIDCHARGELIMIT  = 'batteryGridChargeLimit';
     //private const string VAR_IDENT_PVPOWER                 = 'pvPower';
     private const string VAR_IDENT_PVENERGY                = 'pvEnergy';
     private const string VAR_IDENT_BATTERYCAPACITY         = 'batteryCapacity';
-    private const string VAR_IDENT_BATTERYSOC              = 'batterySoc';
+    //private const string VAR_IDENT_BATTERYSOC              = 'batterySoc';
     //private const string VAR_IDENT_BATTERYPOWER            = 'batteryPower';
     //private const string VAR_IDENT_BATTERYENERGY           = 'batteryEnergy';
-    private const string VAR_IDENT_BATTERYMODE             = 'batteryMode';
+    //private const string VAR_IDENT_BATTERYMODE             = 'batteryMode';
     //private const string VAR_IDENT_GRIDPOWER   = 'gridPower';
     //private const string VAR_IDENT_GRIDENERGY   = 'gridEnergy';
     //private const string VAR_IDENT_HOMEPOWER  = 'homePower';
@@ -42,7 +43,7 @@ class evccSite extends IPSModuleStrict
     private const string VAR_IDENT_PRIORITYSOC           = 'prioritySoc';
     private const string VAR_IDENT_BUFFERSOC             = 'bufferSoc';
     private const string VAR_IDENT_BUFFERSTARTSOC        = 'bufferStartSoc';
-    private const string VAR_IDENT_SITETITLE             = 'siteTitle';
+    //private const string VAR_IDENT_SITETITLE             = 'siteTitle';
     private const string VAR_IDENT_CURRENCY              = 'currency';
     private const string VAR_IDENT_GREENSHAREHOME        = 'greenShareHome';
     private const string VAR_IDENT_GREENSHARELOADPOINTS  = 'greenShareLoadpoints';
@@ -88,7 +89,7 @@ class evccSite extends IPSModuleStrict
 
     private function registerVariables(): void
     {
-        $pos = 0;
+        $pos = 100;
 
         foreach (SiteIdent::idents() as $ident) {
             $VariableValues = Site::getIPSVariable($ident);
@@ -100,7 +101,7 @@ class evccSite extends IPSModuleStrict
                         $VariableValues[IPS_VAR_IDENT],
                         $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
-                        ++$pos,
+                        $VariableValues[IPS_VAR_POSITION],
                     );
                     break;
                 case VARIABLETYPE_FLOAT:
@@ -108,7 +109,7 @@ class evccSite extends IPSModuleStrict
                         $VariableValues[IPS_VAR_IDENT],
                         $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
-                        ++$pos,
+                        $VariableValues[IPS_VAR_POSITION],
                     );
 
                     break;
@@ -117,7 +118,7 @@ class evccSite extends IPSModuleStrict
                         $VariableValues[IPS_VAR_IDENT],
                         $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
-                        ++$pos,
+                        $VariableValues[IPS_VAR_POSITION],
                     );
                     break;
                 case VARIABLETYPE_BOOLEAN:
@@ -125,7 +126,7 @@ class evccSite extends IPSModuleStrict
                         $VariableValues[IPS_VAR_IDENT],
                         $this->Translate($VariableValues[IPS_VAR_NAME]),
                         $VariableValues[IPS_PRESENTATION],
-                        ++$pos
+                        $VariableValues[IPS_VAR_POSITION],
                     );
                     break;
             }
@@ -143,15 +144,15 @@ class evccSite extends IPSModuleStrict
         //$this->RegisterVariableInteger(self::VAR_IDENT_AUXPOWER, $this->Translate('Aux Power'), 'evcc.Power', ++$pos);
 //        $this->RegisterVariableInteger(self::VAR_IDENT_PVPOWER, $this->Translate('PV Power'), 'evcc.Power', ++$pos);
         //$this->RegisterVariableInteger(self::VAR_IDENT_BATTERYPOWER, $this->Translate('Battery Power'), 'evcc.Power', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_BATTERYSOC, $this->Translate('Battery SoC'), '~Battery.100', ++$pos);
-        $this->RegisterVariableBoolean(self::VAR_IDENT_BATTERYDISCHARGECONTROL, $this->Translate('Battery Discharge Control'), '~Switch', ++$pos);
-        $this->RegisterVariableString(self::VAR_IDENT_BATTERYMODE, $this->Translate('Battery Mode'), 'evcc.Battery.Mode', ++$pos);
+        //$this->RegisterVariableInteger(self::VAR_IDENT_BATTERYSOC, $this->Translate('Battery SoC'), '~Battery.100', ++$pos);
+        //$this->RegisterVariableBoolean(self::VAR_IDENT_BATTERYDISCHARGECONTROL, $this->Translate('Battery Discharge Control'), '~Switch', ++$pos);
+        //$this->RegisterVariableString(self::VAR_IDENT_BATTERYMODE, $this->Translate('Battery Mode'), 'evcc.Battery.Mode', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_PRIORITYSOC, $this->Translate('Priority SoC'), 'evcc.Intensity.100', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_BUFFERSOC, $this->Translate('Buffer SoC'), 'evcc.Intensity.100', ++$pos);
         $this->RegisterVariableFloat(self::VAR_IDENT_BUFFERSTARTSOC, $this->Translate('Buffer Start SoC'), 'evcc.Intensity.100', ++$pos);
-        $this->RegisterVariableString(self::VAR_IDENT_SITETITLE, $this->Translate('Site Title'), '', ++$pos);
-        $this->RegisterVariableBoolean(self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE, $this->Translate('Battery Gridcharge Active'), '~Switch', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT, $this->Translate('Battery Gridcharge Limit'), 'evcc.EUR.3', ++$pos);
+        //$this->RegisterVariableString(self::VAR_IDENT_SITETITLE, $this->Translate('Site Title'), '', ++$pos);
+        //$this->RegisterVariableBoolean(self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE, $this->Translate('Battery Gridcharge Active'), '~Switch', ++$pos);
+        //$this->RegisterVariableFloat(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT, $this->Translate('Battery Gridcharge Limit'), 'evcc.EUR.3', ++$pos);
 
 
         //tariffs
@@ -191,8 +192,8 @@ class evccSite extends IPSModuleStrict
         $this->EnableAction(self::VAR_IDENT_BUFFERSOC);
         $this->EnableAction(self::VAR_IDENT_BUFFERSTARTSOC);
         $this->EnableAction(self::VAR_IDENT_RESIDUALPOWER);
-        $this->EnableAction(self::VAR_IDENT_BATTERYDISCHARGECONTROL);
-        $this->EnableAction(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT);
+        //$this->EnableAction(self::VAR_IDENT_BATTERYDISCHARGECONTROL);
+        //$this->EnableAction(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT);
     }
 
     public function ApplyChanges(): void
@@ -229,21 +230,15 @@ class evccSite extends IPSModuleStrict
             //$MQTTTopic . self::VAR_IDENT_AUXPOWER                => fn() => $this->SetValue(self::VAR_IDENT_AUXPOWER, (int)$payload),
             //$MQTTTopic . self::VAR_IDENT_PVPOWER                 => fn() => $this->SetValue(self::VAR_IDENT_PVPOWER, (int)$payload),
             //$MQTTTopic . self::VAR_IDENT_BATTERYPOWER            => fn() => $this->SetValue(self::VAR_IDENT_BATTERYPOWER, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_BATTERYSOC              => fn() => $this->SetValue(self::VAR_IDENT_BATTERYSOC, (int)$payload),
-            $MQTTTopic . self::VAR_IDENT_BATTERYDISCHARGECONTROL => fn() => $this->SetValue(
-                self::VAR_IDENT_BATTERYDISCHARGECONTROL,
-                $payload === 'true'
-            ),
-            $MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE => fn() => $this->SetValue(
-                self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE,
-                $payload === 'true'
-            ),
-            $MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGELIMIT  => fn() => $this->SetValue(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT, (float)$payload),
-            $MQTTTopic . self::VAR_IDENT_BATTERYMODE             => fn() => $this->SetValue(self::VAR_IDENT_BATTERYMODE, $payload),
+            //$MQTTTopic . self::VAR_IDENT_BATTERYSOC              => fn() => $this->SetValue(self::VAR_IDENT_BATTERYSOC, (int)$payload),
+            //$MQTTTopic . self::VAR_IDENT_BATTERYDISCHARGECONTROL => fn() => $this->SetValue(self::VAR_IDENT_BATTERYDISCHARGECONTROL, $payload === 'true'),
+            //$MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE => fn() => $this->SetValue(self::VAR_IDENT_BATTERYGRIDCHARGEACTIVE, $payload === 'true'),
+            //$MQTTTopic . self::VAR_IDENT_BATTERYGRIDCHARGELIMIT  => fn() => $this->SetValue(self::VAR_IDENT_BATTERYGRIDCHARGELIMIT, (float)$payload),
+            //$MQTTTopic . self::VAR_IDENT_BATTERYMODE             => fn() => $this->SetValue(self::VAR_IDENT_BATTERYMODE, $payload),
             $MQTTTopic . self::VAR_IDENT_PRIORITYSOC             => fn() => $this->SetValue(self::VAR_IDENT_PRIORITYSOC, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_BUFFERSOC               => fn() => $this->SetValue(self::VAR_IDENT_BUFFERSOC, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_BUFFERSTARTSOC          => fn() => $this->SetValue(self::VAR_IDENT_BUFFERSTARTSOC, (float)$payload),
-            $MQTTTopic . self::VAR_IDENT_SITETITLE               => fn() => $this->SetValue(self::VAR_IDENT_SITETITLE, $payload),
+            //$MQTTTopic . self::VAR_IDENT_SITETITLE               => fn() => $this->SetValue(self::VAR_IDENT_SITETITLE, $payload),
             $MQTTTopic . self::VAR_IDENT_CURRENCY                => fn() => $this->SetValue(self::VAR_IDENT_CURRENCY, $payload),
             $MQTTTopic . self::VAR_IDENT_TARIFFFEEDIN            => fn() => $this->SetValue(self::VAR_IDENT_TARIFFFEEDIN, (float)$payload),
             $MQTTTopic . self::VAR_IDENT_TARIFFGRID              => fn() => $this->SetValue(self::VAR_IDENT_TARIFFGRID, (float)$payload),
@@ -304,10 +299,10 @@ class evccSite extends IPSModuleStrict
             case self::VAR_IDENT_BUFFERSOC:
             case self::VAR_IDENT_BUFFERSTARTSOC:
             case self::VAR_IDENT_RESIDUALPOWER:
-            case self::VAR_IDENT_BATTERYGRIDCHARGELIMIT:
+            case SiteIdent::BatteryGridChargeLimit:
                 $this->mqttCommand($mqttTopic . $Ident . '/set', (string)$Value);
                 break;
-            case self::VAR_IDENT_BATTERYDISCHARGECONTROL:
+            case SiteIdent::BatteryDischargeControl:
                 $this->mqttCommand($mqttTopic . $Ident . '/set', $Value ? 'true' : 'false');
                 break;
             default:

@@ -312,8 +312,9 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::LimitEnergy->value                    => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
-                    'SUFFIX'       => ' kWh',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_SLIDER,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
@@ -343,9 +344,10 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::SessionEnergy->value                  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'DIGITS'       => 1,
-                    'SUFFIX'       => ' Wh',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'              => 1,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' Wh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Session Energy',
@@ -452,8 +454,9 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::VehicleRange->value                   => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' km',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' km',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Vehicle Range',
@@ -491,8 +494,9 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::VehicleOdometer->value                => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' km',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' km',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_STRING,
                 IPS_VAR_NAME     => 'Vehicle Odometer',
@@ -543,9 +547,10 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::PlanEnergy->value                     => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' kWh',
-                    'DIGITS'       => 1
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' kWh',
+                    'DIGITS'              => 1
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Plan Energy',
@@ -576,8 +581,9 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::ChargePower->value                    => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Charge Power',
@@ -586,8 +592,9 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::ChargeCurrent->value                  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Charge Current',
@@ -596,9 +603,10 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::ChargedEnergy->value                  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' Wh',
-                    'DIGITS'       => 1
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' Wh',
+                    'DIGITS'              => 1
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Charged Energy',
@@ -618,9 +626,10 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::ChargeRemainingEnergy->value          => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' Wh',
-                    'DIGITS'       => 1
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' Wh',
+                    'DIGITS'              => 1
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Charge remaining Energy',
@@ -850,8 +859,9 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::EnableThreshold->value                => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_ACTION   => true,
@@ -861,8 +871,9 @@ namespace evccMQTT\Themes {
             LoadPointIdVariableIdent::DisableThreshold->value               => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_ACTION   => true,
@@ -873,7 +884,8 @@ namespace evccMQTT\Themes {
     }
     enum SiteIdent: string
     {
-        case GridConfigured = 'gridConfigured';
+        //case GridConfigured = 'gridConfigured';
+        case SiteTitle = 'siteTitle';
         case GridPower = 'grid_power';
         case GridEnergy = 'grid_energy';
         case PvPower = 'pvPower';
@@ -882,6 +894,12 @@ namespace evccMQTT\Themes {
         case BatteryEnergy = 'batteryEnergy';
         case HomePower = 'homePower';
         case AuxPower = 'auxPower';
+        case BatterySoc = 'batterySoc';
+        case BatteryMode = 'batteryMode';
+        case BatteryDischargeControl = 'batteryDischargeControl';
+        case BatteryGridChargeActive = 'batteryGridChargeActive';
+        case BatteryGridChargeLimit = 'batteryGridChargeLimit';
+
         public static function idents(): array
         {
             // Gibt ein Array von Strings (den Enum-Backing-Values) zurück
@@ -892,99 +910,202 @@ namespace evccMQTT\Themes {
     class Site extends ThemeBasics
     {
         protected static array $properties = [
-            SiteIdent::GridConfigured->value => [
-                'type'           => 'boolean',
+            /*            SiteIdent::GridConfigured->value => [
+                            'type'           => 'boolean',
+                            IPS_PRESENTATION => [
+                                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                            ],
+                            IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                            IPS_VAR_NAME     => 'Grid Configured',
+                            IPS_VAR_POSITION => 1
+                        ],
+            */
+            SiteIdent::SiteTitle->value     => [
+                'type'           => 'string',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION
                 ],
-                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
-                IPS_VAR_NAME     => 'Grid Configured',
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Site Title',
                 IPS_VAR_POSITION => 1
             ],
-            SiteIdent::GridPower->value => [
+            SiteIdent::GridPower->value     => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'DIGITS'       => 1,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'              => 1,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Grid Power',
                 IPS_VAR_POSITION => 2
             ],
-            SiteIdent::GridEnergy->value => [
+            SiteIdent::PvPower->value       => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' kWh',
-                ],
-                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
-                IPS_VAR_NAME     => 'Grid Energy',
-                IPS_VAR_POSITION => 3
-            ],
-            SiteIdent::PvPower->value => [
-                'type'           => 'number',
-                IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'DIGITS'       => 1,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'              => 1,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'PV Power',
-                IPS_VAR_POSITION => 4
+                IPS_VAR_POSITION => 3
             ],
-            SiteIdent::PvEnergy->value => [
+            SiteIdent::BatteryPower->value  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' kWh',
-                ],
-                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
-                IPS_VAR_NAME     => 'PV Energy',
-                IPS_VAR_POSITION => 5
-            ],
-            SiteIdent::BatteryPower->value => [
-                'type'           => 'number',
-                IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'DIGITS'       => 1,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'              => 1,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Battery Power',
-                IPS_VAR_POSITION => 5
+                IPS_VAR_POSITION => 4
             ],
             SiteIdent::BatteryEnergy->value => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'SUFFIX'       => ' kWh',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Battery Energy',
-                IPS_VAR_POSITION => 6
+                IPS_VAR_POSITION => 5
             ],
-            SiteIdent::HomePower->value => [
+            SiteIdent::HomePower->value     => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'DIGITS'       => 1,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'              => 1,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Home Power',
-                IPS_VAR_POSITION => 7
+                IPS_VAR_POSITION => 6
             ],
-            SiteIdent::AuxPower->value => [
+            SiteIdent::AuxPower->value      => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'DIGITS'       => 1,
-                    'SUFFIX'       => ' W',
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'              => 1,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Aux Power',
+                IPS_VAR_POSITION => 7
+            ],
+            SiteIdent::GridEnergy->value    => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' kWh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Grid Energy',
                 IPS_VAR_POSITION => 8
+            ],
+            SiteIdent::PvEnergy->value      => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'THOUSANDS_SEPARATOR' => 'Client',
+                    'SUFFIX'              => ' kWh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'PV Energy',
+                IPS_VAR_POSITION => 9
+            ],
+            SiteIdent::BatterySoc->value    => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' %',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
+                IPS_VAR_NAME     => 'Battery SOC',
+                IPS_VAR_POSITION => 10
+            ],
+            SiteIdent::BatteryMode->value   => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'OPTIONS'      => [
+                        [
+                            'Value'      => 'unknown',
+                            'Caption'    => 'unknown',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 'normal',
+                            'Caption'    => 'normal',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 'charge',
+                            'Caption'    => 'charge',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 'discharge',
+                            'Caption'    => 'discharge',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ]
+                    ]
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Battery Mode',
+                IPS_VAR_POSITION => 11
+            ],
+
+            SiteIdent::BatteryDischargeControl->value => [
+                'type'           => 'boolean',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SWITCH,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Battery Discharge Control',
+                IPS_VAR_POSITION => 12
+            ],
+            SiteIdent::BatteryGridChargeActive->value => [
+                'type'           => 'boolean',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SWITCH,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Battery Gridcharge Active',
+                IPS_VAR_POSITION => 13
+            ],
+            SiteIdent::BatteryGridChargeLimit->value  => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_INPUT,
+                    'SUFFIX'       => ' €',
+                    'MIN'          => '-1',
+                    'MAX'          => '+1',
+                    'DIGITS'       => 3,
+                    'STEP_SIZE'    => '0.001',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Battery Gridcharge Limit',
+                IPS_VAR_POSITION => 14
             ],
         ];
     }

@@ -7,12 +7,14 @@
             "Battery Capacity": "Batterie Kapazität",
             "Battery SoC": "Batterie Ladezustand",
             "Battery Power": "Batterie Leistung",
+            "Battery Mode": "Batteriemodus",
             "Battery Energy": "Batterieenergie",
             "Battery Gridcharge Limit": "Batterie Netzladen Preislimit",
             "Battery Gridcharge Active": "Batterie Netzladen aktiv",
             "Battery Discharge Control": "Batterie Entladen Steuerung",
             "Priority SoC": "Priorisierung SoC",
             "Grid Configured": "Netzzähler konfiguriert",
+            "Site Title": "Titel",
             "Grid Power": "Netzleistung",
             "Grid Currents": "Netzströme",
             "Grid Energy": "Netzenergie",
@@ -26,6 +28,8 @@
             "Tariff CO2 Loadpoints": "Tarif CO₂ Ladepunkte",
             "unknown": "unbekannt",
             "normal": "normal",
+            "charge": "laden",
+            "discharge": "entladen",
             "Residual Power": "Sollarbeitspunkt Überschussregelung"
         }
     }
