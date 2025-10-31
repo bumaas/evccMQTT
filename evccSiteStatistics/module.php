@@ -13,7 +13,6 @@ use const evccMQTT\Themes\IPS_VAR_IDENT;
 use const evccMQTT\Themes\IPS_VAR_NAME;
 use const evccMQTT\Themes\IPS_VAR_TYPE;
 use const evccMQTT\Themes\IPS_VAR_VALUE;
-use const evccMQTT\Themes\IPS_VAR_POSITION;
 
 
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
@@ -26,11 +25,6 @@ class evccSiteStatistics extends IPSModuleStrict
 
     private const string PROP_TOPIC = 'topic';
     private const string PROP_SCOPE = 'scope';
-
-    private const string VAR_IDENT_AVG_CO2          = 'avgCo2';
-    private const string VAR_IDENT_AVG_PRICE        = 'avgPrice';
-    private const string VAR_IDENT_CHARGED_KWH      = 'chargedKWh';
-    private const string VAR_IDENT_SOLAR_PERCENTAGE = 'solarPercentage';
 
     public function Create(): void
     {
@@ -46,55 +40,34 @@ class evccSiteStatistics extends IPSModuleStrict
     private function registerVariables(): void
     {
         $pos = 0;
-        //sorted like https://github.com/evcc-io/evcc/blob/master/assets/js/components/Loadpoint.vue
-        //main
-
-
         foreach (SiteStatisticsIdent::idents() as $ident) {
             $VariableValues = SiteStatistics::getIPSVariable($ident);
-            $this->SendDebug(__FUNCTION__, sprintf('VariableValues: %s', print_r($VariableValues, true)), 0);
+            $this->SendDebug(__FUNCTION__, sprintf('%s, VariableValues: %s', $ident, print_r($VariableValues, true)), 0);
 
-            switch ($VariableValues[IPS_VAR_TYPE]) {
-                case VARIABLETYPE_INTEGER:
-                    $ret = $this->RegisterVariableInteger(
-                        $VariableValues[IPS_VAR_IDENT],
-                        $this->Translate($VariableValues[IPS_VAR_NAME]),
-                        $VariableValues[IPS_PRESENTATION],
-                        $VariableValues[IPS_VAR_POSITION],
-                    );
-                    break;
-                case VARIABLETYPE_FLOAT:
-                    $ret = $this->RegisterVariableFloat(
-                        $VariableValues[IPS_VAR_IDENT],
-                        $this->Translate($VariableValues[IPS_VAR_NAME]),
-                        $VariableValues[IPS_PRESENTATION],
-                        $VariableValues[IPS_VAR_POSITION],
-                    );
+            // Position wird hier fortlaufend gesetzt
+            $this->registerVariableByType(
+                $VariableValues[IPS_VAR_TYPE],
+                $VariableValues[IPS_VAR_IDENT],
+                $this->Translate($VariableValues[IPS_VAR_NAME]),
+                $VariableValues[IPS_PRESENTATION],
+                ++$pos
+            );
 
-                    break;
-                case VARIABLETYPE_STRING:
-                    $ret = $this->RegisterVariableString(
-                        $VariableValues[IPS_VAR_IDENT],
-                        $this->Translate($VariableValues[IPS_VAR_NAME]),
-                        $VariableValues[IPS_PRESENTATION],
-                        $VariableValues[IPS_VAR_POSITION],
-                    );
-                    break;
-                case VARIABLETYPE_BOOLEAN:
-                    $ret = $this->RegisterVariableBoolean(
-                        $VariableValues[IPS_VAR_IDENT],
-                        $this->Translate($VariableValues[IPS_VAR_NAME]),
-                        $VariableValues[IPS_PRESENTATION],
-                        $VariableValues[IPS_VAR_POSITION],
-                    );
-                    break;
-            }
-
-            $this->SendDebug(__FUNCTION__, sprintf('ret: %s', (int)$ret), 0);
             if ($VariableValues[IPS_VAR_ACTION]) {
                 $this->EnableAction($ident);
             }
         }
+    }
+
+    private function registerVariableByType(int $type, string $ident, string $name, array $presentation, int $position): bool
+    {
+        $map = [
+            VARIABLETYPE_INTEGER => fn() => $this->RegisterVariableInteger($ident, $name, $presentation, $position),
+            VARIABLETYPE_FLOAT   => fn() => $this->RegisterVariableFloat($ident, $name, $presentation, $position),
+            VARIABLETYPE_STRING  => fn() => $this->RegisterVariableString($ident, $name, $presentation, $position),
+            VARIABLETYPE_BOOLEAN => fn() => $this->RegisterVariableBoolean($ident, $name, $presentation, $position),
+        ];
+        return isset($map[$type]) ? $map[$type]() : false;
     }
 
     public function ApplyChanges(): void

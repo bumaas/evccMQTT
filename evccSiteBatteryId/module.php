@@ -1,6 +1,19 @@
 <?php
 
 declare(strict_types=1);
+
+require_once dirname(__DIR__) . '/libs/Themes.php';
+
+use evccMQTT\Themes\SiteBatteryId;
+use evccMQTT\Themes\SiteBatteryIdIdent;
+
+use const evccMQTT\Themes\IPS_PRESENTATION;
+use const evccMQTT\Themes\IPS_VAR_ACTION;
+use const evccMQTT\Themes\IPS_VAR_IDENT;
+use const evccMQTT\Themes\IPS_VAR_NAME;
+use const evccMQTT\Themes\IPS_VAR_TYPE;
+use const evccMQTT\Themes\IPS_VAR_VALUE;
+
 require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
@@ -12,12 +25,7 @@ class evccSiteBatteryId extends IPSModuleStrict
     private const string PROP_TOPIC         = 'topic';
     private const string PROP_SITEBATTERYID = 'siteBatteryId';
 
-    private const string VAR_IDENT_POWER  = 'power';
-    private const string VAR_IDENT_ENERGY = 'energy';
-    private const string VAR_IDENT_SOC    = 'soc';
-    private const string VAR_IDENT_CAPACITY = 'capacity';
-    private const string VAR_IDENT_CONTROLLABLE = 'controllable';
-
+    private const array IGNORED_ELEMENTS = [];
 
     public function Create(): void
     {
@@ -27,20 +35,40 @@ class evccSiteBatteryId extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/battery/');
         $this->RegisterPropertyInteger(self::PROP_SITEBATTERYID, 1);
 
-        $this->RegisterProfileIntegerEx('evcc.Power', '', '', ' W', []);
-        $this->RegisterProfileFloatEx('evcc.Energy.kWh', '', '', ' kWh', [], -1, 0, 1);
-        $this->RegisterProfileBooleanEx('evcc.Controllable', '', '', '', [
-            [0, $this->Translate('no'), '', -1],
-            [1, $this->Translate('yes'), '', -1]
-        ]);
+        $this->registerVariables();
+    }
 
+    private function registerVariables(): void
+    {
         $pos = 0;
-        $this->RegisterVariableInteger(self::VAR_IDENT_POWER, $this->Translate('Power'), 'evcc.Power', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_ENERGY, $this->Translate('Energy'), 'evcc.Energy.kWh', ++$pos);
-        $this->RegisterVariableInteger(self::VAR_IDENT_SOC, $this->Translate('SoC'), '~Battery.100', ++$pos);
-        $this->RegisterVariableFloat(self::VAR_IDENT_CAPACITY, $this->Translate('Capacity'), 'evcc.Energy.kWh', ++$pos);
+        foreach (SiteBatteryIdIdent::idents() as $ident) {
+            $VariableValues = SiteBatteryId::getIPSVariable($ident);
+            $this->SendDebug(__FUNCTION__, sprintf('%s, VariableValues: %s', $ident, print_r($VariableValues, true)), 0);
 
-        $this->RegisterVariableBoolean(self::VAR_IDENT_CONTROLLABLE, $this->Translate('Controllable'), 'evcc.Controllable', ++$pos);
+            // Position wird hier fortlaufend gesetzt
+            $this->registerVariableByType(
+                $VariableValues[IPS_VAR_TYPE],
+                $VariableValues[IPS_VAR_IDENT],
+                $this->Translate($VariableValues[IPS_VAR_NAME]),
+                $VariableValues[IPS_PRESENTATION],
+                ++$pos
+            );
+
+            if ($VariableValues[IPS_VAR_ACTION]) {
+                $this->EnableAction($ident);
+            }
+        }
+    }
+
+    private function registerVariableByType(int $type, string $ident, string $name, array $presentation, int $position): bool
+    {
+        $map = [
+            VARIABLETYPE_INTEGER => fn() => $this->RegisterVariableInteger($ident, $name, $presentation, $position),
+            VARIABLETYPE_FLOAT   => fn() => $this->RegisterVariableFloat($ident, $name, $presentation, $position),
+            VARIABLETYPE_STRING  => fn() => $this->RegisterVariableString($ident, $name, $presentation, $position),
+            VARIABLETYPE_BOOLEAN => fn() => $this->RegisterVariableBoolean($ident, $name, $presentation, $position),
+        ];
+        return isset($map[$type]) ? $map[$type]() : false;
     }
 
     public function ApplyChanges(): void
@@ -57,6 +85,11 @@ class evccSiteBatteryId extends IPSModuleStrict
         $this->SetSummary($MQTTTopic);
     }
 
+    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic): bool
+    {
+        return in_array($lastElement, self::IGNORED_ELEMENTS)
+               || is_numeric($lastElement);
+    }
     public function ReceiveData(string $JSONString): string
     {
         $MQTTTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_SITEBATTERYID) . '/';
@@ -65,29 +98,30 @@ class evccSiteBatteryId extends IPSModuleStrict
             return'';
         }
 
+        $this->SendDebug(__FUNCTION__, 'JSONString: ' . $JSONString, 0);
+
         $data    = json_decode($JSONString, true, 512, JSON_THROW_ON_ERROR);
         $topic   = $data['Topic'];
         $payload = hex2bin($data['Payload']);
         $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s', $topic, $payload), 0);
 
-        switch ($topic) {
-            case $MQTTTopic . self::VAR_IDENT_POWER:
-                $this->SetValue(self::VAR_IDENT_POWER, (int)$payload);
-                break;
-            case $MQTTTopic . self::VAR_IDENT_ENERGY:
-                $this->SetValue(self::VAR_IDENT_ENERGY, (float)$payload);
-                break;
-            case $MQTTTopic . self::VAR_IDENT_SOC:
-                $this->SetValue(self::VAR_IDENT_SOC, (int)$payload);
-                break;
-            case $MQTTTopic . self::VAR_IDENT_CAPACITY:
-                $this->SetValue(self::VAR_IDENT_CAPACITY, (float)$payload);
-                break;
-            case $MQTTTopic . self::VAR_IDENT_CONTROLLABLE:
-                $this->SetValue(self::VAR_IDENT_CONTROLLABLE, filter_var($payload, FILTER_VALIDATE_BOOLEAN));
-                break;
-            default:
-                $this->SendDebug(__FUNCTION__, 'unexpected topic: ' . $topic, 0);
+        $mqttSubTopics      = $this->getMqttSubTopics($topic);
+        $lastElement        = $this->getLastElement($mqttSubTopics);
+        $penultimateElement = $this->getPenultimateElement($mqttSubTopics);
+
+        if ($this->isReceivedSetTopic($topic)) {
+            return '';
+        }
+
+        if ($this->shouldBeIgnored($lastElement, $penultimateElement, $topic, $MQTTTopic)) {
+            $this->SendDebug(__FUNCTION__, 'ignored: ' . $topic, 0);
+        } elseif (SiteBatteryId::propertyIsValid($lastElement)) {
+            $VariableValues = SiteBatteryId::getIPSVariable($lastElement, $payload);
+            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
+                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+            }
+        } else {
+            $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);
         }
         return '';
     }
