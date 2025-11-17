@@ -131,7 +131,9 @@ class evccLoadPointId extends IPSModuleStrict
         } elseif (LoadPointId::propertyIsValid($lastElement)) {
             $VariableValues = LoadPointId::getIPSVariable($lastElement, $payload);
             if (!is_null($VariableValues[IPS_VAR_VALUE])) {
-                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+                if (!$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])){
+                   IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
+                }
             }
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);

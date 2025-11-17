@@ -133,7 +133,7 @@ class evccSiteAuxId extends IPSModuleStrict
         $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_SITEAUXID);
         switch ($Ident) {
             default:
-                $this->LogMessage('Invalid Action', KL_WARNING);
+                $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
                 break;
         }
     }

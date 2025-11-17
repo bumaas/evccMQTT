@@ -117,7 +117,9 @@ class evccSite extends IPSModuleStrict
         } elseif (Site::propertyIsValid($lastElement)) {
             $VariableValues = Site::getIPSVariable($lastElement, $payload);
             if (!is_null($VariableValues[IPS_VAR_VALUE])) {
-                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+                if (!$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])){
+                    IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
+                }
             }
         } elseif (Site::propertyIsValid($penultimateElement . '_' . $lastElement)) {
             $VariableValues = Site::getIPSVariable($penultimateElement . '_' . $lastElement, $payload);
@@ -133,20 +135,20 @@ class evccSite extends IPSModuleStrict
     public function RequestAction($Ident, $Value): void
     {
         $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC);
-
+        $this->SendDebug(__FUNCTION__ , sprintf('Ident: %s, KONST: %s, Value: %s', $Ident, SiteIdent::BatteryDischargeControl->value, $Value), 0);
         switch ($Ident) {
-            case SiteIdent::PrioritySoc:
-            case SiteIdent::BufferSoc:
-            case SiteIdent::BufferStartSoc:
-            case SiteIdent::ResidualPower:
-            case SiteIdent::BatteryGridChargeLimit:
+            case SiteIdent::PrioritySoc->value:
+            case SiteIdent::BufferSoc->value:
+            case SiteIdent::BufferStartSoc->value:
+            case SiteIdent::ResidualPower->value:
+            case SiteIdent::BatteryGridChargeLimit->value:
                 $this->mqttCommand($mqttTopic . $Ident . '/set', (string)$Value);
                 break;
-            case SiteIdent::BatteryDischargeControl:
+            case SiteIdent::BatteryDischargeControl->value:
                 $this->mqttCommand($mqttTopic . $Ident . '/set', $Value ? 'true' : 'false');
                 break;
             default:
-                $this->LogMessage('Invalid Action', KL_WARNING);
+                $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
                 break;
         }
     }

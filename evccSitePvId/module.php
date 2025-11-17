@@ -133,20 +133,8 @@ class evccSitePvId extends IPSModuleStrict
         $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_SITEPVID);
 
         switch ($Ident) {
-            case 'SoC':
-                $this->mqttCommand('set/houseBattery/%Soc', (int) $Value);
-                break;
-            case 'W':
-                $this->mqttCommand('set/houseBattery/W', (float) $Value);
-                break;
-            case 'WhExported':
-                $this->mqttCommand('set/houseBattery/WhExported', (float) $Value);
-                break;
-            case 'WhImported':
-                $this->mqttCommand('set/houseBattery/WhImported', (float) $Value);
-                break;
             default:
-                $this->LogMessage('Invalid Action', KL_WARNING);
+                $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
                 break;
         }
     }

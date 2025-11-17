@@ -94,7 +94,7 @@ class evccVehicleName extends IPSModuleStrict
 
     public function ReceiveData(string $JSONString): string
     {
-        $MQTTTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_VEHICLENAME) . '/';
+        $MQTTTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyString(self::PROP_VEHICLENAME) . '/';
 
         if (empty($MQTTTopic)) {
             return '';
@@ -133,7 +133,7 @@ class evccVehicleName extends IPSModuleStrict
         $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_VEHICLENAME);
         switch ($Ident) {
             default:
-                $this->LogMessage('Invalid Action', KL_WARNING);
+                $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
                 break;
         }
     }

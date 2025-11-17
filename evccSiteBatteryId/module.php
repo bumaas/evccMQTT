@@ -118,7 +118,9 @@ class evccSiteBatteryId extends IPSModuleStrict
         } elseif (SiteBatteryId::propertyIsValid($lastElement)) {
             $VariableValues = SiteBatteryId::getIPSVariable($lastElement, $payload);
             if (!is_null($VariableValues[IPS_VAR_VALUE])) {
-                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+                if (!$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])){
+                    IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
+                }
             }
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);
@@ -130,20 +132,8 @@ class evccSiteBatteryId extends IPSModuleStrict
     {
         $bat = $this->ReadPropertyInteger(self::PROP_SITEBATTERYID);
         switch ($Ident) {
-            case 'SoC':
-                $this->mqttCommand('set/houseBattery/%Soc', (int) $Value);
-                break;
-            case 'W':
-                $this->mqttCommand('set/houseBattery/W', (float) $Value);
-                break;
-            case 'WhExported':
-                $this->mqttCommand('set/houseBattery/WhExported', (float) $Value);
-                break;
-            case 'WhImported':
-                $this->mqttCommand('set/houseBattery/WhImported', (float) $Value);
-                break;
             default:
-                $this->LogMessage('Invalid Action', KL_WARNING);
+                $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
                 break;
         }
     }

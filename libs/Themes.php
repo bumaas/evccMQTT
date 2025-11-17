@@ -1139,21 +1139,19 @@ namespace evccMQTT\Themes {
             SiteIdent::GreenShareHome->value          => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'SUFFIX'       => ' %',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
-                IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Green Share Home',
             ],
             SiteIdent::GreenShareLoadPoints->value    => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'SUFFIX'       => ' %',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
-                IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Green Share Loadpoints',
             ],
             SiteIdent::PrioritySoc->value             => [
@@ -1215,7 +1213,6 @@ namespace evccMQTT\Themes {
                     'PRESENTATION' => VARIABLE_PRESENTATION_SWITCH,
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
-                IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Battery Gridcharge Active',
             ],
             SiteIdent::BatteryGridChargeLimit->value  => [
