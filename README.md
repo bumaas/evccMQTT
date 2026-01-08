@@ -1,7 +1,7 @@
 ![Red Square](/docs/pictures/logo.png)
 # evccMQTT
+Dieses Modul ermöglicht die vollständige Integration der Ladesteuerung **[evcc](https://evcc.io)** in **Symcon** auf Basis der MQTT-API.
 
-Modul zur Integration von evcc ([evcc.io](https://evcc.io)) in IP-Symcon.
 
 ## Inhaltverzeichnis
 
@@ -26,6 +26,7 @@ Modul zur Integration von evcc ([evcc.io](https://evcc.io)) in IP-Symcon.
     * evcc Batterie
     * evcc Extern geregeltes Gerät
     * evcc Fahrzeug
+    * evcc Statistikdaten
 
 ## 3. Installation
 
@@ -33,7 +34,20 @@ Modul zur Integration von evcc ([evcc.io](https://evcc.io)) in IP-Symcon.
 
 ## 4. Konfiguration in IP-Symcon
 
-todo
+Nach der Installation müssen die Instanzen der gewünschten Module angelegt werden. Alle Module benötigen eine Verbindung zum **MQTT Server** (Parent IO), auf dem evcc seine Daten publiziert.
+
+### MQTT Topic Basis
+Standardmäßig verwenden die Module das Topic-Präfix `evcc/`. Sollte dies in der `evcc.yaml` geändert worden sein, muss das Präfix in der Instanzkonfiguration entsprechend angepasst werden.
+
+### Modul-spezifische Einstellungen
+*   **evcc Standort (Site):** Abonniert allgemeine Daten wie Netzbezug, PV-Leistung etc..
+*   **evcc Ladepunkt (Loadpoint):** Erfordert die Angabe der **Loadpoint ID**.
+*   **evcc PV Anlage / Batterie / Externes Gerät:** Erfordert die jeweilige **ID** der Komponente, wie sie von evcc über MQTT nummeriert wird (z.B. `evcc/site/pv/1`).
+*   **evcc Fahrzeug (Vehicle):** Erfordert den in der evcc-Konfiguration vergebenen **Namen** des Fahrzeugs (z.B. `evcc/vehicles/meinauto/`).
+
+### Schalten von Funktionen
+Einige Variablen (z.B. Lademodus, Phasenanzahl oder Ziel-SoC) unterstützen die **Standardaktion**. Wenn eine Änderung in IP-Symcon vorgenommen wird, sendet das Modul den entsprechenden Befehl via MQTT (z.B. an `.../set`) zurück an evcc.
+
 
 ## 5. Lizenz
 

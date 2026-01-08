@@ -682,9 +682,9 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
                     'SUFFIX'       => ' A',
-                    'MIN'          => '1',
-                    'MAX'          => '16',
-                    'STEP_SIZE'    => '1',
+                    'MIN'          => 0,
+                    'MAX'          => 32,
+                    'STEP_SIZE'    => 1
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
@@ -695,9 +695,9 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
                     'SUFFIX'       => ' A',
-                    'MIN'          => '1',
-                    'MAX'          => '16',
-                    'STEP_SIZE'    => '1',
+                    'MIN'          => 0,
+                    'MAX'          => 32,
+                    'STEP_SIZE'    => 1
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
@@ -708,9 +708,9 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
                     'SUFFIX'       => ' A',
-                    'MIN'          => '1',
-                    'MAX'          => '16',
-                    'DIGITS'       => '1',
+                    'MIN'          => 1,
+                    'MAX'          => 16,
+                    'DIGITS'       => 1
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Effective min Current',
@@ -720,9 +720,9 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
                     'SUFFIX'       => ' A',
-                    'MIN'          => '1',
-                    'MAX'          => '16',
-                    'DIGITS'       => '1',
+                    'MIN'          => 1,
+                    'MAX'          => 16,
+                    'DIGITS'       => 1
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Effective max Current',
@@ -778,9 +778,9 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
                     'DIGITS'       => 3,
-                    'MIN'          => '-0.10',
-                    'MAX'          => '0.60',
-                    'STEP_SIZE'    => '0.005',
+                    'MIN'          => -0.10,
+                    'MAX'          => 0.60,
+                    'STEP_SIZE'    => 0.005,
                     'SUFFIX'       => ' €',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
@@ -806,9 +806,11 @@ namespace evccMQTT\Themes {
             LoadPointIdIdent::EnableThreshold->value                => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'THOUSANDS_SEPARATOR' => 'Client',
                     'SUFFIX'              => ' W',
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
+                    'MIN'          => 0,
+                    'MAX'          => 10000,
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_ACTION   => true,
@@ -817,9 +819,11 @@ namespace evccMQTT\Themes {
             LoadPointIdIdent::DisableThreshold->value               => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'THOUSANDS_SEPARATOR' => 'Client',
                     'SUFFIX'              => ' W',
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER,
+                    'MIN'          => 0,
+                    'MAX'          => 10000,
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_ACTION   => true,
@@ -1220,10 +1224,10 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_INPUT,
                     'SUFFIX'       => ' €',
-                    'MIN'          => '-1',
-                    'MAX'          => '+1',
+                    'MIN'          => -1,
+                    'MAX'          => +1,
                     'DIGITS'       => 3,
-                    'STEP_SIZE'    => '0.001',
+                    'STEP_SIZE'    => 0.001,
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,

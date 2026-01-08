@@ -30,6 +30,26 @@ trait MQTTHelper
         }
     }
 
+    /**
+     * Dekodiert die von IPS kommenden MQTT-Daten.
+     */
+    protected function decodeMQTTData(string $JSONString): array
+    {
+        $data = json_decode($JSONString, true, 512, JSON_THROW_ON_ERROR);
+        $topic = $data['Topic'];
+        $payload = hex2bin($data['Payload']);
+
+        $mqttSubTopics = $this->getMqttSubTopics($topic);
+
+        return [
+            'Topic'              => $topic,
+            'Payload'            => $payload,
+            'SubTopics'          => $mqttSubTopics,
+            'LastElement'        => $this->getLastElement($mqttSubTopics),
+            'PenultimateElement' => $this->getPenultimateElement($mqttSubTopics)
+        ];
+    }
+
     private function getMqttSubTopics(string $topic): array
     {
         return explode('/', $topic);
@@ -48,6 +68,30 @@ trait MQTTHelper
     private function isReceivedSetTopic(string $topic): bool
     {
         return str_ends_with($topic, self::SET_FLAG);
+    }
+
+    /**
+     * Bereitet die MQTT-Daten auf und prüft auf Basis-Gültigkeit.
+     *
+     * @param string $JSONString
+     * @param string $MQTTTopic
+     * @return array|null
+     */
+    protected function prepareMQTTData(string $JSONString, string $MQTTTopic): ?array
+    {
+        if (empty($MQTTTopic) || $MQTTTopic === '/') {
+            return null;
+        }
+
+        $this->SendDebug('ReceiveData', 'JSONString: ' . $JSONString, 0);
+        $mqtt = $this->decodeMQTTData($JSONString);
+        $this->SendDebug('ReceiveData', sprintf('Topic: %s, Payload: %s', $mqtt['Topic'], $mqtt['Payload']), 0);
+
+        if ($this->isReceivedSetTopic($mqtt['Topic'])) {
+            return null;
+        }
+
+        return $mqtt;
     }
 
 }

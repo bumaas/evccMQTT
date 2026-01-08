@@ -15,16 +15,16 @@ use const evccMQTT\Themes\IPS_VAR_TYPE;
 use const evccMQTT\Themes\IPS_VAR_VALUE;
 
 
-require_once __DIR__ . '/../libs/helper/VariableProfileHelper.php';
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
 class evccSiteStatistics extends IPSModuleStrict
 {
-    use VariableProfileHelper;
     use MQTTHelper;
 
     private const string PROP_TOPIC = 'topic';
     private const string PROP_SCOPE = 'scope';
+
+    private const array IGNORED_ELEMENTS = [];
 
     public function Create(): void
     {
@@ -45,12 +45,13 @@ class evccSiteStatistics extends IPSModuleStrict
             $this->SendDebug(__FUNCTION__, sprintf('%s, VariableValues: %s', $ident, print_r($VariableValues, true)), 0);
 
             // Position wird hier fortlaufend gesetzt
-            $this->registerVariableByType(
-                $VariableValues[IPS_VAR_TYPE],
+            $this->MaintainVariable(
                 $VariableValues[IPS_VAR_IDENT],
                 $this->Translate($VariableValues[IPS_VAR_NAME]),
+                $VariableValues[IPS_VAR_TYPE],
                 $VariableValues[IPS_PRESENTATION],
-                ++$pos
+                ++$pos,
+                true
             );
 
             if ($VariableValues[IPS_VAR_ACTION]) {
@@ -59,25 +60,13 @@ class evccSiteStatistics extends IPSModuleStrict
         }
     }
 
-    private function registerVariableByType(int $type, string $ident, string $name, array $presentation, int $position): bool
-    {
-        $map = [
-            VARIABLETYPE_INTEGER => fn() => $this->RegisterVariableInteger($ident, $name, $presentation, $position),
-            VARIABLETYPE_FLOAT   => fn() => $this->RegisterVariableFloat($ident, $name, $presentation, $position),
-            VARIABLETYPE_STRING  => fn() => $this->RegisterVariableString($ident, $name, $presentation, $position),
-            VARIABLETYPE_BOOLEAN => fn() => $this->RegisterVariableBoolean($ident, $name, $presentation, $position),
-        ];
-        return isset($map[$type]) ? $map[$type]() : false;
-    }
 
     public function ApplyChanges(): void
     {
         parent::ApplyChanges();
 
-        $base      = rtrim($this->ReadPropertyString(self::PROP_TOPIC), '/') . '/';
-        $scope     = $this->ReadPropertyString(self::PROP_SCOPE);
-        $MQTTTopic = $base . $scope . '/';
-
+        //Setze Filter für ReceiveData
+        $MQTTTopic          = $this->getMqttBaseTopic();
         $requiredRegexMatch = '.*' . str_replace('/', '\/', $MQTTTopic) . '.*';
         $this->SendDebug(__FUNCTION__, 'ReceiveDataFilter: ' . $requiredRegexMatch, 0);
         $this->SetReceiveDataFilter($requiredRegexMatch);
@@ -85,31 +74,32 @@ class evccSiteStatistics extends IPSModuleStrict
         $this->SetSummary($MQTTTopic);
     }
 
+    private function getMqttBaseTopic(): string
+    {
+        return $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyString(self::PROP_SCOPE) . '/';
+    }
+
+    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic): bool
+    {
+        return in_array($lastElement, self::IGNORED_ELEMENTS)
+               || is_numeric($lastElement);
+    }
+
     public function ReceiveData(string $JSONString): string
     {
-        $base      = rtrim($this->ReadPropertyString(self::PROP_TOPIC), '/') . '/';
-        $scope     = $this->ReadPropertyString(self::PROP_SCOPE);
-        $MQTTTopic = $base . $scope . '/';
-
-        if ($MQTTTopic === '/') {
+        $MQTTTopic = $this->getMqttBaseTopic();
+        $mqtt = $this->prepareMQTTData($JSONString, $MQTTTopic);
+        if (is_null($mqtt)) {
             return '';
         }
 
-        $data    = json_decode($JSONString, true, 512, JSON_THROW_ON_ERROR);
-        $topic   = $data['Topic'];
-        $payload = hex2bin($data['Payload']);
-
-        $this->SendDebug(__FUNCTION__, sprintf('Topic: %s, Payload: %s', $topic, $payload), 0);
-
-        $mqttSubTopics = $this->getMqttSubTopics($topic);
-        $lastElement   = $this->getLastElement($mqttSubTopics);
-
-        if (SiteStatistics::propertyIsValid($lastElement)) {
-            $this->SendDebug(__FUNCTION__, sprintf('topic: %s, payload: %s', $topic, $payload), 0);
-            $VariableValues = SiteStatistics::getIPSVariable($lastElement, $payload);
+        if ($this->shouldBeIgnored($mqtt['LastElement'], $mqtt['PenultimateElement'], $mqtt['Topic'], $MQTTTopic)) {
+            $this->SendDebug(__FUNCTION__, 'ignored: ' . $mqtt['Topic'], 0);
+        } elseif (SiteStatistics::propertyIsValid($mqtt['LastElement'])) {
+            $VariableValues = SiteStatistics::getIPSVariable($mqtt['LastElement'], $mqtt['Payload']);
             $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
         } else {
-            $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $topic, 0);
+            $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $mqtt['Topic'], 0);
         }
         return '';
     }
