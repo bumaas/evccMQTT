@@ -109,13 +109,7 @@ class evccSitePvId extends IPSModuleStrict
 
     public function RequestAction($Ident, $Value): void
     {
-        $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_SITEPVID);
-
-        switch ($Ident) {
-            default:
-                $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
-                break;
-        }
+        $this->LogMessage('No writable actions supported.', KL_WARNING);
     }
 
     public function GetCompatibleParents(): string

@@ -107,10 +107,8 @@ class evccLoadPointId extends IPSModuleStrict
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $mqtt['Topic'], 0);
         } elseif (LoadPointId::propertyIsValid($mqtt['LastElement'])) {
             $VariableValues = LoadPointId::getIPSVariable($mqtt['LastElement'], $mqtt['Payload']);
-            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
-                if (!$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])) {
-                    IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
-                }
+            if (!is_null($VariableValues[IPS_VAR_VALUE]) && !$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])) {
+                IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
             }
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $mqtt['Topic'], 0);
@@ -120,21 +118,29 @@ class evccLoadPointId extends IPSModuleStrict
 
     public function RequestAction($Ident, $Value): void
     {
+        // Wandelt den String in das Enum-Objekt um
+        $identEnum = LoadPointIdIdent::tryFrom($Ident);
+
+        if (!$identEnum) {
+            $this->LogMessage(sprintf('Invalid Ident: %s', $Ident), KL_ERROR);
+            return;
+        }
+
         $mqttBaseTopic = rtrim($this->getMqttBaseTopic(), '/');
-        switch ($Ident) {
-            case LoadPointIdIdent::Enabled->value:
+        switch ($identEnum) {
+            case LoadPointIdIdent::Enabled:
                 $this->mqttCommand($mqttBaseTopic . '/' . $Ident . '/set', $Value ? 'true' : 'false');
                 break;
-            case LoadPointIdIdent::Mode->value:
-            case LoadPointIdIdent::LimitSoc->value:
-            case LoadPointIdIdent::LimitEnergy->value:
-            case LoadPointIdIdent::MinCurrent->value:
-            case LoadPointIdIdent::MaxCurrent->value:
-            case LoadPointIdIdent::EnableThreshold->value:
-            case LoadPointIdIdent::SmartCostLimit->value:
+            case LoadPointIdIdent::Mode:
+            case LoadPointIdIdent::LimitSoc:
+            case LoadPointIdIdent::LimitEnergy:
+            case LoadPointIdIdent::MinCurrent:
+            case LoadPointIdIdent::MaxCurrent:
+            case LoadPointIdIdent::EnableThreshold:
+            case LoadPointIdIdent::SmartCostLimit:
                 $this->mqttCommand($mqttBaseTopic . '/' . $Ident . '/set', (string)$Value);
                 break;
-            case LoadPointIdIdent::PhasesConfigured->value:
+            case LoadPointIdIdent::PhasesConfigured:
                 $this->mqttCommand($mqttBaseTopic . '/phases/set', (string)$Value); //die zu nutzenden Phasen werden über das Topic 'phases' gesetzt.
                 break;
             default:

@@ -77,11 +77,11 @@ class evccVehicleName extends IPSModuleStrict
 
     private function getMqttBaseTopic(): string
     {
-        return $this->ReadPropertyString(self::PROP_TOPIC) . (string)$this->ReadPropertyString(self::PROP_VEHICLENAME) . '/';
+        return $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyString(self::PROP_VEHICLENAME) . '/';
     }
     private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic): bool
     {
-        return in_array($lastElement, self::IGNORED_ELEMENTS)
+        return in_array($lastElement, self::IGNORED_ELEMENTS, true)
                || is_numeric($lastElement);
     }
 
@@ -108,12 +108,7 @@ class evccVehicleName extends IPSModuleStrict
 
     public function RequestAction($Ident, $Value): void
     {
-        //$mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyInteger(self::PROP_VEHICLENAME);
-        switch ($Ident) {
-            default:
-                $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
-                break;
-        }
+        $this->LogMessage('No writable actions supported.', KL_WARNING);
     }
 
     public function GetCompatibleParents(): string

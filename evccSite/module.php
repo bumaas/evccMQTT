@@ -95,10 +95,8 @@ class evccSite extends IPSModuleStrict
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $mqtt['Topic'], 0);
         } elseif (Site::propertyIsValid($mqtt['LastElement'])) {
             $VariableValues = Site::getIPSVariable($mqtt['LastElement'], $mqtt['Payload']);
-            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
-                if (!$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])){
-                    IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
-                }
+            if (!is_null($VariableValues[IPS_VAR_VALUE]) && !$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])) {
+                IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
             }
         } elseif (Site::propertyIsValid($mqtt['PenultimateElement'] . '_' . $mqtt['LastElement'])) {
             $VariableValues = Site::getIPSVariable($mqtt['PenultimateElement'] . '_' . $mqtt['LastElement'], $mqtt['Payload']);
@@ -113,18 +111,21 @@ class evccSite extends IPSModuleStrict
 
     public function RequestAction($Ident, $Value): void
     {
-        $mqttTopic = $this->ReadPropertyString(self::PROP_TOPIC);
-        $this->SendDebug(__FUNCTION__ , sprintf('Ident: %s, KONST: %s, Value: %s', $Ident, SiteIdent::BatteryDischargeControl->value, $Value), 0);
-        switch ($Ident) {
-            case SiteIdent::PrioritySoc->value:
-            case SiteIdent::BufferSoc->value:
-            case SiteIdent::BufferStartSoc->value:
-            case SiteIdent::ResidualPower->value:
-            case SiteIdent::BatteryGridChargeLimit->value:
-                $this->mqttCommand($mqttTopic . $Ident . '/set', (string)$Value);
+        // Wandelt den String in das Enum-Objekt um
+        $identEnum = SiteIdent::tryFrom($Ident);
+
+        $mqttBaseTopic = rtrim($this->getMqttBaseTopic(), '/');
+
+        switch ($identEnum) {
+            case SiteIdent::PrioritySoc:
+            case SiteIdent::BufferSoc:
+            case SiteIdent::BufferStartSoc:
+            case SiteIdent::ResidualPower:
+            case SiteIdent::BatteryGridChargeLimit:
+                $this->mqttCommand($mqttBaseTopic . $Ident . '/set', (string)$Value);
                 break;
-            case SiteIdent::BatteryDischargeControl->value:
-                $this->mqttCommand($mqttTopic . $Ident . '/set', $Value ? 'true' : 'false');
+            case SiteIdent::BatteryDischargeControl:
+                $this->mqttCommand($mqttBaseTopic . $Ident . '/set', $Value ? 'true' : 'false');
                 break;
             default:
                 $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);

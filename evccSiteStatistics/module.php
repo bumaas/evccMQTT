@@ -81,7 +81,7 @@ class evccSiteStatistics extends IPSModuleStrict
 
     private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic): bool
     {
-        return in_array($lastElement, self::IGNORED_ELEMENTS)
+        return in_array($lastElement, self::IGNORED_ELEMENTS, true)
                || is_numeric($lastElement);
     }
 
@@ -106,7 +106,7 @@ class evccSiteStatistics extends IPSModuleStrict
 
     public function RequestAction($Ident, $Value): void
     {
-        $this->LogMessage('No writable statistics actions supported.', KL_WARNING);
+        $this->LogMessage('No writable actions supported.', KL_WARNING);
     }
 
     public function GetCompatibleParents(): string

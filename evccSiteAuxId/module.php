@@ -108,8 +108,16 @@ class evccSiteAuxId extends IPSModuleStrict
 
     public function RequestAction($Ident, $Value): void
     {
+        // Wandelt den String in das Enum-Objekt um
+        $identEnum = SiteAuxIdIdent::tryFrom($Ident);
+
+        if (!$identEnum) {
+            $this->LogMessage(sprintf('Invalid Action: %s', $Ident), KL_ERROR);
+            return;
+        }
+
         //$mqttBaseTopic = rtrim($this->getMqttBaseTopic(), '/');
-        switch ($Ident) {
+        switch ($identEnum) {
             default:
                 $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
                 break;

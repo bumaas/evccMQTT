@@ -28,8 +28,6 @@ namespace evccMQTT {
 
 namespace evccMQTT\Themes {
 
-    use IPSModule;
-
     const IPS_PRESENTATION = 'Presentation';
     const IPS_VAR_TYPE     = 'VarType';
     const IPS_VAR_FACTOR   = 'Factor';

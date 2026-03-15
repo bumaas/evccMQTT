@@ -81,7 +81,7 @@ class evccSiteBatteryId extends IPSModuleStrict
 
     private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic): bool
     {
-        return in_array($lastElement, self::IGNORED_ELEMENTS)
+        return in_array($lastElement, self::IGNORED_ELEMENTS, true)
                || is_numeric($lastElement);
     }
     public function ReceiveData(string $JSONString): string
@@ -96,10 +96,8 @@ class evccSiteBatteryId extends IPSModuleStrict
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $mqtt['Topic'], 0);
         } elseif (SiteBatteryId::propertyIsValid($mqtt['LastElement'])) {
             $VariableValues = SiteBatteryId::getIPSVariable($mqtt['LastElement'], $mqtt['Payload']);
-            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
-                if (!$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])){
-                    IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
-                }
+            if (!is_null($VariableValues[IPS_VAR_VALUE]) && !$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])) {
+                IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
             }
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $mqtt['Topic'], 0);
@@ -109,12 +107,7 @@ class evccSiteBatteryId extends IPSModuleStrict
 
     public function RequestAction($Ident, $Value): void
     {
-        //$mqttBaseTopic = rtrim($this->getMqttBaseTopic(), '/');
-        switch ($Ident) {
-            default:
-                $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
-                break;
-        }
+        $this->LogMessage('No writable actions supported.', KL_WARNING);
     }
 
     public function GetCompatibleParents(): string
