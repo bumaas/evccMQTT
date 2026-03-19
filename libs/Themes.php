@@ -1248,7 +1248,7 @@ namespace evccMQTT\Themes {
     class SiteAuxId extends ThemeBasics
     {
         protected static array $properties = [
-            SiteAuxIdIdent::Power->value  => [
+            SitePvIdIdent::Power->value  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -1257,7 +1257,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Power',
             ],
-            SiteAuxIdIdent::Energy->value => [
+            SitePvIdIdent::Energy->value => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,

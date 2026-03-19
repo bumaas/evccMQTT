@@ -122,10 +122,10 @@ class evccSite extends IPSModuleStrict
             case SiteIdent::BufferStartSoc:
             case SiteIdent::ResidualPower:
             case SiteIdent::BatteryGridChargeLimit:
-                $this->mqttCommand($mqttBaseTopic . $Ident . '/set', (string)$Value);
+                $this->mqttCommand($mqttBaseTopic . '/' . $Ident . '/set', (string)$Value);
                 break;
             case SiteIdent::BatteryDischargeControl:
-                $this->mqttCommand($mqttBaseTopic . $Ident . '/set', $Value ? 'true' : 'false');
+                $this->mqttCommand($mqttBaseTopic . '/' . $Ident . '/set', $Value ? 'true' : 'false');
                 break;
             default:
                 $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);

@@ -20,13 +20,14 @@ trait MQTTHelper
         $data['QualityOfService'] = self::QOS_0;
         $data['Retain']           = $retain;
         $data['Topic']            = $topic;
-        $data['Payload']          = bin2hex($payload);
+        $data['Payload']          = bin2hex((string)$payload);
 
-        $result                   = @$this->SendDataToParent(json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES));
+        $result                   = $this->SendDataToParent(json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES));
 
-        if ($result !== '') {
-            $last_error = error_get_last();
-            echo $last_error['message'];
+        if ($result === false) {
+            $this->LogMessage(sprintf('Failed to send MQTT command to topic: %s', $topic), KL_ERROR);
+        } elseif ($result !== '') {
+            $this->SendDebug(__FUNCTION__, sprintf('Unexpected parent response: %s', (string)$result), 0);
         }
     }
 
