@@ -138,10 +138,8 @@ class evccLoadPointId extends IPSModuleStrict
             case LoadPointIdIdent::MaxCurrent:
             case LoadPointIdIdent::EnableThreshold:
             case LoadPointIdIdent::SmartCostLimit:
-                $this->mqttCommand($mqttBaseTopic . '/' . $Ident . '/set', (string)$Value);
-                break;
             case LoadPointIdIdent::PhasesConfigured:
-                $this->mqttCommand($mqttBaseTopic . '/phases/set', (string)$Value); //die zu nutzenden Phasen werden über das Topic 'phases' gesetzt.
+                $this->mqttCommand($mqttBaseTopic . '/' . $Ident . '/set', (string)$Value);
                 break;
             default:
                 $this->LogMessage(sprintf('Invalid Action: %s, Value: %s', $Ident, $Value), KL_ERROR);
