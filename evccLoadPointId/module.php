@@ -42,7 +42,6 @@ class evccLoadPointId extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/loadpoints/');
         $this->RegisterPropertyInteger(self::PROP_LOADPOINTID, 1);
 
-        $this->registerVariables();
     }
 
     private function registerVariables(): void
@@ -73,6 +72,7 @@ class evccLoadPointId extends IPSModuleStrict
     {
         //Never delete this line!
         parent::ApplyChanges();
+        $this->registerVariables();
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->getMqttBaseTopic();

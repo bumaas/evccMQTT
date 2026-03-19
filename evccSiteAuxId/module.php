@@ -33,7 +33,6 @@ class evccSiteAuxId extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/aux/');
         $this->RegisterPropertyInteger(self::PROP_SITEAUXID, 1);
 
-        $this->registerVariables();
     }
 
     private function registerVariables(): void
@@ -63,6 +62,7 @@ class evccSiteAuxId extends IPSModuleStrict
     {
         //Never delete this line!
         parent::ApplyChanges();
+        $this->registerVariables();
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->getMqttBaseTopic();

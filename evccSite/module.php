@@ -30,7 +30,6 @@ class evccSite extends IPSModuleStrict
         parent::Create();
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/');
 
-        $this->registerVariables();
     }
 
     private function registerVariables(): void
@@ -68,6 +67,7 @@ class evccSite extends IPSModuleStrict
     {
         //Never delete this line!
         parent::ApplyChanges();
+        $this->registerVariables();
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->getMqttBaseTopic();

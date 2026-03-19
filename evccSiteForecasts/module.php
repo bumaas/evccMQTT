@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/libs/Themes.php';
 
-use evccMQTT\Themes\VehicleName;
-use evccMQTT\Themes\VehicleNameIdent;
+use evccMQTT\Themes\SiteForecasts;
+use evccMQTT\Themes\SiteForecastsIdent;
 
 use const evccMQTT\Themes\IPS_PRESENTATION;
 use const evccMQTT\Themes\IPS_VAR_ACTION;
@@ -16,44 +16,45 @@ use const evccMQTT\Themes\IPS_VAR_VALUE;
 
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
 
-class evccVehicleName extends IPSModuleStrict
+class evccSiteForecasts extends IPSModuleStrict
 {
     use MQTTHelper;
 
-    private const string PROP_TOPIC     = 'topic';
-    private const string PROP_VEHICLENAME = 'vehicleName';
-
-    private const array IGNORED_ELEMENTS = [];
-
+    private const string PROP_TOPIC = 'topic';
+    private const array IGNORED_ELEMENTS = [
+        'solar',
+        'today',
+        'tomorrow',
+        'dayAfterTomorrow',
+    ];
 
     public function Create(): void
     {
         //Never delete this line!
         parent::Create();
 
-        $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/vehicles/');
-        $this->RegisterPropertyString(self::PROP_VEHICLENAME, '');
+        $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/forecast/');
 
+        $this->registerVariables();
     }
 
     private function registerVariables(): void
     {
         $pos = 0;
-        foreach (VehicleNameIdent::idents() as $ident) {
-            $VariableValues = VehicleName::getIPSVariable($ident);
-            $this->SendDebug(__FUNCTION__, sprintf('%s, VariableValues: %s', $ident, print_r($VariableValues, true)), 0);
+        foreach (SiteForecastsIdent::idents() as $ident) {
+            $variableValues = SiteForecasts::getIPSVariable($ident);
+            $this->SendDebug(__FUNCTION__, sprintf('%s, VariableValues: %s', $ident, print_r($variableValues, true)), 0);
 
-            // Position wird hier fortlaufend gesetzt
             $this->MaintainVariable(
-                $VariableValues[IPS_VAR_IDENT],
-                $this->Translate($VariableValues[IPS_VAR_NAME]),
-                $VariableValues[IPS_VAR_TYPE],
-                $VariableValues[IPS_PRESENTATION],
+                $variableValues[IPS_VAR_IDENT],
+                $this->Translate($variableValues[IPS_VAR_NAME]),
+                $variableValues[IPS_VAR_TYPE],
+                $variableValues[IPS_PRESENTATION],
                 ++$pos,
                 true
             );
 
-            if ($VariableValues[IPS_VAR_ACTION]) {
+            if ($variableValues[IPS_VAR_ACTION]) {
                 $this->EnableAction($ident);
             }
         }
@@ -64,22 +65,21 @@ class evccVehicleName extends IPSModuleStrict
         //Never delete this line!
         parent::ApplyChanges();
         $this->registerVariables();
-        //$this->ConnectParent(self::MQTT_SERVER);
 
-        //Setze Filter für ReceiveData
-        $MQTTTopic          = $this->getMqttBaseTopic();
-        $requiredRegexMatch = '.*' . str_replace('/', '\/', $MQTTTopic) . '.*';
+        $mqttTopic = $this->getMqttBaseTopic();
+        $requiredRegexMatch = '.*' . str_replace('/', '\/', $mqttTopic) . '.*';
         $this->SendDebug(__FUNCTION__, 'ReceiveDataFilter: ' . $requiredRegexMatch, 0);
         $this->SetReceiveDataFilter($requiredRegexMatch);
 
-        $this->SetSummary($MQTTTopic);
+        $this->SetSummary($mqttTopic);
     }
 
     private function getMqttBaseTopic(): string
     {
-        return $this->ReadPropertyString(self::PROP_TOPIC) . $this->ReadPropertyString(self::PROP_VEHICLENAME) . '/';
+        return $this->ReadPropertyString(self::PROP_TOPIC);
     }
-    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $MQTTTopic): bool
+
+    private function shouldBeIgnored(string $lastElement, string $penultimateElement, string $topic, string $mqttTopic): bool
     {
         return in_array($lastElement, self::IGNORED_ELEMENTS, true)
                || is_numeric($lastElement);
@@ -95,10 +95,16 @@ class evccVehicleName extends IPSModuleStrict
 
         if ($this->shouldBeIgnored($mqtt['LastElement'], $mqtt['PenultimateElement'], $mqtt['Topic'], $MQTTTopic)) {
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $mqtt['Topic'], 0);
-        } elseif (VehicleName::propertyIsValid($mqtt['LastElement'])) {
-            $VariableValues = VehicleName::getIPSVariable($mqtt['LastElement'], $mqtt['Payload']);
-            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
-                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+        } elseif (SiteForecasts::propertyIsValid($mqtt['LastElement'])) {
+            $variableValues = SiteForecasts::getIPSVariable($mqtt['LastElement'], $mqtt['Payload']);
+            if (!is_null($variableValues[IPS_VAR_VALUE])) {
+                $this->SetValue($variableValues[IPS_VAR_IDENT], $variableValues[IPS_VAR_VALUE]);
+            }
+        } elseif (SiteForecasts::propertyIsValid($mqtt['PenultimateElement'] . '_' . $mqtt['LastElement'])) {
+            $combinedProperty = $mqtt['PenultimateElement'] . '_' . $mqtt['LastElement'];
+            $variableValues = SiteForecasts::getIPSVariable($combinedProperty, $mqtt['Payload']);
+            if (!is_null($variableValues[IPS_VAR_VALUE])) {
+                $this->SetValue($variableValues[IPS_VAR_IDENT], $variableValues[IPS_VAR_VALUE]);
             }
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $mqtt['Topic'], 0);

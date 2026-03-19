@@ -33,7 +33,6 @@ class evccSiteBatteryId extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/battery/');
         $this->RegisterPropertyInteger(self::PROP_SITEBATTERYID, 1);
 
-        $this->registerVariables();
     }
 
     private function registerVariables(): void
@@ -64,6 +63,7 @@ class evccSiteBatteryId extends IPSModuleStrict
     {
         //Never delete this line!
         parent::ApplyChanges();
+        $this->registerVariables();
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->getMqttBaseTopic();

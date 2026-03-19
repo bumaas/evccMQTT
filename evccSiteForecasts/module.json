@@ -1,0 +1,17 @@
+{
+    "id": "{F1853DE5-1177-4A0E-B2D5-911B36E2AC27}",
+    "name": "evccSiteForecasts",
+    "type": 3,
+    "vendor": "evcc",
+    "aliases": ["evcc Prognosen"],
+    "parentRequirements": [
+        "{043EA491-0325-4ADD-8FC2-A30C8EEB4D3F}"
+    ],
+    "childRequirements": [],
+    "implemented": [
+        "{7F7632D9-FA40-4F38-8DEA-C83CD4325A32}"
+    ],
+    "prefix": "EVCC",
+    "url": "https://github.com/bumaas/evccMQTT/blob/master/README.md"
+}
+

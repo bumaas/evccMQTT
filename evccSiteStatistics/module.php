@@ -34,7 +34,6 @@ class evccSiteStatistics extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/statistics/');
         $this->RegisterPropertyString(self::PROP_SCOPE, 'total');
 
-        $this->registerVariables();
     }
 
     private function registerVariables(): void
@@ -64,6 +63,7 @@ class evccSiteStatistics extends IPSModuleStrict
     public function ApplyChanges(): void
     {
         parent::ApplyChanges();
+        $this->registerVariables();
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->getMqttBaseTopic();

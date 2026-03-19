@@ -95,6 +95,10 @@ namespace evccMQTT\Themes {
                             $result[IPS_VAR_VALUE] = null;
                         }
                         break;
+                    case VARIABLETYPE_BOOLEAN:
+                        $normalized = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+                        $result[IPS_VAR_VALUE] = is_null($normalized) ? null : (bool)$normalized;
+                        break;
                     default:
                         if (isset(static::$properties[$property]['enum'])) {
                             $result[IPS_VAR_VALUE] = array_search($value, static::$properties[$property]['enum'], true);
@@ -1234,6 +1238,117 @@ namespace evccMQTT\Themes {
         ];
     }
     // ----------------------------------------------------------------------------------
+    enum SiteForecastsIdent: string
+    {
+        case Co2 = 'co2';
+        case Grid = 'grid';
+        case Planner = 'planner';
+        case SolarScale = 'solar_scale';
+        case TodayYield = 'today_yield';
+        case TodayComplete = 'today_complete';
+        case TomorrowYield = 'tomorrow_yield';
+        case TomorrowComplete = 'tomorrow_complete';
+        case DayAfterTomorrowYield = 'dayAfterTomorrow_yield';
+        case DayAfterTomorrowComplete = 'dayAfterTomorrow_complete';
+
+        public static function idents(): array
+        {
+            return array_map(static fn(self $c): string => $c->value, self::cases());
+        }
+    }
+    class SiteForecasts extends ThemeBasics
+    {
+        protected static array $properties = [
+            SiteForecastsIdent::Co2->value                    => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Forecast CO2',
+            ],
+            SiteForecastsIdent::Grid->value                   => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Forecast Grid',
+            ],
+            SiteForecastsIdent::Planner->value                => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Forecast Planner',
+            ],
+            SiteForecastsIdent::SolarScale->value             => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 3,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Forecast Solar Scale',
+            ],
+            SiteForecastsIdent::TodayYield->value             => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' Wh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Forecast Today Yield',
+            ],
+            SiteForecastsIdent::TodayComplete->value          => [
+                'type'           => 'boolean',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SWITCH,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Forecast Today Complete',
+            ],
+            SiteForecastsIdent::TomorrowYield->value          => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' Wh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Forecast Tomorrow Yield',
+            ],
+            SiteForecastsIdent::TomorrowComplete->value       => [
+                'type'           => 'boolean',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SWITCH,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Forecast Tomorrow Complete',
+            ],
+            SiteForecastsIdent::DayAfterTomorrowYield->value      => [
+                'type'           => 'number',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'DIGITS'       => 1,
+                    'SUFFIX'       => ' Wh',
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
+                IPS_VAR_NAME     => 'Forecast Day After Tomorrow Yield',
+            ],
+            SiteForecastsIdent::DayAfterTomorrowComplete->value   => [
+                'type'           => 'boolean',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_SWITCH,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
+                IPS_VAR_NAME     => 'Forecast Day After Tomorrow Complete',
+            ],
+        ];
+    }
+    // ----------------------------------------------------------------------------------
     enum SiteAuxIdIdent: string
     {
         case Power = 'power';
@@ -1248,7 +1363,7 @@ namespace evccMQTT\Themes {
     class SiteAuxId extends ThemeBasics
     {
         protected static array $properties = [
-            SitePvIdIdent::Power->value  => [
+            SiteAuxIdIdent::Power->value  => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
@@ -1257,7 +1372,7 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
                 IPS_VAR_NAME     => 'Power',
             ],
-            SitePvIdIdent::Energy->value => [
+            SiteAuxIdIdent::Energy->value => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,

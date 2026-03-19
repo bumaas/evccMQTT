@@ -30,6 +30,7 @@ Es liest evcc-Datenpunkte ein und unterstützt bei geeigneten Variablen auch das
 - evcc Extern geregeltes Gerät (`evccSiteAuxId`)
 - evcc Fahrzeug (`evccVehicleName`)
 - evcc Statistikdaten (`evccSiteStatistics`)
+- evcc Prognosen (`evccSiteForecasts`)
 
 ## 3. Installation
 
@@ -88,6 +89,11 @@ Wenn in deiner `evcc.yaml` ein anderes Präfix konfiguriert ist, muss `topic` in
 - **evcc Statistikdaten**  
   Felder: `topic`, `scope`  
   Unterstützte Werte für `scope`: `30d`, `365d`, `thisYear`, `total`
+
+- **evcc Prognosen (Forecasts)**  
+  Feld: `topic`  
+  Standard: `evcc/site/forecast/`  
+  Unterstützte Forecast-Daten: `co2`, `grid`, `planner`, `solar/scale` sowie `solar` für `today`, `tomorrow`, `dayAfterTomorrow` jeweils `yield` (Wh, Originalwert) und `complete` (vollständig/teilweise)
 
 ## 5. Betrieb und Hinweise
 

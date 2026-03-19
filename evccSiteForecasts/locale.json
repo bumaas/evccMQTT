@@ -1,0 +1,30 @@
+{
+  "translations": {
+    "de": {
+      "MQTT Topic": "MQTT Topic",
+      "Forecast CO2": "Prognose CO₂",
+      "Forecast Grid": "Prognose Netz",
+      "Forecast Planner": "Prognose Planer",
+      "Forecast Solar Scale": "Prognose Solar Skala",
+      "Forecast Today Yield": "Prognose Heute Ertrag",
+      "Forecast Today Complete": "Prognose Heute Vollständig",
+      "Forecast Tomorrow Yield": "Prognose Morgen Ertrag",
+      "Forecast Tomorrow Complete": "Prognose Morgen Vollständig",
+      "Forecast Day After Tomorrow Yield": "Prognose Übermorgen Ertrag",
+      "Forecast Day After Tomorrow Complete": "Prognose Übermorgen Vollständig"
+    },
+    "en": {
+      "MQTT Topic": "MQTT Topic",
+      "Forecast CO2": "Forecast CO2",
+      "Forecast Grid": "Forecast Grid",
+      "Forecast Planner": "Forecast Planner",
+      "Forecast Solar Scale": "Forecast Solar Scale",
+      "Forecast Today Yield": "Forecast Today Yield",
+      "Forecast Today Complete": "Forecast Today Complete",
+      "Forecast Tomorrow Yield": "Forecast Tomorrow Yield",
+      "Forecast Tomorrow Complete": "Forecast Tomorrow Complete",
+      "Forecast Day After Tomorrow Yield": "Forecast Day After Tomorrow Yield",
+      "Forecast Day After Tomorrow Complete": "Forecast Day After Tomorrow Complete"
+    }
+  }
+}
