@@ -96,7 +96,7 @@ class evccSite extends IPSModuleStrict
         } elseif (Site::propertyIsValid($mqtt['LastElement'])) {
             $VariableValues = Site::getIPSVariable($mqtt['LastElement'], $mqtt['Payload']);
             if (!is_null($VariableValues[IPS_VAR_VALUE]) && !$this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE])) {
-                IPS_LogMessage(__FUNCTION__, sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]));
+                $this->LogMessage(sprintf('ident: %s, value: %s', $VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]), KL_ERROR);
             }
         } elseif (Site::propertyIsValid($mqtt['PenultimateElement'] . '_' . $mqtt['LastElement'])) {
             $VariableValues = Site::getIPSVariable($mqtt['PenultimateElement'] . '_' . $mqtt['LastElement'], $mqtt['Payload']);
