@@ -1,7 +1,7 @@
 {
     "translations": {
         "de": {
-            "MQTT Topic": "MQTT Thema",
+            "MQTT Topic": "MQTT Topic",
             "Site Auxiliary Id": "externes Gerät ID",
             "Power": "Leistung",
             "Energy": "Energie"

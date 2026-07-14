@@ -1,7 +1,7 @@
 {
     "translations": {
         "de": {
-            "MQTT Topic": "MQTT Thema",
+            "MQTT Topic": "MQTT Topic",
             "PV Id": "PV-ID",
             "Power": "Leistung",
             "Energy": "Energie"

@@ -1,7 +1,7 @@
 {
   "translations": {
     "de": {
-      "MQTT Topic":                "MQTT Thema",
+      "MQTT Topic":                "MQTT Topic",
       "Load Point Id":             "Ladepunkt-ID",
       "Title":                     "Titel",
       "Limit Soc":                 "Ladelimit SoC",
