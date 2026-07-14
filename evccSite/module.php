@@ -103,6 +103,13 @@ class evccSite extends IPSModuleStrict
             if (!is_null($VariableValues[IPS_VAR_VALUE])) {
                 $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
             }
+        } elseif (Site::propertyIsValid($mqtt['PenultimateElement'] . ucfirst($mqtt['LastElement']))) {
+            // seit evcc 0.301.0: Batterie-Aggregate liegen verschachtelt (z. B. battery/power -> batteryPower)
+            $ident          = $mqtt['PenultimateElement'] . ucfirst($mqtt['LastElement']);
+            $VariableValues = Site::getIPSVariable($ident, $mqtt['Payload']);
+            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
+                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+            }
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $mqtt['Topic'], 0);
         }

@@ -30,7 +30,7 @@ class evccSiteBatteryId extends IPSModuleStrict
         //Never delete this line!
         parent::Create();
 
-        $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/battery/');
+        $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/site/battery/devices/');
         $this->RegisterPropertyInteger(self::PROP_SITEBATTERYID, 1);
 
     }

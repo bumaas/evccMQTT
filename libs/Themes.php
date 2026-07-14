@@ -350,7 +350,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 2,
-                    'SUFFIX'       => ' gCO₂e',
+                    'SUFFIX'       => ' gCO₂e/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Session CO₂ per kWh',
@@ -360,7 +360,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 2,
-                    'SUFFIX'       => ' €',
+                    'SUFFIX'       => ' €/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Session Price per kWh',
@@ -783,7 +783,7 @@ namespace evccMQTT\Themes {
                     'MIN'          => -0.10,
                     'MAX'          => 0.60,
                     'STEP_SIZE'    => 0.005,
-                    'SUFFIX'       => ' €',
+                    'SUFFIX'       => ' €/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
@@ -1077,7 +1077,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 3,
-                    'SUFFIX'       => ' €',
+                    'SUFFIX'       => ' €/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Tariff Grid',
@@ -1087,7 +1087,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 3,
-                    'SUFFIX'       => ' €',
+                    'SUFFIX'       => ' €/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Tariff Feed In',
@@ -1097,7 +1097,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 2,
-                    'SUFFIX'       => ' gCO₂e',
+                    'SUFFIX'       => ' gCO₂e/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Tariff CO₂',
@@ -1107,7 +1107,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 3,
-                    'SUFFIX'       => ' €',
+                    'SUFFIX'       => ' €/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Tariff Price Home',
@@ -1117,7 +1117,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 2,
-                    'SUFFIX'       => ' gCO₂e',
+                    'SUFFIX'       => ' gCO₂e/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Tariff CO₂ Home',
@@ -1127,7 +1127,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 3,
-                    'SUFFIX'       => ' €',
+                    'SUFFIX'       => ' €/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Tariff Price Loadpoints',
@@ -1137,7 +1137,7 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
                     'DIGITS'       => 2,
-                    'SUFFIX'       => ' gCO₂e',
+                    'SUFFIX'       => ' gCO₂e/kWh',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_NAME     => 'Tariff CO₂ Loadpoints',
@@ -1225,7 +1225,7 @@ namespace evccMQTT\Themes {
                 'type'           => 'number',
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_INPUT,
-                    'SUFFIX'       => ' €',
+                    'SUFFIX'       => ' €/kWh',
                     'MIN'          => -1,
                     'MAX'          => +1,
                     'DIGITS'       => 3,

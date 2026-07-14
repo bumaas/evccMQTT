@@ -27,7 +27,7 @@ Es liest evcc-Datenpunkte ein und unterstützt bei geeigneten Variablen auch das
 - evcc Ladepunkt (`evccLoadPointId`)
 - evcc PV Anlage (`evccSitePvId`)
 - evcc Batterie (`evccSiteBatteryId`)
-- evcc Extern geregeltes Gerät (`evccSiteAuxId`)
+- evcc extern geregeltes Gerät (`evccSiteAuxId`)
 - evcc Fahrzeug (`evccVehicleName`)
 - evcc Statistikdaten (`evccSiteStatistics`)
 - evcc Prognosen (`evccSiteForecasts`)
@@ -76,7 +76,9 @@ Wenn in deiner `evcc.yaml` ein anderes Präfix konfiguriert ist, muss `topic` in
 
 - **evcc Batterie**  
   Felder: `topic`, `siteBatteryId`  
-  Beispiel: `siteBatteryId = 1` entspricht Topics wie `evcc/site/battery/1/...`
+  Standard-`topic`: `evcc/site/battery/devices/`  
+  Beispiel: `siteBatteryId = 1` entspricht Topics wie `evcc/site/battery/devices/1/...`  
+  Hinweis: Bis evcc 0.300.x lagen die Werte unter `evcc/site/battery/1/...` (ohne `devices/`) — siehe Migrationshinweis unten.
 
 - **evcc Extern geregeltes Gerät (Aux)**  
   Felder: `topic`, `siteAuxId`  
@@ -108,6 +110,19 @@ Bei Änderung in Symcon publiziert das Modul den passenden MQTT-Set-Befehl (typi
 - falsche ID (z. B. `loadPointId`, `sitePvId`)
 - falscher Fahrzeugname (`vehicleName`)
 - MQTT-Parent nicht verbunden oder falsch authentifiziert
+
+### Migrationshinweis: Batterie-Topics ab evcc 0.301.0
+
+Mit evcc **0.301.0** (Februar 2026, [PR #24887](https://github.com/evcc-io/evcc/pull/24887)) wurde die MQTT-Struktur der Batterie geändert:
+
+- Die Daten je Batterie liegen nun unter `evcc/site/battery/devices/<n>/...` statt `evcc/site/battery/<n>/...`.
+- Die aggregierten Batteriewerte (`power`, `soc`, `energy`, `capacity`) liegen nun verschachtelt unter `evcc/site/battery/...` statt als flache Keys `batteryPower`, `batterySoc` usw.
+
+Auswirkungen:
+
+- **evcc Batterie:** Bei bestehenden Instanzen das Feld `topic` einmalig von `evcc/site/battery/` auf `evcc/site/battery/devices/` anpassen. Neue Instanzen verwenden diesen Wert bereits als Standard.
+- **evcc Standort:** Die aggregierten Batteriewerte werden ab dieser Modulversion automatisch aus der neuen, verschachtelten Struktur gelesen — keine Anpassung nötig.
+- **PV und Aux** sind von der Änderung nicht betroffen.
 
 ## 6. Lizenz
 
