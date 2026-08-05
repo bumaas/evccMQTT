@@ -2,11 +2,12 @@
     "translations": {
         "de": {
             "MQTT Topic": "MQTT Topic",
-            "Battery Id": "Batterie ID",
+            "Battery ID": "Batterie ID",
             "Power": "Leistung",
             "Energy": "Energie",
             "SoC": "Ladezustand",
-            "Capacity": "Kapazität"
+            "Capacity": "Kapazität",
+            "Controllable": "Steuerbar"
         }
     }
 }

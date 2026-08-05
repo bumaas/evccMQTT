@@ -3,9 +3,7 @@
         "de": {
             "MQTT Topic": "MQTT Topic",
             "Vehicle Name": "Fahrzeugname",
-            "Power": "Leistung",
-            "Energy": "Energie",
-            "SoC": "Ladezustand",
+            "Title": "Titel",
             "Capacity": "Kapazität"
         }
     }

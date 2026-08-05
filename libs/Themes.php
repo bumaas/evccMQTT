@@ -2,30 +2,6 @@
 
 declare(strict_types=1);
 
-namespace evccMQTT {
-
-    class Themes
-    {
-        public const LOADPOINTS                = 'loadpoints';
-        public const POWERSWITCH               = 'PowerSwitch';
-        public const POWERSWITCH_CONFIGURATION = 'PowerSwitchConfiguration';
-        public const POWERSWITCH_PROGRAM       = 'PowerSwitchProgram';
-
-        protected static array $themes = [
-            self::LOADPOINTS,
-            self::POWERSWITCH,
-            self::POWERSWITCH_CONFIGURATION,
-            self::POWERSWITCH_PROGRAM,
-        ];
-
-        public static function themeIsValid(string $theme): bool
-        {
-            return in_array($theme, self::$themes, true);
-        }
-
-    }
-}
-
 namespace evccMQTT\Themes {
 
     const IPS_PRESENTATION = 'Presentation';
@@ -39,8 +15,6 @@ namespace evccMQTT\Themes {
     {
         protected static array  $properties = [];
 
-        protected static string $state      = 'State';
-
         public static function propertyIsValid(string $property): bool
         {
             return isset(static::$properties[$property]);
@@ -49,30 +23,6 @@ namespace evccMQTT\Themes {
         public static function propertyHasAction(string $property): bool
         {
             return static::$properties[$property][IPS_VAR_ACTION] ?? false;
-        }
-
-        public static function getServiceStateRequest(string $property, mixed $value): string
-        {
-            $varType = static::$properties[$property][IPS_VAR_TYPE] ?? VARIABLETYPE_STRING;
-            $factor  = static::$properties[$property][IPS_VAR_FACTOR] ?? 1;
-            switch ($varType) {
-                case VARIABLETYPE_FLOAT:
-                case VARIABLETYPE_INTEGER:
-                    $request[$property] = $value * $factor;
-                    break;
-                default:
-                    if (isset(static::$properties[$property]['enum'])) {
-                        $request[$property] = static::$properties[$property]['enum'][$value];
-                    } else {
-                        $request[$property] = $value;
-                    }
-                    break;
-            }
-            if (static::$properties[$property]['type'] === 'string') {
-                $request[$property] = (string)$request[$property];
-            }
-            $request['@type'] = static::getServiceState();
-            return json_encode($request, JSON_THROW_ON_ERROR | JSON_PRESERVE_ZERO_FRACTION);
         }
 
         public static function getIPSVariable(string $property, mixed $value = null): array
@@ -160,11 +110,6 @@ namespace evccMQTT\Themes {
         private static function getPresentationTranslation(): array
         {
             return json_decode(file_get_contents(__DIR__ . '/locale_profile.json'), true, 512, JSON_THROW_ON_ERROR);
-        }
-
-        private static function getServiceState(): string
-        {
-            return lcfirst(explode('\\', static::class)[2]) . static::$state;
         }
 
         private static function getIPSVarType(string $property): int
@@ -983,7 +928,7 @@ namespace evccMQTT\Themes {
                     'SUFFIX'       => ' %',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_INTEGER,
-                IPS_VAR_NAME     => 'Battery SOC',
+                IPS_VAR_NAME     => 'Battery SoC',
             ],
             SiteIdent::BatteryMode->value             => [
                 'type'           => 'string',
@@ -1585,51 +1530,5 @@ namespace evccMQTT\Themes {
                 IPS_VAR_NAME     => 'Capacity',
             ],
         ];
-    }
-    /**
-     * @method void UnregisterProfile(string $Name)
-     */
-    trait IPSProfile
-    {
-        protected function UnregisterProfiles(): void
-        {
-            $this->UnregisterProfile('BSH.PowerSwitchConfiguration.stateAfterPowerOutage');
-            $this->UnregisterProfile('BSH.PowerSwitchProgram.operationMode');
-            $this->UnregisterProfile('BSH.RoomClimateControl.setpointTemperature');
-            $this->UnregisterProfile('BSH.RoomClimateControl.operationMode');
-            $this->UnregisterProfile('BSH.RoomClimateControl.roomControlMode');
-            $this->UnregisterProfile('BSH.HCWasher.operationState');
-            $this->UnregisterProfile('BSH.HCDishwasher.operationState');
-            $this->UnregisterProfile('BSH.HCOven.operationState');
-            $this->UnregisterProfile('BSH.ShutterControl.operationState');
-            $this->UnregisterProfile('BSH.SmokeDetectorCheck.value');
-            $this->UnregisterProfile('BSH.SmokeSensitivity.smokeSensitivity');
-            $this->UnregisterProfile('BSH.ValveTappet.value');
-            $this->UnregisterProfile('BSH.AirQualityLevel.combinedRating');
-            $this->UnregisterProfile('BSH.AirQualityLevel.temperatureRating');
-            $this->UnregisterProfile('BSH.Keypad.keyName');
-            $this->UnregisterProfile('BSH.Keypad.eventType');
-            $this->UnregisterProfile('BSH.BatteryLevel.batteryLevel');
-            $this->UnregisterProfile('BSH.VentilationDelay.delay');
-            $this->UnregisterProfile('BSH.HueBlinking.blinkingState');
-            $this->UnregisterProfile('BSH.HueBridgeSearcher.searcherState');
-            $this->UnregisterProfile('BSH.CommunicationQuality.quality');
-            $this->UnregisterProfile('BSH.MultiswitchConfiguration.updateState');
-            $this->UnregisterProfile('BSH.WalkTest.walkState');
-            $this->UnregisterProfile('BSH.DoorSensor.doorState');
-            $this->UnregisterProfile('BSH.LockActuator.lockState');
-            $this->UnregisterProfile('BSH.WaterAlarmSystem.state');
-            $this->UnregisterProfile('BSH.WaterAlarmSystem.mute');
-            $this->UnregisterProfile('BSH.Scenario.Trigger');
-            $this->UnregisterProfile('BSH.SoftwareUpdate.swUpdateState');
-            $this->UnregisterProfile('BSH.DisplayConfiguration.displayBrightness');
-            $this->UnregisterProfile('BSH.DisplayConfiguration.displayOnTime');
-            $this->UnregisterProfile('BSH.TemperatureOffset.offset');
-            $this->UnregisterProfile('BSH.TerminalConfiguration.type');
-            $this->UnregisterProfile('BSH.SurveillanceAlarm.value');
-            $this->UnregisterProfile('BSH.IntrusionDetectionControl.value');
-            $this->UnregisterProfile('BSH.IntrusionDetectionControl.activeProfile');
-            $this->UnregisterProfile('BSH.IntrusionDetectionControl.DelayTime');
-        }
     }
 }

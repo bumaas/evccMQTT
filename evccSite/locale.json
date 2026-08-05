@@ -13,10 +13,14 @@
             "Battery Gridcharge Active": "Batterie Netzladen aktiv",
             "Battery Discharge Control": "Batterie Entladen Steuerung",
             "Priority SoC": "Priorisierung SoC",
-            "Grid Configured": "Netzzähler konfiguriert",
+            "Buffer SoC": "Puffer SoC",
+            "Buffer Start SoC": "Puffer Start SoC",
             "Site Title": "Titel",
+            "Version": "Version",
+            "Available Version": "Verfügbare Version",
+            "Smart Cost Type": "Typ der intelligenten Preisfindung",
+            "Currency": "Währung",
             "Grid Power": "Netzleistung",
-            "Grid Currents": "Netzströme",
             "Grid Energy": "Netzenergie",
             "Home Power": "Hausleistung",
             "Aux Power": "Leistung zusätzlicher Geräte",
@@ -29,10 +33,6 @@
             "Tariff CO₂ Home": "CO₂ Belastung Hausstrom",
             "Tariff Price Loadpoints": "Tarif Ladepunkt",
             "Tariff CO₂ Loadpoints": "CO₂ Belastung Ladepunkt",
-            "unknown": "unbekannt",
-            "normal": "normal",
-            "charge": "laden",
-            "discharge": "entladen",
             "Residual Power": "Sollarbeitspunkt Überschussregelung"
         }
     }

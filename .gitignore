@@ -1,0 +1,17 @@
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# OSX
+.DS_Store
+._*
+
+# PhpStorm
+.idea
+
+# Claude Code (persönliche Dateien)
+CLAUDE.local.md
+.claude/settings.local.json

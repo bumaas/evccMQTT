@@ -3,6 +3,10 @@
     "de": {
       "MQTT Topic": "MQTT Topic",
       "Scope": "Zeitraum",
+      "30d": "30 Tage",
+      "365d": "365 Tage",
+      "thisYear": "dieses Jahr",
+      "total": "gesamt",
       "avgCo2": "Durchschnitt CO₂",
       "avgPrice": "Durchschnitt Preis",
       "chargedKWh": "Geladene Energie",
@@ -11,6 +15,10 @@
     "en": {
       "MQTT Topic": "MQTT Topic",
       "Scope": "Scope",
+      "30d": "30 days",
+      "365d": "365 days",
+      "thisYear": "this year",
+      "total": "total",
       "avgCo2": "Average CO₂",
       "avgPrice": "Average Price",
       "chargedKWh": "Charged Energy",

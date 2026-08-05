@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(C:/php/php -v)",
+      "Bash(C:/php/php -l *)",
+      "Bash(/c/php/php -l *)",
+      "Bash(php -l *)",
+      "Bash(C:/php/php tests/check_locale.php)",
+      "Bash(/c/php/php tests/check_locale.php)",
+      "mcp__ide__getDiagnostics",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__get_page_text",
+      "mcp__claude-in-chrome__read_page",
+      "mcp__claude-in-chrome__find"
+    ]
+  }
+}

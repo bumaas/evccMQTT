@@ -1,6 +1,8 @@
 ![evccMQTT Logo](/docs/pictures/logo.png)
 # evccMQTT
 
+[![Checks](https://github.com/bumaas/evccMQTT/actions/workflows/check.yml/badge.svg)](https://github.com/bumaas/evccMQTT/actions/workflows/check.yml)
+
 Dieses Modul integriert **[evcc](https://evcc.io)** in **Symcon** über MQTT.  
 Es liest evcc-Datenpunkte ein und unterstützt bei geeigneten Variablen auch das aktive Setzen von Werten über MQTT.
 

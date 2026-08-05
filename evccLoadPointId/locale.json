@@ -4,7 +4,7 @@
       "MQTT Topic":                "MQTT Topic",
       "Load Point Id":             "Ladepunkt-ID",
       "Title":                     "Titel",
-      "Limit Soc":                 "Ladelimit SoC",
+      "Limit SoC":                 "Ladelimit SoC",
       "Limit Energy":              "Ladelimit Energie",
       "Charge Power":              "Ladeleistung",
       "Smart Cost Active":         "Intelligente Preisfindung aktiv",
