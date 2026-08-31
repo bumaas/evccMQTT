@@ -1186,8 +1186,10 @@ namespace evccMQTT\Themes {
     enum SiteForecastsIdent: string
     {
         case Co2 = 'co2';
+        case FeedIn = 'feedin';
         case Grid = 'grid';
         case Planner = 'planner';
+        case Temperature = 'temperature';
         case SolarScale = 'solar_scale';
         case TodayYield = 'today_yield';
         case TodayComplete = 'today_complete';
@@ -1195,6 +1197,7 @@ namespace evccMQTT\Themes {
         case TomorrowComplete = 'tomorrow_complete';
         case DayAfterTomorrowYield = 'dayAfterTomorrow_yield';
         case DayAfterTomorrowComplete = 'dayAfterTomorrow_complete';
+        case SolarTimeseries = 'solar_timeseries';
 
         public static function idents(): array
         {
@@ -1212,6 +1215,14 @@ namespace evccMQTT\Themes {
                 IPS_VAR_TYPE     => VARIABLETYPE_STRING,
                 IPS_VAR_NAME     => 'Forecast CO2',
             ],
+            SiteForecastsIdent::FeedIn->value                 => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Forecast Feed-in',
+            ],
             SiteForecastsIdent::Grid->value                   => [
                 'type'           => 'string',
                 IPS_PRESENTATION => [
@@ -1227,6 +1238,14 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_STRING,
                 IPS_VAR_NAME     => 'Forecast Planner',
+            ],
+            SiteForecastsIdent::Temperature->value            => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Forecast Temperature',
             ],
             SiteForecastsIdent::SolarScale->value             => [
                 'type'           => 'number',
@@ -1290,6 +1309,14 @@ namespace evccMQTT\Themes {
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_BOOLEAN,
                 IPS_VAR_NAME     => 'Forecast Day After Tomorrow Complete',
+            ],
+            SiteForecastsIdent::SolarTimeseries->value            => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_NAME     => 'Forecast Solar Timeseries',
             ],
         ];
     }

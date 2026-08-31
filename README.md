@@ -97,7 +97,9 @@ Wenn in deiner `evcc.yaml` ein anderes Präfix konfiguriert ist, muss `topic` in
 - **evcc Prognosen (Forecasts)**  
   Feld: `topic`  
   Standard: `evcc/site/forecast/`  
-  Unterstützte Forecast-Daten: `co2`, `grid`, `planner`, `solar/scale` sowie `solar` für `today`, `tomorrow`, `dayAfterTomorrow` jeweils `yield` (Wh, Originalwert) und `complete` (vollständig/teilweise)
+  Unterstützte Forecast-Daten: `co2`, `feedin`, `grid`, `planner`, `temperature` sowie die Solarprognose (Skalierung, Zeitreihe und je `today`, `tomorrow`, `dayAfterTomorrow` der Ertrag in Wh und `complete` = vollständig/teilweise)
+
+  Ab evcc 0.314 sendet evcc je Prognoseart eine Nachricht mit vollständigem JSON: `.../forecast/solar` enthält `scale`, `today`, `tomorrow`, `dayAfterTomorrow` und die Zeitreihe, die übrigen Topics enthalten die Ratenliste als `[[start, ende, wert], ...]` mit Zeitstempeln in Unix-Sekunden. Ältere evcc-Versionen, die diese Werte auf Einzeltopics (`solar/scale`, `solar/today/yield` …) verteilen, werden weiterhin unterstützt.
 
 ## 5. Betrieb und Hinweise
 
