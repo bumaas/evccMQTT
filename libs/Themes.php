@@ -1138,12 +1138,8 @@ namespace evccMQTT\Themes {
             SiteIdent::ResidualPower->value           => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_INPUT,
-                    'DIGITS'              => 1,
-                    'MIN'                 => -1000,
-                    'MAX'                 => -1000,
-                    'THOUSANDS_SEPARATOR' => 'Client',
-                    'SUFFIX'              => ' W',
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_INPUT,
+                    'SUFFIX'       => ' W',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
@@ -1171,10 +1167,6 @@ namespace evccMQTT\Themes {
                 IPS_PRESENTATION => [
                     'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_INPUT,
                     'SUFFIX'       => ' €/kWh',
-                    'MIN'          => -1,
-                    'MAX'          => +1,
-                    'DIGITS'       => 3,
-                    'STEP_SIZE'    => 0.001,
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_FLOAT,
                 IPS_VAR_ACTION   => true,
