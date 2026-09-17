@@ -1,7 +1,7 @@
 # evccMQTT — Projektwissen
 
 Symcon-Modulbibliothek **„evcc"** (`library.json`, Kennung bumaas): integriert
-[evcc](https://evcc.io) über MQTT in IP-Symcon. 8 Module, je eines pro
+[evcc](https://evcc.io) über MQTT in Symcon. 8 Module, je eines pro
 evcc-Datenbereich:
 
 | Modul | evcc-Bereich (MQTT-Topic) |
@@ -44,8 +44,10 @@ evcc-Datenbereich:
   (stubbt die IPS-Konstanten und lädt `libs/Themes.php` per Reflection;
   Exit-Code 1 bei fehlenden Übersetzungen). Bei neuen Variablen/Optionen in
   `Themes.php` schlägt der Check so lange fehl, bis die de-Schlüssel ergänzt sind.
+- `C:/php/php tests/check_presentations.php` — prüft, dass jede Darstellung nur
+  Parameter setzt, die es in dieser Darstellung gibt (Symcon 9.1 validiert das selbst).
 - CI: `.github/workflows/check.yml` (php -l über alle PHP-Dateien,
-  JSON-Validität, Locale-Check) — Badge im README.
+  JSON-Validität, Locale-Check, Presentations-Check) — Badge im README.
 
 ## Konventionen
 
