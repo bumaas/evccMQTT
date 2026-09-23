@@ -43,6 +43,7 @@ spieleMitschnitt($neu, 'evcc-0.316.0');
 $modi = optionen($neu, 'mode');
 pruefe(array_keys($modi) === ['off', 'smart', 'now'], 'Modus bietet off/smart/now an: ' . json_encode(array_keys($modi)));
 pruefe(($modi['smart'] ?? '') === 'Smart', 'Option smart heißt „Smart"');
+pruefe(($modi['now'] ?? '') === 'Schnell', 'Option now heißt wie in evcc „Schnell": ' . ($modi['now'] ?? '-'));
 pruefe(($neu->werte()['mode'] ?? '') === 'smart', 'Modus steht auf smart');
 pruefe(hatVariable($neu, 'alwaysCharge'), 'Variable alwaysCharge angelegt');
 $ac = optionen($neu, 'alwaysCharge');
