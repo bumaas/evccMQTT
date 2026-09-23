@@ -229,4 +229,5 @@ foreach ($files as $path => $tokens) {
 }
 
 printf("%d Darstellungen geprüft, %d fehlerhaft, %d nicht auflösbar\n", $checked, $errors, $warnings);
+printf("\n%d Prüfungen, %d Fehler\n", $checked, $errors);
 exit($errors > 0 ? 1 : 0);

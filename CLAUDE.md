@@ -46,8 +46,19 @@ evcc-Datenbereich:
   `Themes.php` schlägt der Check so lange fehl, bis die de-Schlüssel ergänzt sind.
 - `C:/php/php tests/check_presentations.php` — prüft, dass jede Darstellung nur
   Parameter setzt, die es in dieser Darstellung gibt (Symcon 9.1 validiert das selbst).
-- CI: `.github/workflows/check.yml` (php -l über alle PHP-Dateien,
-  JSON-Validität, Locale-Check, Presentations-Check) — Badge im README.
+- **Modultests gegen den Kernel-Stub:** `tests/stubs` ist das Submodul
+  symcon/SymconStubs, gepinnt auf `bf2950f` (nie `submodule update --remote`).
+  `tests/harness.php` legt Instanzen aller 8 Module an (`neueInstanz($modul, $props)`),
+  stellt MQTT-Nachrichten über den echten `ReceiveDataFilter` zu (`empfange()`,
+  `spieleMitschnitt()`) und zeichnet Veröffentlichtes in `$gesendet` auf.
+  Neue Module in `MODULE` eintragen — `check-variable-registration.php` schlägt sonst fehl.
+- **Fixtures sind echte Mitschnitte** (`tests/fixtures/evcc-<version>.json`), aufgenommen
+  mit `tests/tools/mitschnitt.php aufnehmen` **während eines evcc-Neustarts** (sonst
+  fehlen die Konfigurationswerte) und mit `… ablegen` anonymisiert (Standortname,
+  EEBUS-Kennungen). Bei jedem Topic-Wechsel von evcc einen neuen Mitschnitt anlegen,
+  den alten behalten — er belegt die Abwärtskompatibilität.
+- CI: `.github/workflows/check.yml` (php -l, JSON-Validität, danach jede
+  `tests/check*.php` per Glob) — Badge im README. Checkout mit `submodules: true`.
 
 ## Konventionen
 
