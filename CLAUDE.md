@@ -57,6 +57,12 @@ evcc-Datenbereich:
   fehlen die Konfigurationswerte) und mit `… ablegen` anonymisiert (Standortname,
   EEBUS-Kennungen). Bei jedem Topic-Wechsel von evcc einen neuen Mitschnitt anlegen,
   den alten behalten — er belegt die Abwärtskompatibilität.
+- `tests/check-readme.php` hält die README beim Code: Module, Formularfelder
+  und -optionen, Standard-Topics, Prognosearten und die Tabelle der
+  schaltbaren Variablen (zwischen `<!-- schaltbar:begin/end -->`) werden aus
+  Code und `Themes.php` abgeleitet und in der README gesucht. Neue schaltbare
+  Variable → Tabellenzeile ergänzen, sonst ist die CI rot. Verhaltensänderungen
+  und Migrationshinweise prüft er nicht — die bleiben Handarbeit vor der Beta.
 - CI: `.github/workflows/check.yml` (php -l, JSON-Validität, danach jede
   `tests/check*.php` per Glob) — Badge im README. Checkout mit `submodules: true`.
 

@@ -11,7 +11,7 @@ Es liest evcc-Datenpunkte ein und unterstützt bei geeigneten Variablen auch das
 1. [Voraussetzungen](#1-voraussetzungen)
 2. [Enthaltene Module](#2-enthaltene-module)
 3. [Installation](#3-installation)
-4. [Konfiguration in IP-Symcon](#4-konfiguration-in-ip-symcon)
+4. [Konfiguration in Symcon](#4-konfiguration-in-symcon)
 5. [Betrieb und Hinweise](#5-betrieb-und-hinweise)
 6. [Lizenz](#6-lizenz)
 7. [Spenden](#7-spenden)
@@ -20,8 +20,7 @@ Es liest evcc-Datenpunkte ein und unterstützt bei geeigneten Variablen auch das
 
 - Symcon ab Version 8.1
 - laufende evcc-Installation mit aktivierter MQTT-Ausgabe
-- ein erreichbarer MQTT-Server (typisch derselbe Server/Broker, den evcc nutzt)
-- in Symcon eingerichtetes und verbundenes MQTT-Client-IO zu diesem MQTT-Server
+- in Symcon eine Instanz **MQTT Server**, an die evcc seine Daten sendet
 
 ## 2. Enthaltene Module
 
@@ -37,43 +36,41 @@ Es liest evcc-Datenpunkte ein und unterstützt bei geeigneten Variablen auch das
 ## 3. Installation
 
 1. Modul über den Module Store installieren.
-2. MQTT-Server bereitstellen bzw. vorhandene MQTT-Server verwenden.
-3. In Symcon ein MQTT-Client-IO einrichten und mit diesem MQTT-Server verbinden.
-4. Pro gewünschtem evcc-Bereich eine Instanz des entsprechenden Moduls anlegen.
+2. In Symcon eine Instanz **MQTT Server** anlegen, falls noch keine vorhanden ist. Im zugehörigen **Server Socket** einen freien Port einstellen (z. B. `1883`).
+3. In evcc diesen Server als MQTT-Broker eintragen: Adresse des Symcon-Rechners und der Port aus Schritt 2, Topic `evcc`.
+4. Pro gewünschtem evcc-Bereich eine Instanz des entsprechenden Moduls anlegen. Symcon verbindet sie mit dem MQTT Server.
 
-## 4. Konfiguration in IP-Symcon
+## 4. Konfiguration in Symcon
 
-Alle Instanzen benötigen ein gültiges MQTT-Parent-IO.
-Voraussetzung dafür ist ein erreichbarer MQTT-Server, zu dem das MQTT-Client-IO in Symcon verbunden ist.
+### MQTT Server (wichtig)
 
-### MQTT-Parent (wichtig)
+evcc verbindet sich direkt mit dem MQTT Server in Symcon, ein eigener Broker ist nicht nötig. Stimmen müssen:
 
-Stelle sicher, dass im Parent-IO korrekt gesetzt sind:
-
-- Broker-Adresse (Host/IP)
-- Port
-- Anmeldedaten (falls aktiviert)
-- TLS/SSL-Einstellungen (falls genutzt)
+- der Port im Server Socket des MQTT Servers und der in evcc eingetragene Port
+- Benutzername und Passwort, falls im MQTT Server gesetzt
+- das Topic-Präfix in evcc und in den Instanzen (siehe unten)
 
 Wenn keine Daten ankommen, liegt die Ursache meist hier oder im Topic-Präfix.
 
 ### MQTT Topic Basis
 
-Standardmäßig verwenden die Module das Topic-Präfix `evcc/`.  
-Wenn in deiner `evcc.yaml` ein anderes Präfix konfiguriert ist, muss `topic` in den Instanzen entsprechend angepasst werden.
+Standardmäßig verwenden die Module das Topic-Präfix `evcc/`; das vollständige Standard-Topic je Modul steht unten.  
+Ist in evcc ein anderes Präfix konfiguriert, muss `topic` in den Instanzen entsprechend angepasst werden.
 
 ### Modul-spezifische Felder
 
 - **evcc Standort (Site)**  
   Feld: `topic`  
-  Beispiel: `evcc/`
+  Standard-`topic`: `evcc/site/`
 
 - **evcc Ladepunkt (Loadpoint)**  
   Felder: `topic`, `loadPointId`  
+  Standard-`topic`: `evcc/loadpoints/`  
   Beispiel: `loadPointId = 1` entspricht Topics wie `evcc/loadpoints/1/...`
 
 - **evcc PV Anlage**  
   Felder: `topic`, `sitePvId`  
+  Standard-`topic`: `evcc/site/pv/`  
   Beispiel: `sitePvId = 1` entspricht Topics wie `evcc/site/pv/1/...`
 
 - **evcc Batterie**  
@@ -84,20 +81,24 @@ Wenn in deiner `evcc.yaml` ein anderes Präfix konfiguriert ist, muss `topic` in
 
 - **evcc Extern geregeltes Gerät (Aux)**  
   Felder: `topic`, `siteAuxId`  
+  Standard-`topic`: `evcc/site/aux/`  
   Beispiel: `siteAuxId = 1` entspricht Topics wie `evcc/site/aux/1/...`
 
 - **evcc Fahrzeug (Vehicle)**  
   Felder: `topic`, `vehicleName`  
-  Beispiel: `vehicleName = meinauto` entspricht Topics wie `evcc/vehicles/meinauto/...`
+  Standard-`topic`: `evcc/vehicles/`  
+  Beispiel: `vehicleName = meinauto` entspricht Topics wie `evcc/vehicles/meinauto/...`  
+  `vehicleName` ist der interne Name des Fahrzeugs in evcc, nicht sein Titel. Fahrzeuge, die in der evcc-Oberfläche angelegt wurden, heißen dort `db:<Nummer>` (z. B. `db:6`).
 
 - **evcc Statistikdaten**  
   Felder: `topic`, `scope`  
+  Standard-`topic`: `evcc/site/statistics/`  
   Unterstützte Werte für `scope`: `30d`, `365d`, `thisYear`, `total`
 
 - **evcc Prognosen (Forecasts)**  
   Feld: `topic`  
   Standard: `evcc/site/forecast/`  
-  Unterstützte Forecast-Daten: `co2`, `feedin`, `grid`, `planner`, `temperature` sowie die Solarprognose (Skalierung, Zeitreihe und je `today`, `tomorrow`, `dayAfterTomorrow` der Ertrag in Wh und `complete` = vollständig/teilweise)
+  Unterstützte Forecast-Daten: `co2`, `feedIn`, `grid`, `planner`, `temperature` sowie die Solarprognose (Skalierung, Zeitreihe und je `today`, `tomorrow`, `dayAfterTomorrow` der Ertrag in Wh und `complete` = vollständig/teilweise)
 
   Ab evcc 0.314 sendet evcc je Prognoseart eine Nachricht mit vollständigem JSON: `.../forecast/solar` enthält `scale`, `today`, `tomorrow`, `dayAfterTomorrow` und die Zeitreihe, die übrigen Topics enthalten die Ratenliste als `[[start, ende, wert], ...]` mit Zeitstempeln in Unix-Sekunden. Ältere evcc-Versionen, die diese Werte auf Einzeltopics (`solar/scale`, `solar/today/yield` …) verteilen, werden weiterhin unterstützt.
 
@@ -105,8 +106,16 @@ Wenn in deiner `evcc.yaml` ein anderes Präfix konfiguriert ist, muss `topic` in
 
 ### Schreiben von Werten nach evcc
 
-Einige Variablen unterstützen die Standardaktion in Symcon.  
-Bei Änderung in Symcon publiziert das Modul den passenden MQTT-Set-Befehl (typisch auf `.../set`) zurück an evcc.
+Diese Variablen lassen sich in Symcon schalten. Das Modul sendet den neuen Wert als MQTT-Befehl `<topic>/<Ident>/set` an evcc; die Variable zeigt ihn an, sobald evcc ihn bestätigt.
+
+<!-- schaltbar:begin -->
+| Modul | Schaltbare Variablen |
+|---|---|
+| evcc Standort (`evccSite`) | `prioritySoc` Priorisierung SoC, `bufferSoc` Puffer SoC, `bufferStartSoc` Puffer Start SoC, `residualPower` Sollarbeitspunkt Überschussregelung, `batteryDischargeControl` Batterie Entladen Steuerung, `batteryGridChargeLimit` Batterie Netzladen Preislimit |
+| evcc Ladepunkt (`evccLoadPointId`) | `mode` Lademodus, `alwaysCharge` Dauerhaft laden (ab evcc 0.316), `limitSoc` Ladelimit SoC, `limitEnergy` Ladelimit Energie, `phasesConfigured` Phasen konfiguriert, `minCurrent` Min. Ladestrom, `maxCurrent` Max. Ladestrom, `smartCostLimit` Intelligente Preisgrenze, `enableThreshold` Einschaltgrenze, `disableThreshold` Abschaltgrenze |
+<!-- schaltbar:end -->
+
+Die übrigen Module zeigen nur Werte an.
 
 ### Typische Fehlerquellen
 
