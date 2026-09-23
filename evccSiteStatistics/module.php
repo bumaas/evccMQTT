@@ -96,8 +96,11 @@ class evccSiteStatistics extends IPSModuleStrict
         if ($this->shouldBeIgnored($mqtt['LastElement'], $mqtt['PenultimateElement'], $mqtt['Topic'], $MQTTTopic)) {
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $mqtt['Topic'], 0);
         } elseif (SiteStatistics::propertyIsValid($mqtt['LastElement'])) {
+            // evcc löscht beim Neustart retained Topics mit leerem Payload - der ergibt null
             $VariableValues = SiteStatistics::getIPSVariable($mqtt['LastElement'], $mqtt['Payload']);
-            $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+            if (!is_null($VariableValues[IPS_VAR_VALUE])) {
+                $this->SetValue($VariableValues[IPS_VAR_IDENT], $VariableValues[IPS_VAR_VALUE]);
+            }
         } else {
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $mqtt['Topic'], 0);
         }

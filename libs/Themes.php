@@ -169,7 +169,7 @@ namespace evccMQTT\Themes {
         case PvAction = 'pvAction';
         case SmartCostActive = 'smartCostActive';
         case SmartCostLimit = 'smartCostLimit';
-        case Priority = 'Priority';
+        case Priority = 'priority';
         case effectivePriority = 'effectivePriority';
         case EnableThreshold = 'enableThreshold';
         case DisableThreshold = 'disableThreshold';
@@ -1178,7 +1178,7 @@ namespace evccMQTT\Themes {
     enum SiteForecastsIdent: string
     {
         case Co2 = 'co2';
-        case FeedIn = 'feedin';
+        case FeedIn = 'feedIn';
         case Grid = 'grid';
         case Planner = 'planner';
         case Temperature = 'temperature';

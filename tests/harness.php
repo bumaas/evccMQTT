@@ -55,6 +55,27 @@ trait EvccHarness
         return $ok;
     }
 
+    /** @var list<array{0: string, 1: string}> jedes SendDebug (Nachricht, Daten) */
+    public array $debug = [];
+
+    protected function SendDebug(string $Message, string $Data, int $Format): bool
+    {
+        $this->debug[] = [$Message, $Data];
+        return true;
+    }
+
+    /** Topics, die das Modul als unerwartet verworfen hat (SendDebug '…::HINT'). */
+    public function unerwartet(): array
+    {
+        $topics = [];
+        foreach ($this->debug as [$nachricht, $daten]) {
+            if (str_ends_with($nachricht, '::HINT') && str_starts_with($daten, 'unexpected topic: ')) {
+                $topics[] = substr($daten, strlen('unexpected topic: '));
+            }
+        }
+        return array_values(array_unique($topics));
+    }
+
     protected function SendDataToParent(string $Data): string
     {
         $d                = json_decode($Data, true, 512, JSON_THROW_ON_ERROR);

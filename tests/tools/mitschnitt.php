@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Nimmt echte evcc-MQTT-Nachrichten als Fixture für die Tests auf.
  *
  *   php tests/tools/mitschnitt.php aufnehmen <host> <port> <sekunden> <rohdatei.json>
- *   php tests/tools/mitschnitt.php ablegen <rohdatei.json> <tests/fixtures/ziel.json>
+ *   php tests/tools/mitschnitt.php ablegen <rohdatei.json> <tests/fixtures/ziel.json> [--version=<x>]
  *
  * aufnehmen: abonniert evcc/# (MQTT 3.1.1, QoS 0) und schreibt jede Nachricht in
  * Empfangsreihenfolge mit. Einen vollständigen Stand gibt es nur, wenn evcc währenddessen
@@ -111,7 +111,7 @@ function naechstesPaket(string &$buf): ?array
     return $paket;
 }
 
-function ablegen(string $roh, string $ziel): void
+function ablegen(string $roh, string $ziel, string $versionVorgabe = ''): void
 {
     $liste   = json_decode(file_get_contents($roh), true, 512, JSON_THROW_ON_ERROR);
     $ersetzt = 0;
@@ -132,14 +132,16 @@ function ablegen(string $roh, string $ziel): void
         }
     }
     unset($m);
+    $mitNeustart = $version !== '';
+    $version     = $mitNeustart ? $version : $versionVorgabe;
     if ($version === '') {
-        fwrite(STDERR, "evcc/site/version fehlt - evcc ist während der Aufnahme nicht neu gestartet, der Mitschnitt ist unvollständig\n");
+        fwrite(STDERR, "evcc/site/version fehlt - evcc ist während der Aufnahme nicht neu gestartet, der Mitschnitt ist unvollständig (bei gewollten Ergänzungsmitschnitten --version=<x> angeben)\n");
         exit(1);
     }
     $fixture = [
         'evcc'        => $version,
         'aufgenommen' => date('Y-m-d', filemtime($roh)),
-        'hinweis'     => 'Echter Mitschnitt von evcc/# inkl. Neustart von evcc, erzeugt mit tests/tools/mitschnitt.php; anonymisiert: ' . implode(', ', array_keys(ANONYM)),
+        'hinweis'     => 'Echter Mitschnitt von evcc/# ' . ($mitNeustart ? 'inkl. Neustart von evcc' : 'ohne Neustart (Ergänzung, Version von Hand angegeben)') . ', erzeugt mit tests/tools/mitschnitt.php; anonymisiert: ' . implode(', ', array_keys(ANONYM)),
         'nachrichten' => $liste,
     ];
     file_put_contents($ziel, json_encode($fixture, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) . "\n");
@@ -148,7 +150,7 @@ function ablegen(string $roh, string $ziel): void
 
 match ($argv[1] ?? '') {
     'aufnehmen' => aufnehmen($argv[2], (int) $argv[3], (int) $argv[4], $argv[5]),
-    'ablegen'   => ablegen($argv[2], $argv[3]),
+    'ablegen'   => ablegen($argv[2], $argv[3], substr($argv[4] ?? '', strlen('--version='))),
     default     => (static function (): never {
         fwrite(STDERR, "Aufruf: mitschnitt.php aufnehmen <host> <port> <sekunden> <roh.json> | ablegen <roh.json> <ziel.json>\n");
         exit(1);

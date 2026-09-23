@@ -15,10 +15,12 @@ use const evccMQTT\Themes\IPS_VAR_TYPE;
 use const evccMQTT\Themes\IPS_VAR_VALUE;
 
 require_once __DIR__ . '/../libs/helper/MQTTHelper.php';
+require_once __DIR__ . '/../libs/helper/IdentHelper.php';
 
 class evccLoadPointId extends IPSModuleStrict
 {
     use MQTTHelper;
+    use IdentHelper;
 
     private const string PROP_TOPIC       = 'topic';
     private const string PROP_LOADPOINTID = 'loadPointId';
@@ -46,6 +48,9 @@ class evccLoadPointId extends IPSModuleStrict
 
     private function registerVariables(): void
     {
+        // bis build 40 falsch geschrieben, evcc sendet das Topic in dieser Schreibweise
+        $this->migrateIdents(['Priority' => LoadPointIdIdent::Priority->value]);
+
         $pos = 0;
         foreach (LoadPointIdIdent::idents() as $ident) {
             $VariableValues = LoadPointId::getIPSVariable($ident);
