@@ -43,4 +43,28 @@ foreach ($faelle as [$modul, $alt, $neu]) {
     pruefe(count($idents) === $vorher, "$modul: Zahl der Variablen unverändert ($vorher)");
 }
 
+// Kollision (so vorgefunden auf dem nuc, Ladepunkt #23847): Eine ältere Modulversion hatte
+// schon eine Variable `priority` angelegt, daneben steht `Priority`. Symcon unterscheidet
+// Groß-/Kleinschreibung bei Idents; umbenannt werden darf dann nicht, gelöscht wird nichts.
+echo "== evccLoadPointId: Priority und priority vorhanden\n";
+$inst = neueInstanz('evccLoadPointId');
+$neu  = IPS_GetObjectIDByIdent('priority', $inst->id()) ?: IPS_GetObjectIDByIdent('Priority', $inst->id());
+IPS_SetIdent($neu, 'priority');
+$alt = IPS_CreateVariable(VARIABLETYPE_INTEGER);
+IPS_SetParent($alt, $inst->id());
+IPS_SetIdent($alt, 'Priority');
+$vorherLogs = count($inst->logs());
+
+$abbruch = '';
+try {
+    IPS_ApplyChanges($inst->id());
+} catch (Throwable $e) {
+    $abbruch = get_class($e) . ': ' . $e->getMessage();
+}
+pruefe($abbruch === '', 'Kollision: ApplyChanges ohne Abbruch' . ($abbruch ? " - $abbruch" : ''));
+pruefe(IPS_GetObject($neu)['ObjectIdent'] === 'priority', "Kollision: #$neu behält Ident priority");
+pruefe(IPS_VariableExists($alt) && IPS_GetObject($alt)['ObjectIdent'] === 'Priority', "Kollision: alte Variable #$alt bleibt unverändert stehen");
+$hinweise = array_slice($inst->logs(), $vorherLogs);
+pruefe(count(array_filter($hinweise, static fn(array $l): bool => str_contains($l['Message'], "#$alt"))) === 1, 'Kollision: ein Log-Hinweis nennt die alte Variable');
+
 ergebnis();
