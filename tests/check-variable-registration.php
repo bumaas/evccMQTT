@@ -18,6 +18,9 @@ foreach (glob(dirname(__DIR__) . '/*/module.json') as $datei) {
     pruefe(in_array($modul, MODULE, true), "$modul ist in tests/harness.php (MODULE) eingetragen");
 }
 
+// Idents, die eine frische Instanz erst anlegt, wenn evcc sie sendet (siehe check-loadpoint-mode.php).
+const BEDINGT = ['evccLoadPointId' => ['alwaysCharge']];
+
 foreach (MODULE as $modul) {
     echo "== $modul\n";
     $theme  = 'evccMQTT\\Themes\\' . substr($modul, 4);
@@ -34,7 +37,7 @@ foreach (MODULE as $modul) {
 
     $erwartet = $enum::idents();
     pruefe(count($erwartet) === count(array_unique($erwartet)), "$modul: Idents in Themes.php sind eindeutig");
-    $fehlend  = array_diff($erwartet, array_keys($variablen));
+    $fehlend  = array_diff($erwartet, array_keys($variablen), BEDINGT[$modul] ?? []);
     $zuviel   = array_diff(array_keys($variablen), $erwartet);
     pruefe($fehlend === [], "$modul: alle " . count($erwartet) . ' Idents registriert' . ($fehlend ? ' - fehlt: ' . implode(', ', $fehlend) : ''));
     pruefe($zuviel === [], "$modul: keine Variable außerhalb von Themes.php" . ($zuviel ? ' - zusätzlich: ' . implode(', ', $zuviel) : ''));
@@ -61,9 +64,15 @@ foreach (MODULE as $modul) {
     }
     pruefe($abweichend === [], "$modul: Typ, Darstellung und Aktion wie in Themes.php" . ($abweichend ? ' - ' . implode('; ', $abweichend) : ''));
 
-    $positionen = array_map(static fn(array $v): int => $v['obj']['ObjectPosition'], array_values($variablen));
-    sort($positionen);
-    pruefe($positionen === range(1, count($positionen)), "$modul: Positionen fortlaufend 1.." . count($positionen));
+    // Position = Stelle in Themes.php; ein bedingter Ident behält seinen Platz, auch wenn er fehlt.
+    $falsch = [];
+    foreach ($variablen as $ident => $v) {
+        $soll = array_search($ident, $erwartet, true) + 1;
+        if ($v['obj']['ObjectPosition'] !== $soll) {
+            $falsch[] = "$ident: {$v['obj']['ObjectPosition']} statt $soll";
+        }
+    }
+    pruefe($falsch === [], "$modul: Positionen entsprechen der Reihenfolge in Themes.php" . ($falsch ? ' - ' . implode(', ', array_slice($falsch, 0, 5)) : ''));
 }
 
 ergebnis();

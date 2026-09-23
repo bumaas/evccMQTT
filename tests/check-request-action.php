@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/harness.php';
 
-// Setter aus evcc server/mqtt.go (0.315.0: listenSiteSetters / listenLoadpointSetters),
+// Setter aus evcc server/mqtt.go (0.315.0: listenSiteSetters / listenLoadpointSetters;
+// alwaysCharge seit 0.316.0),
 // Ident => Payload-Art, wie der jeweilige Setter sie parst.
 const EVCC_SETTER = [
     'evccSite' => [
@@ -32,6 +33,7 @@ const EVCC_SETTER = [
     ],
     'evccLoadPointId' => [
         'mode'                     => 'chargeMode',
+        'alwaysCharge'             => 'alwaysCharge',
         'phasesConfigured'         => 'int',
         'limitSoc'                 => 'int',
         'minSoc'                   => 'int',
@@ -52,7 +54,8 @@ const FORMAT = [
     'bool'        => '/^(true|false)$/',
     'int'         => '/^-?\d+$/',
     'float'       => '/^-?\d+(\.\d+)?$/',
-    'chargeMode'  => '/^(off|now|minpv|pv)$/',
+    'chargeMode'   => '/^(off|now|minpv|pv|smart)$/',
+    'alwaysCharge' => '/^(off|on|once)$/',
     'batteryMode' => '/^(unknown|normal|hold|charge)$/',
 ];
 

@@ -271,16 +271,23 @@ function collectPresentationTexts(string $themeClass, array &$texts): void
 {
     $shortName = (new ReflectionClass($themeClass))->getShortName();
     foreach (getThemeProperties($themeClass) as $ident => $property) {
-        $presentation = $property[\evccMQTT\Themes\IPS_PRESENTATION] ?? [];
-        if (isset($presentation['PREFIX']) && $presentation['PREFIX'] !== '') {
-            $texts[$presentation['PREFIX']][] = "$shortName.$ident PREFIX";
+        // Hauptdarstellung und alternative Darstellungen (IPS_PRESENTATION_VARIANTS, z. B. die
+        // Moduswahl ab evcc 0.316) laufen gleichermaßen durch translatePresentationValue().
+        $presentations = ['' => $property[\evccMQTT\Themes\IPS_PRESENTATION] ?? []];
+        foreach ($property[\evccMQTT\Themes\IPS_PRESENTATION_VARIANTS] ?? [] as $variante => $p) {
+            $presentations[" ($variante)"] = $p;
         }
-        foreach ($presentation['OPTIONS'] ?? [] as $option) {
-            $caption = $option['Caption'] ?? '';
-            if ($caption === '' || is_numeric($caption)) {
-                continue;
+        foreach ($presentations as $zusatz => $presentation) {
+            if (isset($presentation['PREFIX']) && $presentation['PREFIX'] !== '') {
+                $texts[$presentation['PREFIX']][] = "$shortName.$ident$zusatz PREFIX";
             }
-            $texts[$caption][] = "$shortName.$ident OPTIONS";
+            foreach ($presentation['OPTIONS'] ?? [] as $option) {
+                $caption = $option['Caption'] ?? '';
+                if ($caption === '' || is_numeric($caption)) {
+                    continue;
+                }
+                $texts[$caption][] = "$shortName.$ident$zusatz OPTIONS";
+            }
         }
     }
 }

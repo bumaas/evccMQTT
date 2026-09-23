@@ -68,4 +68,10 @@ evcc-Datenbereich:
 - evcc-Topic-Änderungen der Vergangenheit (für Kompatibilitätsfragen):
   `phases/set` → `phasesConfigured/set`; Batterie-Aggregate liegen seit
   evcc 0.301 verschachtelt (`battery/power` → Ident `batteryPower`,
-  Sonderbehandlung in `evccSite::ReceiveData()`).
+  Sonderbehandlung in `evccSite::ReceiveData()`); evcc 0.316 Mode-Redesign
+  (`pv` → `smart`, `minpv` → `alwaysCharge` off/on/once) — `evccLoadPointId`
+  erkennt das Schema an den Daten (Attribut `smartModes`) und wählt die
+  Darstellung über `IPS_PRESENTATION_VARIANTS` in `Themes.php`.
+- **`T:\modules\evccMQTT` ist das Live-Modulverzeichnis des nuc** — jede
+  Dateiänderung wirkt sofort. Änderungen an Idents/Variablenlogik in einem
+  Worktree außerhalb bauen und nach dem Übernehmen sofort `MC_ReloadModule`.

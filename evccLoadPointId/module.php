@@ -35,6 +35,9 @@ class evccLoadPointId extends IPSModuleStrict
         'planTime',
     ];
 
+    // evcc >= 0.316 ("Mode Redesign"): Modi off/smart/now plus alwaysCharge statt off/pv/minpv/now
+    private const string ATTR_SMART_MODES = 'smartModes';
+
 
     public function Create(): void
     {
@@ -44,6 +47,7 @@ class evccLoadPointId extends IPSModuleStrict
         $this->RegisterPropertyString(self::PROP_TOPIC, 'evcc/loadpoints/');
         $this->RegisterPropertyInteger(self::PROP_LOADPOINTID, 1);
 
+        $this->RegisterAttributeBoolean(self::ATTR_SMART_MODES, false);
     }
 
     private function registerVariables(): void
@@ -51,9 +55,17 @@ class evccLoadPointId extends IPSModuleStrict
         // bis build 40 falsch geschrieben, evcc sendet das Topic in dieser Schreibweise
         $this->migrateIdents(['Priority' => LoadPointIdIdent::Priority->value]);
 
-        $pos = 0;
+        $smartModes = $this->ReadAttributeBoolean(self::ATTR_SMART_MODES);
+        $pos        = 0;
         foreach (LoadPointIdIdent::idents() as $ident) {
-            $VariableValues = LoadPointId::getIPSVariable($ident);
+            // alwaysCharge erst anlegen, wenn evcc es kennt; eine vorhandene Variable bleibt
+            // auch bei einer Rückkehr zu einer älteren evcc-Version stehen (Archiv)
+            if ($ident === LoadPointIdIdent::AlwaysCharge->value && !$smartModes) {
+                ++$pos;
+                continue;
+            }
+            $variante       = ($ident === LoadPointIdIdent::Mode->value && $smartModes) ? 'smart' : null;
+            $VariableValues = LoadPointId::getIPSVariable($ident, null, $variante);
             $this->SendDebug(__FUNCTION__, sprintf('%s, VariableValues: %s', $ident, print_r($VariableValues, true)), 0);
 
             // Position wird hier fortlaufend gesetzt
@@ -108,6 +120,8 @@ class evccLoadPointId extends IPSModuleStrict
             return '';
         }
 
+        $this->erkenneModusSchema($mqtt['LastElement'], $mqtt['Payload']);
+
         if ($this->shouldBeIgnored($mqtt['LastElement'], $mqtt['PenultimateElement'], $mqtt['Topic'], $MQTTTopic)) {
             $this->SendDebug(__FUNCTION__, 'ignored: ' . $mqtt['Topic'], 0);
         } elseif (LoadPointId::propertyIsValid($mqtt['LastElement'])) {
@@ -119,6 +133,27 @@ class evccLoadPointId extends IPSModuleStrict
             $this->SendDebug(__FUNCTION__ . '::HINT', 'unexpected topic: ' . $mqtt['Topic'], 0);
         }
         return '';
+    }
+
+    /**
+     * Erkennt an den Daten, welches Modus-Schema evcc spricht, und stellt die Variablen darauf um:
+     * ein alwaysCharge-Topic oder der Modus smart heißen evcc >= 0.316, pv/minpv eine ältere Version
+     * (so auch nach einer Rückkehr zu einer älteren evcc-Version). off/now sagen nichts aus.
+     */
+    private function erkenneModusSchema(string $element, string $payload): void
+    {
+        $smart = match (true) {
+            $element === LoadPointIdIdent::AlwaysCharge->value && $payload !== ''        => true,
+            $element === LoadPointIdIdent::Mode->value && $payload === 'smart'           => true,
+            $element === LoadPointIdIdent::Mode->value && in_array($payload, ['pv', 'minpv'], true) => false,
+            default                                                                      => null,
+        };
+        if ($smart === null || $smart === $this->ReadAttributeBoolean(self::ATTR_SMART_MODES)) {
+            return;
+        }
+        $this->WriteAttributeBoolean(self::ATTR_SMART_MODES, $smart);
+        $this->SendDebug(__FUNCTION__, $smart ? 'evcc >= 0.316: Modi off/smart/now, alwaysCharge' : 'evcc < 0.316: Modi off/pv/minpv/now', 0);
+        $this->registerVariables();
     }
 
     public function RequestAction($Ident, $Value): void
@@ -134,6 +169,7 @@ class evccLoadPointId extends IPSModuleStrict
         $mqttBaseTopic = rtrim($this->getMqttBaseTopic(), '/');
         switch ($identEnum) {
             case LoadPointIdIdent::Mode:
+            case LoadPointIdIdent::AlwaysCharge:
             case LoadPointIdIdent::LimitSoc:
             case LoadPointIdIdent::LimitEnergy:
             case LoadPointIdIdent::MinCurrent:

@@ -128,6 +128,17 @@ Auswirkungen:
 - **evcc Standort:** Die aggregierten Batteriewerte werden ab dieser Modulversion automatisch aus der neuen, verschachtelten Struktur gelesen — keine Anpassung nötig.
 - **PV und Aux** sind von der Änderung nicht betroffen.
 
+### Hinweis: Lademodi ab evcc 0.316.0
+
+Mit evcc **0.316.0** (September 2026, [PR #32490](https://github.com/evcc-io/evcc/pull/32490)) wurden die Lademodi neu geordnet:
+
+- Aus „Nur PV" (`pv`) wurde „Smart" (`smart`).
+- „Min + PV" (`minpv`) entfällt. Dasselbe Verhalten erreicht man jetzt mit „Smart" und der neuen Einstellung **Dauerhaft laden** (`alwaysCharge`: Aus, Dauerhaft, Bis Ladeende). „Bis Ladeende" setzt evcc beim Abstecken selbst zurück.
+
+Das Modul **evcc Ladepunkt** erkennt die evcc-Version selbst: Sobald evcc die neuen Werte sendet, bietet der Lademodus Aus/Smart/Sofort an, und die Variable „Dauerhaft laden" wird angelegt. Mit älteren evcc-Versionen bleibt es bei Aus/Nur PV/Min + PV/Sofort. Eine Anpassung an der Instanz ist nicht nötig.
+
+Skripte, die den Lademodus auf `pv` oder `minpv` vergleichen, müssen angepasst werden: evcc meldet ab 0.316 nur noch `smart`. Schalten mit den alten Werten nimmt evcc weiterhin an.
+
 ## 6. Lizenz
 
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)

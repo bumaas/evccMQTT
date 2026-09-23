@@ -11,6 +11,8 @@ namespace evccMQTT\Themes {
     const IPS_VAR_VALUE    = 'VarValue';
     const IPS_VAR_ACTION   = 'VarAction';
     const IPS_VAR_IDENT    = 'VarIdent';
+    // Alternative Darstellungen einer Variable, je nach Datenlage gewählt (Variante => Darstellung)
+    const IPS_PRESENTATION_VARIANTS = 'PresentationVariants';
     abstract class ThemeBasics
     {
         protected static array  $properties = [];
@@ -25,7 +27,7 @@ namespace evccMQTT\Themes {
             return static::$properties[$property][IPS_VAR_ACTION] ?? false;
         }
 
-        public static function getIPSVariable(string $property, mixed $value = null): array
+        public static function getIPSVariable(string $property, mixed $value = null, ?string $variante = null): array
         {
             $result[IPS_VAR_TYPE] = static::getIPSVarType($property);
             $factor               = static::$properties[$property][IPS_VAR_FACTOR] ?? 1;
@@ -58,7 +60,7 @@ namespace evccMQTT\Themes {
                         break;
                 }
             }
-            $result[IPS_PRESENTATION] = static::getIPSPresentation($property);
+            $result[IPS_PRESENTATION] = static::getIPSPresentation($property, $variante);
             $result[IPS_VAR_NAME]     = static::$properties[$property][IPS_VAR_NAME] ?? $property;
             $result[IPS_VAR_ACTION]   = static::$properties[$property][IPS_VAR_ACTION] ?? false;
             $result[IPS_VAR_IDENT]    = $property;
@@ -84,11 +86,12 @@ namespace evccMQTT\Themes {
             return $text;
         }
 
-        private static function getIPSPresentation(string $property): array
+        private static function getIPSPresentation(string $property, ?string $variante = null): array
         {
             $presentation = [];
             if (isset(static::$properties[$property][IPS_PRESENTATION])) {
-                $presentation = static::$properties[$property][IPS_PRESENTATION];
+                $presentation = static::$properties[$property][IPS_PRESENTATION_VARIANTS][$variante ?? '']
+                                ?? static::$properties[$property][IPS_PRESENTATION];
                 if (isset($presentation['PREFIX'])) {
                     $presentation['PREFIX'] = self::translatePresentationValue($presentation['PREFIX']);
                 }
@@ -122,6 +125,7 @@ namespace evccMQTT\Themes {
     {
         case Title = 'title';
         case Mode = 'mode';
+        case AlwaysCharge = 'alwaysCharge';
         case LimitSoc = 'limitSoc';
         case EffectiveLimitSoc = 'effectiveLimitSoc';
         case LimitEnergy = 'limitEnergy';
@@ -227,9 +231,71 @@ namespace evccMQTT\Themes {
                         ]
                     ]
                 ],
+                // ab evcc 0.316: pv heißt smart, minpv entfällt (dafür alwaysCharge)
+                IPS_PRESENTATION_VARIANTS => [
+                    'smart' => [
+                        'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
+                        'OPTIONS'      => [
+                            [
+                                'Value'      => 'off',
+                                'Caption'    => 'Off',
+                                'IconActive' => false,
+                                'IconValue'  => '',
+                                'Color'      => -1
+                            ],
+                            [
+                                'Value'      => 'smart',
+                                'Caption'    => 'Smart',
+                                'IconActive' => false,
+                                'IconValue'  => '',
+                                'Color'      => -1
+                            ],
+                            [
+                                'Value'      => 'now',
+                                'Caption'    => 'Now',
+                                'IconActive' => false,
+                                'IconValue'  => '',
+                                'Color'      => -1
+                            ]
+                        ]
+                    ],
+                ],
                 IPS_VAR_TYPE     => VARIABLETYPE_STRING,
                 IPS_VAR_ACTION   => true,
                 IPS_VAR_NAME     => 'Mode',
+            ],
+            // ab evcc 0.316; wird erst angelegt, wenn evcc das Topic sendet
+            LoadPointIdIdent::AlwaysCharge->value                   => [
+                'type'           => 'string',
+                IPS_PRESENTATION => [
+                    'PRESENTATION' => VARIABLE_PRESENTATION_ENUMERATION,
+                    'OPTIONS'      => [
+                        [
+                            'Value'      => 'off',
+                            'Caption'    => 'Off',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 'on',
+                            'Caption'    => 'Permanent',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ],
+                        [
+                            'Value'      => 'once',
+                            'Caption'    => 'Until end of charge',
+                            'IconActive' => false,
+                            'IconValue'  => '',
+                            'Color'      => -1
+                        ]
+                    ]
+                ],
+                IPS_VAR_TYPE     => VARIABLETYPE_STRING,
+                IPS_VAR_ACTION   => true,
+                IPS_VAR_NAME     => 'Always Charge',
             ],
             LoadPointIdIdent::LimitSoc->value                       => [
                 'type'           => 'number',
