@@ -133,15 +133,13 @@ class evccLoadPointId extends IPSModuleStrict
 
         $mqttBaseTopic = rtrim($this->getMqttBaseTopic(), '/');
         switch ($identEnum) {
-            case LoadPointIdIdent::Enabled:
-                $this->mqttCommand($mqttBaseTopic . '/' . $Ident . '/set', $Value ? 'true' : 'false');
-                break;
             case LoadPointIdIdent::Mode:
             case LoadPointIdIdent::LimitSoc:
             case LoadPointIdIdent::LimitEnergy:
             case LoadPointIdIdent::MinCurrent:
             case LoadPointIdIdent::MaxCurrent:
             case LoadPointIdIdent::EnableThreshold:
+            case LoadPointIdIdent::DisableThreshold:
             case LoadPointIdIdent::SmartCostLimit:
             case LoadPointIdIdent::PhasesConfigured:
                 $this->mqttCommand($mqttBaseTopic . '/' . $Ident . '/set', (string)$Value);
