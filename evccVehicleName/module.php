@@ -64,7 +64,6 @@ class evccVehicleName extends IPSModuleStrict
         //Never delete this line!
         parent::ApplyChanges();
         $this->registerVariables();
-        //$this->ConnectParent(self::MQTT_SERVER);
 
         //Setze Filter für ReceiveData
         $MQTTTopic          = $this->getMqttBaseTopic();
