@@ -1,0 +1,24 @@
+{
+    "quelle": "Neustadt Symcon 9.0, IPS_GetVariable()[VariablePresentation] am 16.10.2026, evcc 1.2 build 47",
+    "abgelehnt_von_91": {
+        "18220": {
+            "ident": "vehicleOdometer",
+            "variablentyp": 3,
+            "VariablePresentation": {
+                "THOUSANDS_SEPARATOR": "Client",
+                "SUFFIX": " km",
+                "PRESENTATION": "{3319437D-7CDE-699D-750A-3C6A3841FA75}"
+            },
+            "fehler_91": "Der Parameter THOUSANDS_SEPARATOR ist für diese Darstellung nicht definiert"
+        },
+        "36021": {
+            "ident": "batteryMode",
+            "variablentyp": 3,
+            "VariablePresentation": {
+                "PRESENTATION": "{3319437D-7CDE-699D-750A-3C6A3841FA75}",
+                "OPTIONS": "[{\"Value\":\"unknown\",\"Caption\":\"unbekannt\",\"IconActive\":false,\"IconValue\":\"\",\"Color\":-1},{\"Value\":\"normal\",\"Caption\":\"normal\",\"IconActive\":false,\"IconValue\":\"\",\"Color\":-1},{\"Value\":\"charge\",\"Caption\":\"laden\",\"IconActive\":false,\"IconValue\":\"\",\"Color\":-1},{\"Value\":\"discharge\",\"Caption\":\"entladen\",\"IconActive\":false,\"IconValue\":\"\",\"Color\":-1}]"
+            },
+            "fehler_91": "Der Eintrag im Parameter OPTIONS enthält unbekannte Unterparameter"
+        }
+    }
+}

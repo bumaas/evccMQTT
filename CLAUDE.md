@@ -46,6 +46,13 @@ evcc-Datenbereich:
   `Themes.php` schlägt der Check so lange fehl, bis die de-Schlüssel ergänzt sind.
 - `C:/php/php tests/check_presentations.php` — prüft, dass jede Darstellung nur
   Parameter setzt, die es in dieser Darstellung gibt (Symcon 9.1 validiert das selbst).
+- `C:/php/php tests/check-darstellungen-91.php` — prüft jede Darstellung aus `Themes.php`
+  (samt Varianten) wie der 9.1-Kernel: Parameter je **Variablentyp** (z. B. kein
+  `THOUSANDS_SEPARATOR` bei Strings) und **Unterfelder von OPTIONS/INTERVALS** (`Color` gibt es
+  nur in der Aufzählung, die Wertanzeige will `ColorActive`/`ColorValue`). Regeln aus dem
+  Mitschnitt `tests/fixtures/darstellungen-9.1.json` (`IPS_GetPresentation`); Gegenprobe sind die
+  zwei echten, von 9.1 abgelehnten Darstellungen aus Neustadt. Ablehnungen bleiben am Modul still,
+  sie fallen erst bei der Sync Remote auf.
 - **Modultests gegen den Kernel-Stub:** `tests/stubs` ist das Submodul
   symcon/SymconStubs, gepinnt auf `bf2950f` (nie `submodule update --remote`).
   `tests/harness.php` legt Instanzen aller 8 Module an (`neueInstanz($modul, $props)`),

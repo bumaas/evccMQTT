@@ -1,0 +1,1115 @@
+{
+    "quelle": "IPS_GetPresentation() auf der Testbox (SymBox) am 16.10.2026; nuc mit demselben Build liefert identische Definitionen",
+    "kernel": "9.1 rust-462691ca38c089ab725c01f5070290f728802b37",
+    "darstellungen": {
+        "VARIABLE_PRESENTATION_VALUE_PRESENTATION": {
+            "guid": "{3319437D-7CDE-699D-750A-3C6A3841FA75}",
+            "definition": {
+                "caption": "Value Presentation",
+                "conversions": [
+                    {
+                        "converts": [
+                            {
+                                "parameter": "DIGITS",
+                                "type": "constant",
+                                "value": 0
+                            },
+                            {
+                                "field": "IntervalMinValue",
+                                "parameter": "INTERVALS",
+                                "type": "ceil"
+                            },
+                            {
+                                "field": "IntervalMaxValue",
+                                "parameter": "INTERVALS",
+                                "type": "floor"
+                            },
+                            {
+                                "condition": {
+                                    "comparison": 2,
+                                    "parameter1": "IntervalMinValue",
+                                    "parameter2": "IntervalMaxValue",
+                                    "type": "dynamic"
+                                },
+                                "parameter": "INTERVALS",
+                                "type": "listRemoveWhere"
+                            }
+                        ],
+                        "variableType": 1
+                    }
+                ],
+                "customIcon": true,
+                "format": "{PREFIX}{VALUE}{SUFFIX}",
+                "groups": [
+                    {
+                        "format": "{VALUE, list, list OPTIONS equals Value found{{Caption}} other{{VALUE}}}",
+                        "id": "{C347198B-D123-B7AA-E108-1410D68564F7}",
+                        "name": "Boolean",
+                        "presentationParameters": {
+                            "OPTIONS": {
+                                "default": "[{\"Value\": false, \"Caption\": \"Off\", \"IconValue\": \"\", \"IconActive\": false, \"ColorActive\": true, \"ColorValue\": 16077123, \"ContentColorActive\": false}, {\"Value\": true, \"Caption\": \"On\", \"IconValue\": \"\", \"IconActive\": false, \"ColorActive\": true, \"ColorValue\": 1692672, \"ContentColorActive\": false}]",
+                                "parameters": {
+                                    "Caption": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "ColorActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "ColorValue": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "ContentColorActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "ContentColorValue": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "IconActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "IconValue": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "Value": {
+                                        "default": false,
+                                        "type": 0
+                                    }
+                                },
+                                "type": 3
+                            }
+                        },
+                        "restrictions": {
+                            "variableType": [
+                                0
+                            ]
+                        }
+                    },
+                    {
+                        "chart": {
+                            "max": "MAX",
+                            "min": "MIN"
+                        },
+                        "condition": {
+                            "conditions": [
+                                {
+                                    "caption": "Maximum Value must be higher than Minimum Value",
+                                    "conditions": [
+                                        {
+                                            "comparison": 4,
+                                            "parameter1": "MIN",
+                                            "parameter2": "MAX",
+                                            "type": "dynamic"
+                                        },
+                                        {
+                                            "comparison": 0,
+                                            "parameter": "PERCENTAGE",
+                                            "type": "constant",
+                                            "value": false
+                                        }
+                                    ],
+                                    "operation": 1,
+                                    "type": "multi"
+                                },
+                                {
+                                    "caption": "Interval End must be higher or equal to Interval Start",
+                                    "condition": {
+                                        "comparison": 5,
+                                        "parameter1": "IntervalMinValue",
+                                        "parameter2": "IntervalMaxValue",
+                                        "type": "dynamic"
+                                    },
+                                    "operation": 0,
+                                    "parameter": "INTERVALS",
+                                    "type": "list"
+                                }
+                            ],
+                            "operation": 0,
+                            "type": "multi"
+                        },
+                        "format": [
+                            "{INTERVALS_ACTIVE, select, true{",
+                            "{VALUE, list, list INTERVALS minimum IntervalMinValue maximum IntervalMaxValue found {",
+                            "{ConstantActive, select, true{{ConstantValue}} other{",
+                            "{PrefixActive, select, true{{PrefixValue}} other{{PREFIX}}}",
+                            "{VALUE, ipsnumber, digits {DigitsActive, select, true{{DigitsValue}} other {{DIGITS}}} factor {ConversionFactor} thousandsSeparator {{THOUSANDS_SEPARATOR}} decimalSeparator {{DECIMAL_SEPARATOR}}}",
+                            "{SuffixActive, select, true{{SuffixValue}} other{{SUFFIX}}}",
+                            "}}",
+                            "} other {",
+                            "{PREFIX}",
+                            "{VALUE, ipsnumber, percentage {PERCENTAGE} min {MIN} max {MAX} digits {DIGITS} thousandsSeparator {{THOUSANDS_SEPARATOR}} decimalSeparator {{DECIMAL_SEPARATOR}}}",
+                            "{SUFFIX}",
+                            "}}",
+                            "} other{",
+                            "{PREFIX}",
+                            "{VALUE, ipsnumber, percentage {PERCENTAGE} min {MIN} max {MAX} digits {DIGITS} thousandsSeparator {{THOUSANDS_SEPARATOR}} decimalSeparator {{DECIMAL_SEPARATOR}}}",
+                            "{SUFFIX}",
+                            "}}"
+                        ],
+                        "id": "{883E24FA-9174-4E4A-C12E-0A739F0A2FF4}",
+                        "name": "Numeric",
+                        "presentationParameters": {
+                            "DECIMAL_SEPARATOR": {
+                                "default": "Client",
+                                "type": 3
+                            },
+                            "DIGITS": {
+                                "default": 2,
+                                "min": 0,
+                                "type": 1
+                            },
+                            "INTERVALS": {
+                                "default": "[]",
+                                "parameters": {
+                                    "ColorActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "ColorValue": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "ConstantActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "ConstantValue": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "ContentColorActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "ContentColorValue": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "ConversionFactor": {
+                                        "default": 1,
+                                        "type": 2
+                                    },
+                                    "DigitsActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "DigitsValue": {
+                                        "default": 0,
+                                        "min": 0,
+                                        "type": 1
+                                    },
+                                    "IconActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "IconValue": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "IntervalMaxValue": {
+                                        "default": 0,
+                                        "type": "variableType"
+                                    },
+                                    "IntervalMinValue": {
+                                        "default": 0,
+                                        "type": "variableType"
+                                    },
+                                    "PrefixActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "PrefixValue": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "SuffixActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "SuffixValue": {
+                                        "default": "",
+                                        "type": 3
+                                    }
+                                },
+                                "type": 3
+                            },
+                            "INTERVALS_ACTIVE": {
+                                "default": false,
+                                "type": 0
+                            },
+                            "MAX": {
+                                "default": 100,
+                                "type": "variableType"
+                            },
+                            "MIN": {
+                                "default": 0,
+                                "type": "variableType"
+                            },
+                            "THOUSANDS_SEPARATOR": {
+                                "default": "",
+                                "type": 3
+                            }
+                        },
+                        "restrictions": {
+                            "variableType": [
+                                1,
+                                2
+                            ]
+                        }
+                    },
+                    {
+                        "format": "{VALUE, list, list OPTIONS equals Value found{{Caption}} other{{PREFIX}{VALUE}{SUFFIX}}}",
+                        "id": "{B7DB2EF9-BF81-B5EA-BCE5-35999C792C69}",
+                        "name": "String",
+                        "presentationParameters": {
+                            "MULTILINE": {
+                                "default": false,
+                                "type": 0
+                            },
+                            "OPTIONS": {
+                                "default": "[]",
+                                "parameters": {
+                                    "Caption": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "ColorActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "ColorValue": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "ContentColorActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "ContentColorValue": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "IconActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "IconValue": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "Value": {
+                                        "default": "",
+                                        "type": 3
+                                    }
+                                },
+                                "type": 3
+                            }
+                        },
+                        "restrictions": {
+                            "variableType": [
+                                3
+                            ]
+                        }
+                    }
+                ],
+                "id": "{3319437D-7CDE-699D-750A-3C6A3841FA75}",
+                "presentationParameters": {
+                    "COLOR": {
+                        "default": -1,
+                        "max": 16777215,
+                        "min": -1,
+                        "type": 1
+                    },
+                    "CONTENT_COLOR": {
+                        "default": -1,
+                        "max": 16777215,
+                        "min": -1,
+                        "type": 1
+                    },
+                    "DISPLAY_TYPE": {
+                        "default": 0,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1
+                        ]
+                    },
+                    "ICON": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "PERCENTAGE": {
+                        "default": false,
+                        "type": 0
+                    },
+                    "PREFIX": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "PREVIEW_STYLE": {
+                        "default": 1,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2
+                        ]
+                    },
+                    "SHOW_PREVIEW": {
+                        "default": true,
+                        "type": 0
+                    },
+                    "SUFFIX": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "USAGE_TYPE": {
+                        "default": 0,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1
+                        ]
+                    }
+                },
+                "presentationValue": [
+                    "switch ($_IPS['VARIABLE_TYPE']) {",
+                    "  case VARIABLETYPE_BOOLEAN:",
+                    "    return true;",
+                    "  case VARIABLETYPE_INTEGER:",
+                    "    return 123;",
+                    "  case VARIABLETYPE_FLOAT:",
+                    "    return 123.456;",
+                    "  case VARIABLETYPE_STRING:",
+                    "    return 'Symcon';",
+                    "}"
+                ],
+                "restrictions": {
+                    "objectType": [
+                        2
+                    ],
+                    "requestAction": false
+                }
+            }
+        },
+        "VARIABLE_PRESENTATION_ENUMERATION": {
+            "guid": "{52D9E126-D7D2-2CBB-5E62-4CF7BA7C5D82}",
+            "definition": {
+                "caption": "Enumeration",
+                "condition": {
+                    "caption": "Some options have identical values",
+                    "field": "Value",
+                    "parameter": "OPTIONS",
+                    "type": "listUnique"
+                },
+                "conversions": [
+                    {
+                        "converts": [
+                            {
+                                "condition": {
+                                    "parameter": "Value",
+                                    "type": "fractional"
+                                },
+                                "parameter": "OPTIONS",
+                                "type": "listRemoveWhere"
+                            }
+                        ],
+                        "variableType": 1
+                    }
+                ],
+                "customIcon": true,
+                "format": "{VALUE, list, list OPTIONS equals Value found{{Caption}} other{-}}",
+                "groups": [
+                    {
+                        "id": "{5BB3F357-10BE-913B-A1EB-081156718267}",
+                        "name": "Boolean",
+                        "presentationParameters": {
+                            "OPTIONS": {
+                                "default": "[{\"Value\": false, \"Caption\": \"Off\", \"IconValue\": \"\", \"IconActive\": false, \"Color\": 16711680}, {\"Value\": true, \"Caption\": \"On\", \"IconValue\": \"\", \"IconActive\": false, \"Color\": 65280}]",
+                                "parameters": {
+                                    "Caption": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "Color": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "IconActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "IconValue": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "Value": {
+                                        "default": false,
+                                        "type": 0
+                                    }
+                                },
+                                "type": 3
+                            }
+                        },
+                        "restrictions": {
+                            "variableType": [
+                                0
+                            ]
+                        }
+                    },
+                    {
+                        "id": "{879D614D-45B1-2EA1-45FD-66AA0E1BED10}",
+                        "name": "Numeric",
+                        "presentationParameters": {
+                            "OPTIONS": {
+                                "default": "[{\"Value\": 0, \"Caption\": \"Cool\", \"IconValue\": \"\", \"IconActive\": false, \"Color\": 3442154}, {\"Value\": 1, \"Caption\": \"Heat\", \"IconValue\": \"\", \"IconActive\": false, \"Color\": 16026947}, {\"Value\": 2, \"Caption\": \"Auto\", \"IconValue\": \"\", \"IconActive\": false, \"Color\": 52651}]",
+                                "parameters": {
+                                    "Caption": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "Color": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "IconActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "IconValue": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "Value": {
+                                        "default": 0,
+                                        "type": "variableType"
+                                    }
+                                },
+                                "type": 3
+                            }
+                        },
+                        "restrictions": {
+                            "variableType": [
+                                1,
+                                2
+                            ]
+                        }
+                    },
+                    {
+                        "id": "{546CB97F-BAC7-7701-A528-A38B14E345F8}",
+                        "name": "String",
+                        "presentationParameters": {
+                            "OPTIONS": {
+                                "default": "[{\"Value\": \"cool\", \"Caption\": \"Cool\", \"IconValue\": \"\", \"IconActive\": false, \"Color\": 3442154}, {\"Value\": \"heat\", \"Caption\": \"Heat\", \"IconValue\": \"\", \"IconActive\": false, \"Color\": 16026947}, {\"Value\": \"auto\", \"Caption\": \"Auto\", \"IconValue\": \"\", \"IconActive\": false, \"Color\": 52651}]",
+                                "parameters": {
+                                    "Caption": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "Color": {
+                                        "default": -1,
+                                        "max": 16777215,
+                                        "min": -1,
+                                        "type": 1
+                                    },
+                                    "IconActive": {
+                                        "default": false,
+                                        "type": 0
+                                    },
+                                    "IconValue": {
+                                        "default": "",
+                                        "type": 3
+                                    },
+                                    "Value": {
+                                        "default": "",
+                                        "type": 3
+                                    }
+                                },
+                                "type": 3
+                            }
+                        },
+                        "restrictions": {
+                            "variableType": [
+                                3
+                            ]
+                        }
+                    }
+                ],
+                "id": "{52D9E126-D7D2-2CBB-5E62-4CF7BA7C5D82}",
+                "presentationParameters": {
+                    "DISPLAY": {
+                        "default": 0,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2
+                        ]
+                    },
+                    "ICON": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "LAYOUT": {
+                        "default": 0,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2
+                        ]
+                    }
+                },
+                "presentationValue": [
+                    "if (isset($_IPS['OPTIONS'])) {",
+                    "   $options = json_decode($_IPS['OPTIONS'], true);",
+                    "   $length = count($options);",
+                    "   $value = $options[floor($length/2)]['Value'];",
+                    "   return $value;",
+                    "}",
+                    "switch ($_IPS['VARIABLE_TYPE']) {",
+                    "  case VARIABLETYPE_BOOLEAN:",
+                    "    return false;",
+                    "  case VARIABLETYPE_INTEGER:",
+                    "    return 1;",
+                    "  case VARIABLETYPE_FLOAT:",
+                    "    return 1;",
+                    "  case VARIABLETYPE_STRING:",
+                    "    return '';",
+                    "}"
+                ],
+                "restrictions": {
+                    "objectType": [
+                        2
+                    ],
+                    "requestAction": true
+                }
+            }
+        },
+        "VARIABLE_PRESENTATION_SLIDER": {
+            "guid": "{6B9CAEEC-5958-C223-30F7-BD36569FC57A}",
+            "definition": {
+                "caption": "Slider",
+                "chart": {
+                    "max": "MAX",
+                    "min": "MIN",
+                    "step": "STEP_SIZE"
+                },
+                "condition": {
+                    "conditions": [
+                        {
+                            "caption": "Maximum Value must be higher than Minimum Value",
+                            "comparison": 4,
+                            "parameter1": "MIN",
+                            "parameter2": "MAX",
+                            "type": "dynamic"
+                        },
+                        {
+                            "caption": "Stepsize must be positive",
+                            "comparison": 3,
+                            "parameter": "STEP_SIZE",
+                            "type": "constant",
+                            "value": 0
+                        },
+                        {
+                            "caption": "Interval End must be higher or equal to Interval Start",
+                            "condition": {
+                                "comparison": 5,
+                                "parameter1": "IntervalMinValue",
+                                "parameter2": "IntervalMaxValue",
+                                "type": "dynamic"
+                            },
+                            "operation": 0,
+                            "parameter": "INTERVALS",
+                            "type": "list"
+                        }
+                    ],
+                    "operation": 0,
+                    "type": "multi"
+                },
+                "conversions": [
+                    {
+                        "converts": [
+                            {
+                                "parameter": "STEP_SIZE",
+                                "type": "round"
+                            },
+                            {
+                                "parameter": "DIGITS",
+                                "type": "constant",
+                                "value": 0
+                            },
+                            {
+                                "field": "IntervalMinValue",
+                                "parameter": "INTERVALS",
+                                "type": "ceil"
+                            },
+                            {
+                                "field": "IntervalMaxValue",
+                                "parameter": "INTERVALS",
+                                "type": "floor"
+                            },
+                            {
+                                "condition": {
+                                    "comparison": 2,
+                                    "parameter1": "IntervalMinValue",
+                                    "parameter2": "IntervalMaxValue",
+                                    "type": "dynamic"
+                                },
+                                "parameter": "INTERVALS",
+                                "type": "listRemoveWhere"
+                            }
+                        ],
+                        "variableType": 1
+                    }
+                ],
+                "customIcon": true,
+                "format": [
+                    "{INTERVALS_ACTIVE, select, true{",
+                    "{VALUE, list, list INTERVALS minimum IntervalMinValue maximum IntervalMaxValue found {",
+                    "{ConstantActive, select, true{{ConstantValue}} other{",
+                    "{PrefixActive, select, true{{PrefixValue}} other{{PREFIX}}}",
+                    "{VALUE, ipsnumber, digits {DigitsActive, select, true{{DigitsValue}} other {{DIGITS}}} factor {ConversionFactor} thousandsSeparator {{THOUSANDS_SEPARATOR}} decimalSeparator {{DECIMAL_SEPARATOR}}}",
+                    "{SuffixActive, select, true{{SuffixValue}} other{{SUFFIX}}}",
+                    "}}",
+                    "} other {",
+                    "{PREFIX}",
+                    "{VALUE, ipsnumber, percentage {PERCENTAGE} min {MIN} max {MAX} digits {DIGITS} thousandsSeparator {{THOUSANDS_SEPARATOR}} decimalSeparator {{DECIMAL_SEPARATOR}}}",
+                    "{SUFFIX}",
+                    "}}",
+                    "} other{",
+                    "{PREFIX}",
+                    "{VALUE, ipsnumber, percentage {PERCENTAGE} min {MIN} max {MAX} digits {DIGITS} thousandsSeparator {{THOUSANDS_SEPARATOR}} decimalSeparator {{DECIMAL_SEPARATOR}}}",
+                    "{SUFFIX}",
+                    "}}"
+                ],
+                "id": "{6B9CAEEC-5958-C223-30F7-BD36569FC57A}",
+                "presentationParameters": {
+                    "CUSTOM_GRADIENT": {
+                        "default": "[]",
+                        "parameters": {
+                            "Color": {
+                                "default": 0,
+                                "max": 16777215,
+                                "min": 0,
+                                "type": 1
+                            },
+                            "Value": {
+                                "default": 0,
+                                "type": "variableType"
+                            }
+                        },
+                        "type": 3
+                    },
+                    "DECIMAL_SEPARATOR": {
+                        "default": "Client",
+                        "type": 3
+                    },
+                    "DIGITS": {
+                        "default": 0,
+                        "min": 0,
+                        "type": 1
+                    },
+                    "GRADIENT_TYPE": {
+                        "default": 0,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
+                    },
+                    "ICON": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "INTERVALS": {
+                        "default": "[]",
+                        "parameters": {
+                            "ConstantActive": {
+                                "default": true,
+                                "type": 0
+                            },
+                            "ConstantValue": {
+                                "default": "",
+                                "type": 3
+                            },
+                            "ConversionFactor": {
+                                "default": 1,
+                                "type": 2
+                            },
+                            "DigitsActive": {
+                                "default": false,
+                                "type": 0
+                            },
+                            "DigitsValue": {
+                                "default": 0,
+                                "min": 0,
+                                "type": 1
+                            },
+                            "IconActive": {
+                                "default": false,
+                                "type": 0
+                            },
+                            "IconValue": {
+                                "default": "",
+                                "type": 3
+                            },
+                            "IntervalMaxValue": {
+                                "default": 0,
+                                "type": "variableType"
+                            },
+                            "IntervalMinValue": {
+                                "default": 0,
+                                "type": "variableType"
+                            },
+                            "PrefixActive": {
+                                "default": false,
+                                "type": 0
+                            },
+                            "PrefixValue": {
+                                "default": "",
+                                "type": 3
+                            },
+                            "SuffixActive": {
+                                "default": false,
+                                "type": 0
+                            },
+                            "SuffixValue": {
+                                "default": "",
+                                "type": 3
+                            }
+                        },
+                        "type": 3
+                    },
+                    "INTERVALS_ACTIVE": {
+                        "default": false,
+                        "type": 0
+                    },
+                    "MAX": {
+                        "default": 100,
+                        "type": "variableType"
+                    },
+                    "MIN": {
+                        "default": 0,
+                        "type": "variableType"
+                    },
+                    "PERCENTAGE": {
+                        "default": false,
+                        "type": 0
+                    },
+                    "PREFIX": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "STEP_SIZE": {
+                        "default": 5,
+                        "type": "variableType"
+                    },
+                    "SUFFIX": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "THOUSANDS_SEPARATOR": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "USAGE_TYPE": {
+                        "default": 5,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6
+                        ]
+                    }
+                },
+                "presentationValue": [
+                    "$value = (42 * ($_IPS['MAX'] - $_IPS['MIN']) / 100) + $_IPS['MIN'];",
+                    "if ($_IPS['STEP_SIZE'] === 0) {",
+                    "  return $value;",
+                    "}",
+                    "else {",
+                    "  return $value - fmod($value - $_IPS['MIN'], $_IPS['STEP_SIZE']);",
+                    "}"
+                ],
+                "restrictions": {
+                    "objectType": [
+                        2
+                    ],
+                    "requestAction": true,
+                    "variableType": [
+                        1,
+                        2
+                    ]
+                }
+            }
+        },
+        "VARIABLE_PRESENTATION_DURATION": {
+            "guid": "{08A6AF76-394E-D354-48D5-BFC690488E4E}",
+            "definition": {
+                "caption": "Duration",
+                "conversions": [
+                    {
+                        "converts": [
+                            {
+                                "parameter": "MILLISECONDS",
+                                "type": "constant",
+                                "value": false
+                            }
+                        ],
+                        "variableType": 1
+                    }
+                ],
+                "format": "{VALUE, duration, format {FORMAT} milliseconds {MILLISECONDS} type {COUNTDOWN_TYPE}}",
+                "id": "{08A6AF76-394E-D354-48D5-BFC690488E4E}",
+                "presentationParameters": {
+                    "COUNTDOWN_TYPE": {
+                        "default": 0,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2
+                        ]
+                    },
+                    "FORMAT": {
+                        "default": 1,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "MILLISECONDS": {
+                        "default": false,
+                        "type": 0
+                    }
+                },
+                "presentationValue": [
+                    "if (!isset($_IPS['COUNTDOWN_TYPE'])) {",
+                    "  $_IPS['COUNTDOWN_TYPE'] = 0;",
+                    "}",
+                    "switch ($_IPS['COUNTDOWN_TYPE']) {",
+                    "  case 0:",
+                    "    return 7322;",
+                    "  case 1:",
+                    "    return time() + 7322;",
+                    "  case 2:",
+                    "    return time() - 7322;",
+                    "}"
+                ],
+                "restrictions": {
+                    "objectType": [
+                        2
+                    ],
+                    "requestAction": false,
+                    "variableType": [
+                        1,
+                        2
+                    ]
+                }
+            }
+        },
+        "VARIABLE_PRESENTATION_DATE_TIME": {
+            "guid": "{497C4845-27FA-6E4F-AE37-5D951D3BDBF9}",
+            "definition": {
+                "caption": "Date/Time",
+                "format": [
+                    "{VALUE, dateTime, dateFormat {",
+                    "DATE, select, 0{",
+                    "{DAY_OF_THE_WEEK, select, false{-} other{EEEE}}",
+                    "} 1{",
+                    "{DAY_OF_THE_WEEK, select, false{",
+                    "{MONTH_TEXT, select, false{yMd} other{yMMMd}}",
+                    "} other{",
+                    "{MONTH_TEXT, select, false{yMEd} other{yMMMEd}}",
+                    "}}",
+                    "} 2{",
+                    "{DAY_OF_THE_WEEK, select, false{",
+                    "{MONTH_TEXT, select, false{Md} other{MMMd}}",
+                    "} other{",
+                    "{MONTH_TEXT, select, false{MEd} other{MMMEd}}",
+                    "}}",
+                    "} other{",
+                    "{DAY_OF_THE_WEEK, select, false{",
+                    "{MONTH_TEXT, select, false{yM} other{yMMM}}",
+                    "} other{",
+                    "{MONTH_TEXT, select, false{yME} other{yMMME}}",
+                    "}}",
+                    "}",
+                    "} timeFormat {",
+                    "TIME, select, 0{-} 1{Hm} 2{Hms}",
+                    "}}"
+                ],
+                "id": "{497C4845-27FA-6E4F-AE37-5D951D3BDBF9}",
+                "presentationParameters": {
+                    "DATE": {
+                        "default": 2,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "DAY_OF_THE_WEEK": {
+                        "default": false,
+                        "type": 0
+                    },
+                    "MONTH_TEXT": {
+                        "default": true,
+                        "type": 0
+                    },
+                    "TIME": {
+                        "default": 1,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2
+                        ]
+                    }
+                },
+                "presentationValue": [
+                    "return time();"
+                ],
+                "restrictions": {
+                    "objectType": [
+                        2
+                    ],
+                    "variableType": [
+                        1,
+                        2
+                    ]
+                }
+            }
+        },
+        "VARIABLE_PRESENTATION_VALUE_INPUT": {
+            "guid": "{6F477326-1683-A2FD-D2E7-477F366ECB62}",
+            "definition": {
+                "caption": "Value Input",
+                "format": "{PREFIX}{VALUE}{SUFFIX}",
+                "id": "{6F477326-1683-A2FD-D2E7-477F366ECB62}",
+                "presentationParameters": {
+                    "MULTILINE": {
+                        "default": false,
+                        "type": 0
+                    },
+                    "PREFIX": {
+                        "default": "",
+                        "type": 3
+                    },
+                    "SUFFIX": {
+                        "default": "",
+                        "type": 3
+                    }
+                },
+                "presentationValue": [
+                    "switch ($_IPS['VARIABLE_TYPE']) {",
+                    "  case VARIABLETYPE_INTEGER:",
+                    "  case VARIABLETYPE_FLOAT:",
+                    "    return 25;",
+                    "  case VARIABLETYPE_STRING:",
+                    "    return '25';",
+                    "}"
+                ],
+                "restrictions": {
+                    "objectType": [
+                        2
+                    ],
+                    "requestAction": true,
+                    "variableType": [
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            }
+        },
+        "VARIABLE_PRESENTATION_SWITCH": {
+            "guid": "{60AE6B26-B3E2-BDB1-A3A1-BE232940664B}",
+            "definition": {
+                "caption": "Switch",
+                "customIcon": true,
+                "format": "{VALUE, select, true{On} false{Off}}",
+                "id": "{60AE6B26-B3E2-BDB1-A3A1-BE232940664B}",
+                "presentationParameters": {
+                    "GLOW_COLOR": {
+                        "default": 16771899,
+                        "max": 16777215,
+                        "min": 0,
+                        "type": 1
+                    },
+                    "GLOW_INTENSITY": {
+                        "default": 50,
+                        "min": 0,
+                        "type": 1
+                    },
+                    "ICON_FALSE": {
+                        "default": "power-off",
+                        "type": 3
+                    },
+                    "ICON_TRUE": {
+                        "default": "power-off",
+                        "type": 3
+                    },
+                    "USAGE_TYPE": {
+                        "default": 0,
+                        "type": 1,
+                        "values": [
+                            0,
+                            1,
+                            2
+                        ]
+                    },
+                    "USE_ICON_FALSE": {
+                        "default": false,
+                        "type": 0
+                    }
+                },
+                "presentationValue": true,
+                "restrictions": {
+                    "objectType": [
+                        2
+                    ],
+                    "requestAction": true,
+                    "variableType": [
+                        0
+                    ]
+                }
+            }
+        }
+    }
+}

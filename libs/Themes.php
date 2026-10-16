@@ -483,9 +483,8 @@ namespace evccMQTT\Themes {
             LoadPointIdIdent::VehicleOdometer->value                => [
                 'type'           => 'number',
                 IPS_PRESENTATION => [
-                    'PRESENTATION'        => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-                    'THOUSANDS_SEPARATOR' => 'Client',
-                    'SUFFIX'              => ' km',
+                    'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+                    'SUFFIX'       => ' km',
                 ],
                 IPS_VAR_TYPE     => VARIABLETYPE_STRING,
                 IPS_VAR_NAME     => 'Vehicle Odometer',
@@ -1005,29 +1004,25 @@ namespace evccMQTT\Themes {
                             'Value'      => 'unknown',
                             'Caption'    => 'unknown',
                             'IconActive' => false,
-                            'IconValue'  => '',
-                            'Color'      => -1
+                            'IconValue'  => ''
                         ],
                         [
                             'Value'      => 'normal',
                             'Caption'    => 'normal',
                             'IconActive' => false,
-                            'IconValue'  => '',
-                            'Color'      => -1
+                            'IconValue'  => ''
                         ],
                         [
                             'Value'      => 'charge',
                             'Caption'    => 'charge',
                             'IconActive' => false,
-                            'IconValue'  => '',
-                            'Color'      => -1
+                            'IconValue'  => ''
                         ],
                         [
                             'Value'      => 'discharge',
                             'Caption'    => 'discharge',
                             'IconActive' => false,
-                            'IconValue'  => '',
-                            'Color'      => -1
+                            'IconValue'  => ''
                         ]
                     ]
                 ],
